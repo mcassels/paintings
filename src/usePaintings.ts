@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { Painting, PaintingsResponse } from "./types";
+import { Painting, PaintingsResponse, Photo } from "./types";
 
 const paintingsTableUrl = "https://api.airtable.com/v0/app2HxNPQejnLR2g0/tblAePvviV6Sd00Ez";
 
@@ -17,10 +17,15 @@ async function fetchPaintings(): Promise<Painting[]> {
     if (!photos || photos.length !== 1) { // Each painting must have exactly one primary photo. TODO: do we want multiple photos per painting?
       continue;
     }
+    const photo: Photo = {
+      url: photos[0].url,
+      height: photos[0].height,
+      width: photos[0].width,
+    }
 
     const painting: Painting = {
       id: record.fields.painting_number,
-      imageUrl: photos[0].url,
+      photo,
       year: record.fields.year,
       name: record.fields.name,
       size: record.fields.size,

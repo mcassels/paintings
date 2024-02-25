@@ -1,6 +1,11 @@
+export interface Photo {
+  url: string;
+  height: number;
+  width: number;
+}
 export interface Painting {
   id: number;
-  imageUrl: string;
+  photo: Photo;
   year?: number;
   name?: string;
   size?: string; // e.g. 50"x48"
