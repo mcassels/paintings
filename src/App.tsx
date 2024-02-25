@@ -1,5 +1,4 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import { usePaintings } from './usePaintings';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
