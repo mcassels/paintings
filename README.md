@@ -1,7 +1,6 @@
 # Paintings gallery
 
-## TODO:
-1. fix airtable token issue
-1. ingestion script
-1. style painting descriptions
-1. format site with navigation
+## Possible additional features:
+1. Filtering by attributes
+1. Chronological timeline
+1. Shuffle button, or autoshuffling paintings on load

@@ -8,7 +8,7 @@ async function fetchPaintings(): Promise<Painting[]> {
     paintingsTableUrl,
     { headers: { Authorization: `Bearer ${process.env.REACT_APP_AIRTABLE_TOKEN}` }},
   );
-  debugger;
+
   const data = await response.json();
   const paintings: Painting[] = [];
 
@@ -34,7 +34,6 @@ async function fetchPaintings(): Promise<Painting[]> {
       isFramed: record.fields.framed,
       medium: record.fields.medium,
     };
-    debugger;
     paintings.push(painting);
   }
   return paintings;

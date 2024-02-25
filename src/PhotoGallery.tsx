@@ -39,7 +39,11 @@ function getPaintingDescription(p: Painting) {
   if (p.status) {
     parts.push(p.status);
   }
-  return parts.map((p) => p.replaceAll('\n', '')).join('\n');
+  // TODO: for some reason, this shows an ellipses at the end of only the third line.
+  // Possibly may need to do this properly as a component and not just text, by adding a plugin?
+  // See https://yet-another-react-lightbox.com/advanced#Modules
+  // For now, I'm right-aligning the text, which makes the ellipses disappear.
+  return `${parts.map((p) => p.replaceAll('\n', '')).join('\n')}`;
 }
 
 interface PhotoGalleryProps {
@@ -56,7 +60,6 @@ export default function PhotoGallery(props: PhotoGalleryProps) {
   // even when the order of the paintings changes.
   const selectedPhotoId = params.get('selected');
   const selectedPhotoIdx = selectedPhotoId ? paintings.findIndex((p) => p.id === parseInt(selectedPhotoId)) : undefined;
-  debugger;
 
   const photos = paintings.map((p) => {
     const title = getPaintingTitle(p);
@@ -93,13 +96,13 @@ export default function PhotoGallery(props: PhotoGalleryProps) {
       <Lightbox
         styles={{
           captionsTitleContainer: { backgroundColor: 'transparent' },
-          captionsTitle: { paddingLeft: '40px', paddingTop: '40px' },
+          captionsTitle: { paddingLeft: '60px', paddingTop: '40px' },
           captionsDescriptionContainer: { backgroundColor: 'transparent' },
           captionsDescription: {
             paddingLeft: '40px',
             height: '200px',
-            width: '400px',
-            overflow: 'hidden',
+            width: '300px',
+            textAlign: 'right',
           }
         }}
         open={selectedPhotoIdx !== undefined}

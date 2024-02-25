@@ -9,9 +9,6 @@ const queryClient = new QueryClient();
 
 function AppInner() {
   const paintings = usePaintings();
-  console.log(paintings);
-  // TODO: add filtering support?
-  // TODO: add timeline view?
 
   zoomies.register()
 
