@@ -21,6 +21,7 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+  padding: 15px;
 }
 
 .App-link {
@@ -35,4 +36,7 @@
     transform: rotate(360deg);
   }
 }
-@import "~react-image-gallery/styles/css/image-gallery.css";
+
+.loading {
+  padding-top: 100px;
+}
