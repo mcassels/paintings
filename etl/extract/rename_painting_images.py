@@ -34,8 +34,12 @@ def main(dir_name: str):
             splits = description.split()
             id = next((x for x in splits if re.match(r"[bB][pP]\d+", x)), None)
             if id is None:
-                print(f"{filename}: No BP id found. Description: {description}")
-                continue
+                nbpid = next((x for x in splits if re.match(r"[nN][bB][pP]\d+", x)), None)
+                if nbpid is not None:
+                    id = nbpid
+                else:
+                    print(f"{filename}: No BP or NBP id found. Description: {description}")
+                    continue
 
             # There were 2 paintings with id=bp13.
             if (
