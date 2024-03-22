@@ -48,7 +48,7 @@ function Layout() {
             }}
           >
             <MenuItem component={<NavLink to="/gallery" />}> Gallery</MenuItem>
-            <MenuItem component={<NavLink to="/about" />}> About James Gordaneer</MenuItem>
+            <MenuItem component={<NavLink to="/about" />}> Biography</MenuItem>
             <MenuItem component={<NavLink to="/adopt" />}> Adopt a Painting</MenuItem>
             <MenuItem component={<NavLink to="/faqs" />}> FAQs</MenuItem>
           </Menu>

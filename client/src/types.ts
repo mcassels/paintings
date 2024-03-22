@@ -25,3 +25,11 @@ export interface FAQ {
   answer: string;
 }
 export type FAQResponse = FAQ[]|'error'|'loading';
+
+export type TextContentId = 'jim_bio'|'why_adopt';
+export interface TextContent {
+  id: TextContentId;
+  title: string;
+  body: string;
+}
+export type TextContentResponse = TextContent|'error'|'loading';
