@@ -1,18 +1,21 @@
-export interface Photo {
-  url: string;
-  height: number;
-  width: number;
-}
 export interface Painting {
-  id: number;
-  photo: Photo;
+  id: string;
+  title: string;
+  frontPhotoUrl: string,
+  backPhotoUrl: string,
+  height: number;
+  width: number; // float between 0 and 5
+  damageLevel: number;
   year?: number;
+  yearGuess?: number; // only used if year is unknown
   name?: string;
-  size?: string; // e.g. 50"x48"
   status?: 'Available'|'Sold';
   conditionNotes?: string;
   isFramed?: boolean;
+  isSigned?: boolean;
   medium?: string;
+  predominantColors: string[];
+  subjectMatter: string[];
 }
 
 export type PaintingsResponse = Painting[]|'error'|'loading';

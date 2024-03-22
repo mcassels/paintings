@@ -10,22 +10,10 @@ import { Painting } from './types';
 import { usePaintings } from './usePaintings';
 import { zoomies } from 'ldrs';
 
-function getPaintingTitle(p: Painting) {
-  let title = `#${p.id}`;
-  if (p.name) {
-    title += ` - ${p.name}`;
-  }
-  if (p.year) {
-    title += ` (${p.year})`;
-  }
-  return title;
-}
-
 function getPaintingDescription(p: Painting) {
-  const parts = [];
-  if (p.size) {
-    parts.push(p.size);
-  }
+  const year = (p.year || p.yearGuess || 'ND').toString();
+  const size = `${p.height} x ${p.width}`;
+  const parts = [year, size];
   if (p.medium) {
     parts.push(p.medium);
   }
@@ -61,20 +49,19 @@ function PhotoGalleryImpl(props: PhotoGalleryProps) {
   // Track the painting id and not index in the header, so that the URL can be shared
   // even when the order of the paintings changes.
   const selectedPhotoId = params.get('selected');
-  const selectedPhotoIdx = selectedPhotoId ? paintings.findIndex((p) => p.id === parseInt(selectedPhotoId)) : undefined;
+  const selectedPhotoIdx = selectedPhotoId ? paintings.findIndex((p) => p.id === selectedPhotoId) : undefined;
 
   const photos = paintings.map((p) => {
-    const title = getPaintingTitle(p);
     return {
-      src: p.photo.url,
-      width: p.photo.width,
-      height: p.photo.height,
-      source: p.photo.url,
-      caption: title,
-      original: p.photo.url,
-      thumbnail: p.photo.url,
+      src: p.frontPhotoUrl,
+      width: p.width, // These are inches not pixels, but the ratio should be the same... will this work? lol
+      height: p.height,
+      source: p.frontPhotoUrl,
+      caption: p.title,
+      original: p.frontPhotoUrl,
+      thumbnail: p.frontPhotoUrl,
       id: p.id,
-      title,
+      title: p.title,
       description: getPaintingDescription(p),
     };
   });
@@ -85,6 +72,7 @@ function PhotoGalleryImpl(props: PhotoGalleryProps) {
         photos={photos}
         onClick={(e, { index }) => {
           const nextSelectedId = photos[index]?.id;
+          debugger;
           if (nextSelectedId) {
             navigate({
               pathname: document.location.pathname,

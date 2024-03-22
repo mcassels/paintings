@@ -7,7 +7,7 @@ import sys
 import os
 import re
 import pandas
-from typing import Dict, List
+from typing import Set
 from utils import get_image_description
 
 
@@ -16,7 +16,7 @@ def main(dir_name: str):
         x for x in os.listdir(dir_name) if os.path.isfile(os.path.join(dir_name, x))
     ]
 
-    records: List[Dict[str, str]] = []
+    new_filenames = set()
     for filename in filenames:
         if filename == ".DS_Store":
             continue
@@ -48,18 +48,29 @@ def main(dir_name: str):
                 == "Untitled two female nudes 24x30 oil on panel dam4 bp13"
             ):
                 id = "bp19"
+            if filename == "IMG_0755.jpeg":
+                id = "bp110" # bp110_verso was mislabeled
 
             new_filename = f"{id}.jpeg" if "verso" not in splits else f"{id}_verso.jpeg"
 
+        if new_filename == "bp105.jpeg" and filename == "IMG_0745.jpeg":
+            new_filename = "bp105_verso.jpeg" # This should have said "verso" in the description
         if new_filename is None:
             print(f"ERROR {filename}: No new filename")
             continue
 
         new_filename = new_filename.lower()
+        if new_filename in new_filenames:
+            print(f"ERROR: {filename} maps to duplicate filename {new_filename}. Description: {description}")
+            continue
+
         os.rename(image_path, os.path.join(dir_name, new_filename))
-        records.append({"old_filename": filename, "new_filename": new_filename})
-    df = pandas.DataFrame.from_records(records)
-    df.to_csv("renamed_images.csv", index=False)
+        new_filenames.add(new_filename)
+
+    front_photos = set([x.split(".")[0] for x in new_filenames if "_verso" not in x])
+    back_photos = set([x.split("_")[0] for x in new_filenames if "_verso" in x])
+    print(f"Front photos missing back photo: {front_photos - back_photos}")
+    print(f"Back photos missing front photo: {back_photos - front_photos}")
 
 
 # python3 rename_painting_images.py "../../data/images/1. broken paintings batch 1"

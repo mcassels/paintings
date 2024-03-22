@@ -2,7 +2,7 @@ import sys
 import os
 from pyairtable import Api
 from dotenv import load_dotenv
-from typing import NamedTuple, List, Any
+from typing import NamedTuple, List, Any, Literal
 import pandas
 import re
 
@@ -18,6 +18,8 @@ class PaintingRow(NamedTuple):
     predominant_color: List[str]
     subject_matter: List[str]
     condition_notes: str|None
+    signed: Literal["yes"]|Literal["no"]|None
+    framed: Literal["yes"]|Literal["no"]|None
 
 def get_colors(predominant_color: Any) -> List[str]:
     if predominant_color is None or pandas.isna(predominant_color):
@@ -60,15 +62,31 @@ def get_val_or_none(val: Any) -> Any:
         return None
     return val
 
+def get_bool_val(val: Any) -> Literal["no"]|Literal["yes"]|None:
+    if val is None or pandas.isna(val):
+        return None
+    lower_val = val.lower()
+    if lower_val in ["yes", "y"]:
+        return "yes"
+    if lower_val in ["no", "n"]:
+        return "no"
+    print(f"Unrecognized boolean value: {val}")
+    return None
+
 def get_painting_rows(csv_path: str) -> List[PaintingRow]:
     df = pandas.read_csv(csv_path)
     painting_rows: List[PaintingRow] = []
+    seen = set()
 
     for _, row in df.iterrows():
         id = row["id"].lower() # id being null would be an error
         if not id.startswith("bp"):
             print(f"ignoring non-broken painting with id: {id}")
             continue
+
+        if id in seen:
+            print(f"duplicate id: {id}")
+        seen.add(id)
 
         painting_rows.append(PaintingRow(
             id=id,
@@ -81,7 +99,9 @@ def get_painting_rows(csv_path: str) -> List[PaintingRow]:
             damage_level=float(row["damage_level"]),
             predominant_color=get_colors(row["predominant_color"]),
             subject_matter=get_subject_matter(row["subject_matter"]),
-            condition_notes=get_val_or_none(row["condition_notes"])
+            condition_notes=get_val_or_none(row["condition_notes"]),
+            signed=get_bool_val(row["signed"]),
+            framed=get_bool_val(row["framed"])
         ))
     return painting_rows
 
