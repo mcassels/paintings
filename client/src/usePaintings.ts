@@ -4,7 +4,6 @@ import { Painting, PaintingsResponse } from "./types";
 const paintingsTableUrl = "https://api.airtable.com/v0/app2HxNPQejnLR2g0/tblY6WWDZPflob9MC";
 
 async function fetchPaintings(): Promise<Painting[]> {
-  debugger;
   const response = await fetch(
     paintingsTableUrl,
     { headers: { Authorization: `Bearer ${process.env.REACT_APP_AIRTABLE_TOKEN}` }},

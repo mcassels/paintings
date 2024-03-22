@@ -6,6 +6,7 @@ import PhotoGallery from './PhotoGallery';
 import { NavLink, Navigate, Outlet, Route, Routes } from 'react-router-dom';
 import AboutJamesGordaneer from './AboutJamesGordaneer';
 import HowToAdoptAPainting from './HowToAdoptAPainting';
+import FAQs from './FAQs';
 
 const queryClient = new QueryClient();
 
@@ -19,6 +20,7 @@ function AppInner() {
               <Route path="gallery" element={<PhotoGallery />} />
               <Route path="about" element={<AboutJamesGordaneer />} />
               <Route path="adopt" element={<HowToAdoptAPainting />} />
+              <Route path="faqs" element={<FAQs />} />
               <Route path="*" element={<Navigate replace to="/gallery" />} />
             </Route>
           </Routes>
@@ -48,6 +50,7 @@ function Layout() {
             <MenuItem component={<NavLink to="/gallery" />}> Gallery</MenuItem>
             <MenuItem component={<NavLink to="/about" />}> About James Gordaneer</MenuItem>
             <MenuItem component={<NavLink to="/adopt" />}> Adopt a Painting</MenuItem>
+            <MenuItem component={<NavLink to="/faqs" />}> FAQs</MenuItem>
           </Menu>
         </Sidebar>
       </div>

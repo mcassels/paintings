@@ -29,6 +29,7 @@ function getPaintingDescription(p: Painting) {
   if (p.status) {
     parts.push(p.status);
   }
+  parts.push(`Damage level: ${p.damageLevel}`);
   // TODO: for some reason, this shows an ellipses at the end of only the third line.
   // Possibly may need to do this properly as a component and not just text, by adding a plugin?
   // See https://yet-another-react-lightbox.com/advanced#Modules
@@ -44,19 +45,6 @@ function PaintingLightBox(props: PaintingLightBoxProps) {
   const { painting } = props;
 
   const navigate = useNavigate();
-  // type?: "image";
-  // /** image URL */
-  // src: string;
-  // /** image 'alt' attribute */
-  // alt?: string;
-  // /** image width in pixels */
-  // width?: number;
-  // /** image height in pixels */
-  // height?: number;
-  // /** `object-fit` setting */
-  // imageFit?: ImageFit;
-  // /** alternative images to be passed to the 'srcSet' */
-  // srcSet?: ImageSource[];
 
   // We show front and back photos in the lightbox
   const photos = [

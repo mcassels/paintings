@@ -19,3 +19,9 @@ export interface Painting {
 }
 
 export type PaintingsResponse = Painting[]|'error'|'loading';
+
+export interface FAQ {
+  question: string;
+  answer: string;
+}
+export type FAQResponse = FAQ[]|'error'|'loading';
