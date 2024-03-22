@@ -36,6 +36,72 @@ function getPaintingDescription(p: Painting) {
   return `${parts.map((p) => p.replaceAll('\n', '')).join('\n')}`;
 }
 
+interface PaintingLightBoxProps {
+  painting: Painting;
+}
+
+function PaintingLightBox(props: PaintingLightBoxProps) {
+  const { painting } = props;
+
+  const navigate = useNavigate();
+  // type?: "image";
+  // /** image URL */
+  // src: string;
+  // /** image 'alt' attribute */
+  // alt?: string;
+  // /** image width in pixels */
+  // width?: number;
+  // /** image height in pixels */
+  // height?: number;
+  // /** `object-fit` setting */
+  // imageFit?: ImageFit;
+  // /** alternative images to be passed to the 'srcSet' */
+  // srcSet?: ImageSource[];
+
+  // We show front and back photos in the lightbox
+  const photos = [
+    {
+      src: painting.frontPhotoUrl,
+      width: painting.width * 100,
+      height: painting.height * 100,
+      caption: painting.title,
+      id: painting.id,
+      title: painting.title,
+      description: getPaintingDescription(painting),
+    },
+  ];
+  if (painting.backPhotoUrl) {
+    photos.push({
+      src: painting.backPhotoUrl,
+      width: painting.width * 100,
+      height: painting.height * 100,
+      caption: painting.title,
+      id: painting.id,
+      title: `(VERSO) ${painting.title}`,
+      description: getPaintingDescription(painting),
+    });
+  }
+  return (
+    <Lightbox
+      styles={{
+        captionsTitleContainer: { backgroundColor: 'transparent' },
+        captionsTitle: { paddingLeft: '60px', paddingTop: '40px' },
+        captionsDescriptionContainer: { backgroundColor: 'transparent' },
+        captionsDescription: {
+          paddingLeft: '40px',
+          height: '200px',
+          width: '300px',
+          textAlign: 'right',
+        }
+      }}
+      open={true}
+      close={() => navigate({ pathname: document.location.pathname })}
+      slides={photos}
+      plugins={[Captions]}
+    />
+  )
+}
+
 interface PhotoGalleryProps {
   paintings: Painting[];
 }
@@ -48,21 +114,17 @@ function PhotoGalleryImpl(props: PhotoGalleryProps) {
   const params = new URLSearchParams(document.location.search);
   // Track the painting id and not index in the header, so that the URL can be shared
   // even when the order of the paintings changes.
-  const selectedPhotoId = params.get('selected');
-  const selectedPhotoIdx = selectedPhotoId ? paintings.findIndex((p) => p.id === selectedPhotoId) : undefined;
+  const selectedPaintingId = params.get('selected');
+  const selectedPainting = selectedPaintingId && paintings.find((p) => p.id === selectedPaintingId);
 
   const photos = paintings.map((p) => {
     return {
+      id: p.id,
       src: p.frontPhotoUrl,
       width: p.width, // These are inches not pixels, but the ratio should be the same... will this work? lol
       height: p.height,
-      source: p.frontPhotoUrl,
-      caption: p.title,
-      original: p.frontPhotoUrl,
-      thumbnail: p.frontPhotoUrl,
-      id: p.id,
-      title: p.title,
-      description: getPaintingDescription(p),
+      alt: p.title,
+      key: p.id,
     };
   });
 
@@ -72,7 +134,6 @@ function PhotoGalleryImpl(props: PhotoGalleryProps) {
         photos={photos}
         onClick={(e, { index }) => {
           const nextSelectedId = photos[index]?.id;
-          debugger;
           if (nextSelectedId) {
             navigate({
               pathname: document.location.pathname,
@@ -83,37 +144,7 @@ function PhotoGalleryImpl(props: PhotoGalleryProps) {
           }
         }}
       />
-      <Lightbox
-        styles={{
-          captionsTitleContainer: { backgroundColor: 'transparent' },
-          captionsTitle: { paddingLeft: '60px', paddingTop: '40px' },
-          captionsDescriptionContainer: { backgroundColor: 'transparent' },
-          captionsDescription: {
-            paddingLeft: '40px',
-            height: '200px',
-            width: '300px',
-            textAlign: 'right',
-          }
-        }}
-        open={selectedPhotoIdx !== undefined}
-        close={() => navigate({ pathname: document.location.pathname })}
-        index={selectedPhotoIdx}
-        slides={photos}
-        plugins={[Captions]}
-        on={{
-          view: ({ index }) => {
-            const nextSelectedId = photos[index]?.id;
-            if (nextSelectedId) {
-              navigate({
-                pathname: document.location.pathname,
-                search: createSearchParams({
-                  selected: nextSelectedId.toString(),
-                }).toString()
-              });
-            }
-          }
-        }}
-      />
+      {selectedPainting && <PaintingLightBox painting={selectedPainting} />}
     </div>
   )
 }
