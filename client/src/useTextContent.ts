@@ -20,7 +20,6 @@ async function fetchTextContent(): Promise<TextContent[]> {
     };
     textContent.push(content);
   }
-  debugger;
   return textContent
 }
 

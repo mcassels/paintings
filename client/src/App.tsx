@@ -4,9 +4,10 @@ import './App.css';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import PhotoGallery from './PhotoGallery';
 import { NavLink, Navigate, Outlet, Route, Routes } from 'react-router-dom';
-import AboutJamesGordaneer from './AboutJamesGordaneer';
 import HowToAdoptAPainting from './HowToAdoptAPainting';
 import FAQs from './FAQs';
+import TextPage from './TextPage';
+import { JIM_BIO_KEY, WHY_ADOPT_KEY } from './constants';
 
 const queryClient = new QueryClient();
 
@@ -18,7 +19,8 @@ function AppInner() {
             <Route path="/" element={<Layout />}>
               <Route index element={<Navigate to="gallery" />} />
               <Route path="gallery" element={<PhotoGallery />} />
-              <Route path="about" element={<AboutJamesGordaneer />} />
+              <Route path="about" element={<TextPage textKey={JIM_BIO_KEY} />} />
+              <Route path="why-adopt" element={<TextPage textKey={WHY_ADOPT_KEY} />} />
               <Route path="adopt" element={<HowToAdoptAPainting />} />
               <Route path="faqs" element={<FAQs />} />
               <Route path="*" element={<Navigate replace to="/gallery" />} />
@@ -49,8 +51,9 @@ function Layout() {
           >
             <MenuItem component={<NavLink to="/gallery" />}> Gallery</MenuItem>
             <MenuItem component={<NavLink to="/about" />}> Biography</MenuItem>
-            <MenuItem component={<NavLink to="/adopt" />}> Adopt a Painting</MenuItem>
+            <MenuItem component={<NavLink to="/why-adopt" />}> About this project</MenuItem>
             <MenuItem component={<NavLink to="/faqs" />}> FAQs</MenuItem>
+            <MenuItem component={<NavLink to="/adopt" />}> Adopt a Painting</MenuItem>
           </Menu>
         </Sidebar>
       </div>

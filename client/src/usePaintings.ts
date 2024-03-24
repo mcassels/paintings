@@ -34,7 +34,6 @@ async function fetchPaintings(): Promise<Painting[]> {
     };
     paintings.push(painting);
   }
-  debugger;
   return paintings;
 }
 

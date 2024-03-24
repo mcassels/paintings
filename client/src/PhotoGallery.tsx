@@ -10,6 +10,12 @@ import { Painting } from './types';
 import { usePaintings } from './usePaintings';
 import { zoomies } from 'ldrs';
 
+/*
+TODO:
+* click on painting makes it flip
+* can click through lightbox to go to all photos using next
+*/
+
 function getPaintingDescription(p: Painting) {
   const year = (p.year || p.yearGuess || 'ND').toString();
   const size = `${p.height} x ${p.width}`;
@@ -141,17 +147,24 @@ export default function PhotoGallery() {
   const paintings = usePaintings();
 
   zoomies.register()
+  // return (
+  //   <div className="w-full h-full">
+  //   {
+  //     paintings === 'loading' ? (
+  //       <div className="loading">
+  //         <l-zoomies/>
+  //       </div>
+  //     ) : paintings === 'error' ? (
+  //       <div className="loading">Error loading paintings</div>
+  //     ) : <PhotoGalleryImpl paintings={paintings} />
+  //   }
+  //   </div>
+  // )
   return (
     <div>
-    {
-      paintings === 'loading' ? (
-        <div className="loading">
-          <l-zoomies/>
-        </div>
-      ) : paintings === 'error' ? (
-        <div className="loading">Error loading paintings</div>
-      ) : <PhotoGalleryImpl paintings={paintings} />
-    }
+      <div className="loading">
+        <l-zoomies/>
+      </div>
     </div>
-  )
+  );
 }
