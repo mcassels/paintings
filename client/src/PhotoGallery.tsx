@@ -146,25 +146,16 @@ function PhotoGalleryImpl(props: PhotoGalleryProps) {
 export default function PhotoGallery() {
   const paintings = usePaintings();
 
-  zoomies.register()
-  // return (
-  //   <div className="w-full h-full">
-  //   {
-  //     paintings === 'loading' ? (
-  //       <div className="loading">
-  //         <l-zoomies/>
-  //       </div>
-  //     ) : paintings === 'error' ? (
-  //       <div className="loading">Error loading paintings</div>
-  //     ) : <PhotoGalleryImpl paintings={paintings} />
-  //   }
-  //   </div>
-  // )
-  return (
-    <div>
+  if (paintings === 'loading') {
+    zoomies.register();
+    return (
       <div className="loading">
         <l-zoomies/>
       </div>
-    </div>
-  );
+    );
+  }
+  if (paintings === 'error') {
+    return <div className="loading">Error loading paintings</div>;
+  }
+  return <PhotoGalleryImpl paintings={paintings} />;
 }

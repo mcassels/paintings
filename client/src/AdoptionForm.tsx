@@ -1,8 +1,9 @@
 import { useForm, SubmitHandler } from "react-hook-form"
 import emailjs from '@emailjs/browser';
 import { useRef } from "react";
-import AdoptionForm from "./AdoptionForm";
-import TextPage from "./TextPage";
+import { Painting } from "./types";
+import { usePaintings } from "./usePaintings";
+import { zoomies } from "ldrs";
 
 // Name
 // Address
@@ -59,7 +60,8 @@ interface ContactFormInputs {
   acknowledgeDamage: boolean;
 }
 
-export default function HowToAdoptAPainting() {
+// TODO: autoselect specific painting based on query params
+export default function AdoptionForm() {
   const formRef = useRef<HTMLFormElement|null>(null);
 
   const {
@@ -69,27 +71,77 @@ export default function HowToAdoptAPainting() {
     formState: { errors },
   } = useForm<ContactFormInputs>();
 
-  async function onSubmit() {
+  async function onSubmit(data: ContactFormInputs) {
+    debugger;
     if (!formRef.current) {
       onFormSubmitError();
       return;
     }
     const serviceId = process.env.REACT_APP_EMAILJS_SERVICE_ID;
     const templateId = process.env.REACT_APP_EMAILJS_TEMPLATE_ID;
+    const publicKey = process.env.REACT_APP_EMAILJS_PUBLIC_KEY;
     if (!serviceId || !templateId) {
       onFormSubmitError();
       return;
     }
-    const res = await emailjs.sendForm(serviceId, templateId, formRef.current);
+    // TODO: format message content
+    const res = await emailjs.sendForm(serviceId, templateId, formRef.current, {
+      publicKey,
+    });
     if (res.status < 200 || res.status >= 300) {
       window.alert("Form submitted successfully!");
     }
   }
 
+  const paintings = usePaintings();
+  if (paintings === 'loading') {
+    zoomies.register();
+    return (
+      <div className="loading">
+        <l-zoomies/>
+      </div>
+    );
+  }
+  if (paintings === 'error') {
+    return <div className="loading">Error loading paintings</div>;
+  }
+
   return (
     <div>
-      <TextPage textKey="how_to_adopt" />
-      <AdoptionForm />
+        <form onSubmit={handleSubmit(onSubmit)} ref={formRef}>
+        <label>Name</label>
+        <input {...register("name", { required: true })} />
+        <label>Address</label>
+        <input {...register("address")} />
+        <label>Phone Number</label>
+        <input {...register("phoneNumber", { validate: (phone) => phone.match(/^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/im) !== null})} />
+        <label>Email</label>
+        <input {...register("email", { validate: (email) => email.match(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g) !== null })} />
+        <label>Painting</label>
+        <select {...register("paintingId")}>
+          {
+            paintings.map((p) => {
+              return <option value={p.id}>{p.title}</option>
+            })
+          }
+        </select>
+        <label>Price Option</label>
+        <select {...register("priceOption")}>
+          <option value={PriceOption.Personal}>Personal</option>
+          <option value={PriceOption.Business}>Business</option>
+        </select>
+        <label>Pickup Option</label>
+        <select {...register("pickupOption")}>
+          <option value={PickupOption.InPersonMay17}>In Person May 17</option>
+          <option value={PickupOption.InPersonMay18}>In Person May 18</option>
+          <option value={PickupOption.AlternateDate}>Alternate Date</option>
+          <option value={PickupOption.ShipCanada}>Ship Canada</option>
+          <option value={PickupOption.ShipInternational}>Ship International</option>
+        </select>
+        <label>Acknowledge Damage</label>
+        <input type="checkbox" {...register("acknowledgeDamage")} />
+        <input type="submit" />
+        </form>
     </div>
   );
 }

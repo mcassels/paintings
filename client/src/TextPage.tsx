@@ -1,9 +1,6 @@
 import { zoomies } from "ldrs";
+import Markdown from 'react-markdown'
 import { useTextContent } from "./useTextContent";
-
-function replaceWithBr(body: string): string {
-  return body.replace(/\n/g, "<br />")
-}
 
 interface TextPageProps {
   textKey: string;
@@ -28,7 +25,7 @@ export default function TextPage(props: TextPageProps) {
     <div className="text-left">
       <div className="text-lg font-bold pb-10">{content.title}</div>
       <div className="flex-row justify-center">
-        <p className="w-[650px]" dangerouslySetInnerHTML={{__html: replaceWithBr(content.body)}} />
+        <Markdown>{content.body}</Markdown>
       </div>
     </div>
   );

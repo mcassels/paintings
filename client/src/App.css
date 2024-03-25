@@ -1,6 +1,17 @@
-@tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/*
+tailwind base was commented out because it messed up the Markdown formatting from react-markdown,
+because it removes a bunch of default styles that are needed for the markdown to render properly (links, paragraphs, etc.).
+This font-family setting was copied from tailwind base at https://unpkg.com/tailwindcss@3.4.1/src/css/preflight.css
+because sans-serif is what we want.
+*/
+/* @tailwind base; */
+html,
+:host {
+  font-family: theme('fontFamily.sans', ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"); /* 4 */
+}
 
 .App {
   text-align: center;
