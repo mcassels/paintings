@@ -1,8 +1,8 @@
 # TODO
 
-1. Finish filling in all text content
-1. Contact form page: clean up and use provided text options
+1. Contact form page: clean up enough to show Alisa and use provided text options
 1. Scroll through all paintings with lightbox; have to click something to see reverse.
+1. Switch to new Lightbox solution that allows components in the captions
 1. Link from paintings to contact form
 1. "Save" paintings
 1. Styling of everything

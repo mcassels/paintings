@@ -33,3 +33,11 @@ export interface TextContent {
   body: string;
 }
 export type TextContentResponse = TextContent|'error'|'loading';
+
+export interface ArtConservator {
+  name: string;
+  bio: string; // This contains markdown
+  link: string;
+}
+
+export type ArtConservatorResponse = ArtConservator[]|'error'|'loading';

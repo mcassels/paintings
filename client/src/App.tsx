@@ -7,8 +7,10 @@ import { NavLink, Navigate, Outlet, Route, Routes } from 'react-router-dom';
 import HowToAdoptAPainting from './HowToAdoptAPainting';
 import FAQs from './FAQs';
 import TextPage from './TextPage';
-import { AFTER_ADOPTION_KEY, JIM_BIO_KEY } from './constants';
+import { JIM_BIO_KEY } from './constants';
 import WhyAdopt from './WhyAdopt';
+import AfterAdoption from './AfterAdoption';
+import ArtConservators from './ArtConservators';
 
 const queryClient = new QueryClient();
 
@@ -24,7 +26,8 @@ function AppInner() {
               <Route path="why-adopt" element={<WhyAdopt />} />
               <Route path="adopt" element={<HowToAdoptAPainting />} />
               <Route path="faqs" element={<FAQs />} />
-              <Route path="after-adoption" element={<TextPage textKey={AFTER_ADOPTION_KEY} />} />
+              <Route path="after-adoption" element={<AfterAdoption />} />
+              <Route path="art-conservators" element={<ArtConservators />} />
               <Route path="*" element={<Navigate replace to="/gallery" />} />
             </Route>
           </Routes>
@@ -57,6 +60,7 @@ function Layout() {
             <MenuItem component={<NavLink to="/faqs" />}> FAQs</MenuItem>
             <MenuItem component={<NavLink to="/adopt" />}> Adopt a Painting</MenuItem>
             <MenuItem component={<NavLink to="/after-adoption" />}> After Adoption</MenuItem>
+            <MenuItem component={<NavLink to="/art-conservators" />}> Art Conservators</MenuItem>
           </Menu>
         </Sidebar>
       </div>

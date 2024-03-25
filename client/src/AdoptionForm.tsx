@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { Painting } from "./types";
 import { usePaintings } from "./usePaintings";
 import { zoomies } from "ldrs";
+import { redirect, useNavigate } from "react-router";
 
 // Name
 // Address
@@ -32,10 +33,6 @@ import { zoomies } from "ldrs";
 // [required] 
 // I acknowledge that the artwork I am adopting has some degree of damage and am aware that this damage may or may not include mold spores. I agree that I will not hold the Gordaneer estate or family responsible for any negative impact that may result. 
 
-function onFormSubmitError() {
-  window.alert("Error submitting form! Please contact gordaneer@gmail.com");
-}
-
 enum PriceOption {
   Personal = 'Personal',
   Business = 'Business',
@@ -63,6 +60,13 @@ interface ContactFormInputs {
 // TODO: autoselect specific painting based on query params
 export default function AdoptionForm() {
   const formRef = useRef<HTMLFormElement|null>(null);
+
+  const navigate = useNavigate()
+
+  function onFormSubmitError() {
+    window.alert("Error submitting form! Please contact gordaneer@gmail.com");
+    navigate("/");
+  }
 
   const {
     register,
@@ -114,7 +118,8 @@ export default function AdoptionForm() {
       if (res.status < 200 || res.status >= 300) {
         onFormSubmitError();
       } else {
-        window.alert("Your request has been submitted!");
+        window.alert("Your adoption has been submitted!");
+        navigate("/after-adoption")
       }
     } catch (e) {
       console.error(e);
