@@ -72,7 +72,6 @@ export default function AdoptionForm() {
   } = useForm<ContactFormInputs>();
 
   async function onSubmit(data: ContactFormInputs) {
-    debugger;
     if (!formRef.current) {
       onFormSubmitError();
       return;
@@ -80,16 +79,31 @@ export default function AdoptionForm() {
     const serviceId = process.env.REACT_APP_EMAILJS_SERVICE_ID;
     const templateId = process.env.REACT_APP_EMAILJS_TEMPLATE_ID;
     const publicKey = process.env.REACT_APP_EMAILJS_PUBLIC_KEY;
+
+    // Keys must correspond to template fields set up in emailjs template
+    const emailTemplate = {
+      name: data.name,
+      address: data.address,
+      phone: data.phoneNumber,
+      email: data.email,
+      bpid: data.paintingId,
+      price_option: data.priceOption,
+      pickup_option: data.pickupOption,
+    };
     if (!serviceId || !templateId) {
       onFormSubmitError();
       return;
     }
-    // TODO: format message content
-    const res = await emailjs.sendForm(serviceId, templateId, formRef.current, {
-      publicKey,
-    });
-    if (res.status < 200 || res.status >= 300) {
-      window.alert("Form submitted successfully!");
+    try {
+      const res = await emailjs.send(serviceId, templateId, emailTemplate, {
+        publicKey,
+      });
+      if (res.status < 200 || res.status >= 300) {
+        window.alert("Form submitted successfully!");
+      }
+    } catch (e) {
+      console.error(e);
+      onFormSubmitError();
     }
   }
 
@@ -110,18 +124,20 @@ export default function AdoptionForm() {
     <div>
         <form onSubmit={handleSubmit(onSubmit)} ref={formRef}>
         <label>Name</label>
-        <input {...register("name", { required: true })} />
+        <input type="text" {...register("name", { required: true })} />
         <label>Address</label>
-        <input {...register("address")} />
+        <input type="text" {...register("address")} />
         <label>Phone Number</label>
-        <input {...register("phoneNumber", { validate: (phone) => phone.match(/^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/im) !== null})} />
+        <input type="tel" {...register("phoneNumber", { validate: (phone) => phone.match(/^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/im) !== null})} />
         <label>Email</label>
-        <input {...register("email", { validate: (email) => email.match(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g) !== null })} />
+        <input type="email" {...register("email", { validate: (email) => email.match(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g) !== null })} />
         <label>Painting</label>
         <select {...register("paintingId")}>
           {
-            paintings.map((p) => {
-              return <option value={p.id}>{p.title}</option>
+            paintings.sort((p0, p1) => {
+              return Number(p0.id.substring(2)) - Number(p1.id.substring(2));
+            }).map((p) => {
+              return <option value={p.id}>{`${p.title} (id: ${p.id})`}</option>
             })
           }
         </select>

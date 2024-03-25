@@ -18,7 +18,7 @@ async function fetchPaintings(): Promise<Painting[]> {
   for (const record of data.records) {
     const fields = record.fields;
     const painting: Painting = {
-      id: fields.id,
+      id: fields.id.toUpperCase(),
       title: fields.title,
       frontPhotoUrl: fields.front_photo_url,
       backPhotoUrl: fields.back_photo_url,
