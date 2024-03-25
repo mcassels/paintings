@@ -67,9 +67,21 @@ export default function AdoptionForm() {
   const {
     register,
     handleSubmit,
-    watch,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm<ContactFormInputs>();
+
+  const paintings = usePaintings();
+  if (paintings === 'loading') {
+    zoomies.register();
+    return (
+      <div className="loading">
+        <l-zoomies/>
+      </div>
+    );
+  }
+  if (paintings === 'error') {
+    return <div className="loading">Error loading paintings</div>;
+  }
 
   async function onSubmit(data: ContactFormInputs) {
     if (!formRef.current) {
@@ -89,6 +101,7 @@ export default function AdoptionForm() {
       bpid: data.paintingId,
       price_option: data.priceOption,
       pickup_option: data.pickupOption,
+      painting_name: Array.isArray(paintings) && paintings.find((p) => p.id === data.paintingId)?.title,
     };
     if (!serviceId || !templateId) {
       onFormSubmitError();
@@ -99,7 +112,9 @@ export default function AdoptionForm() {
         publicKey,
       });
       if (res.status < 200 || res.status >= 300) {
-        window.alert("Form submitted successfully!");
+        onFormSubmitError();
+      } else {
+        window.alert("Your request has been submitted!");
       }
     } catch (e) {
       console.error(e);
@@ -107,32 +122,24 @@ export default function AdoptionForm() {
     }
   }
 
-  const paintings = usePaintings();
-  if (paintings === 'loading') {
-    zoomies.register();
-    return (
-      <div className="loading">
-        <l-zoomies/>
-      </div>
-    );
-  }
-  if (paintings === 'error') {
-    return <div className="loading">Error loading paintings</div>;
-  }
-
   return (
     <div>
         <form onSubmit={handleSubmit(onSubmit)} ref={formRef}>
         <label>Name</label>
-        <input type="text" {...register("name", { required: true })} />
+        <input type="text" {...register("name", { required: true })} aria-invalid={errors.name ? "true" : "false"} />
+        {errors.name?.type === "required" && (
+          <p role="alert">Name is required</p>
+        )}
         <label>Address</label>
         <input type="text" {...register("address")} />
         <label>Phone Number</label>
         <input type="tel" {...register("phoneNumber", { validate: (phone) => phone.match(/^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/im) !== null})} />
+        <p>{errors.phoneNumber?.message}</p>
         <label>Email</label>
-        <input type="email" {...register("email", { validate: (email) => email.match(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g) !== null })} />
+        <input type="email" {...register("email", { validate: (email) => email.match(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g) !== null, required: true })} />
+        <p>{errors.email?.message}</p>
         <label>Painting</label>
-        <select {...register("paintingId")}>
+        <select {...register("paintingId", { required: true })}>
           {
             paintings.sort((p0, p1) => {
               return Number(p0.id.substring(2)) - Number(p1.id.substring(2));
@@ -141,22 +148,26 @@ export default function AdoptionForm() {
             })
           }
         </select>
+        <p>{errors.paintingId?.message}</p>
         <label>Price Option</label>
-        <select {...register("priceOption")}>
+        <select {...register("priceOption", { required: true })}>
           <option value={PriceOption.Personal}>Personal</option>
           <option value={PriceOption.Business}>Business</option>
         </select>
+        <p>{errors.priceOption?.message}</p>
         <label>Pickup Option</label>
-        <select {...register("pickupOption")}>
+        <select {...register("pickupOption", { required: true })}>
           <option value={PickupOption.InPersonMay17}>In Person May 17</option>
           <option value={PickupOption.InPersonMay18}>In Person May 18</option>
           <option value={PickupOption.AlternateDate}>Alternate Date</option>
           <option value={PickupOption.ShipCanada}>Ship Canada</option>
           <option value={PickupOption.ShipInternational}>Ship International</option>
         </select>
+        <p>{errors.priceOption?.message}</p>
         <label>Acknowledge Damage</label>
-        <input type="checkbox" {...register("acknowledgeDamage")} />
-        <input type="submit" />
+        <input type="checkbox" {...register("acknowledgeDamage", { required: true })} />
+        <p>{errors.acknowledgeDamage?.message}</p>
+        <input type="submit" disabled={!isValid}/>
         </form>
     </div>
   );

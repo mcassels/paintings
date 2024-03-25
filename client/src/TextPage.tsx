@@ -9,7 +9,6 @@ interface TextPageProps {
 export default function TextPage(props: TextPageProps) {
   const content = useTextContent(props.textKey);
 
-  // TODO: reusable component for this?
   if (content === 'loading') {
     zoomies.register();
     return (
@@ -23,9 +22,11 @@ export default function TextPage(props: TextPageProps) {
   }
   return (
     <div className="text-left">
-      <div className="text-lg font-bold pb-10">{content.title}</div>
+      <div className="text-lg font-bold pb-2">{content.title}</div>
       <div className="flex-row justify-center">
-        <Markdown>{content.body}</Markdown>
+        <div className="w-[650px]">
+          <Markdown>{content.body}</Markdown>
+        </div>
       </div>
     </div>
   );

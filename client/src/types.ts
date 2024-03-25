@@ -26,7 +26,7 @@ export interface FAQ {
 }
 export type FAQResponse = FAQ[]|'error'|'loading';
 
-export type TextContentId = 'jim_bio'|'why_adopt';
+export type TextContentId = 'jim_bio'|'why_adopt'|'how_to_adopt'|'after_adoption';
 export interface TextContent {
   id: TextContentId;
   title: string;

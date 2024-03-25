@@ -7,7 +7,8 @@ import { NavLink, Navigate, Outlet, Route, Routes } from 'react-router-dom';
 import HowToAdoptAPainting from './HowToAdoptAPainting';
 import FAQs from './FAQs';
 import TextPage from './TextPage';
-import { JIM_BIO_KEY, WHY_ADOPT_KEY } from './constants';
+import { AFTER_ADOPTION_KEY, JIM_BIO_KEY } from './constants';
+import WhyAdopt from './WhyAdopt';
 
 const queryClient = new QueryClient();
 
@@ -20,9 +21,10 @@ function AppInner() {
               <Route index element={<Navigate to="gallery" />} />
               <Route path="gallery" element={<PhotoGallery />} />
               <Route path="about" element={<TextPage textKey={JIM_BIO_KEY} />} />
-              <Route path="why-adopt" element={<TextPage textKey={WHY_ADOPT_KEY} />} />
+              <Route path="why-adopt" element={<WhyAdopt />} />
               <Route path="adopt" element={<HowToAdoptAPainting />} />
               <Route path="faqs" element={<FAQs />} />
+              <Route path="after-adoption" element={<TextPage textKey={AFTER_ADOPTION_KEY} />} />
               <Route path="*" element={<Navigate replace to="/gallery" />} />
             </Route>
           </Routes>
@@ -35,7 +37,7 @@ function Layout() {
   return (
     <div className="box wrapper">
       <div className="App-header header">
-        Paintings by James Gordaneer
+        James Gordaneer Damaged Paintings Adoption Project
       </div>
       <div className="box sidebar">
         <Sidebar>
@@ -54,6 +56,7 @@ function Layout() {
             <MenuItem component={<NavLink to="/why-adopt" />}> About this project</MenuItem>
             <MenuItem component={<NavLink to="/faqs" />}> FAQs</MenuItem>
             <MenuItem component={<NavLink to="/adopt" />}> Adopt a Painting</MenuItem>
+            <MenuItem component={<NavLink to="/after-adoption" />}> After Adoption</MenuItem>
           </Menu>
         </Sidebar>
       </div>
