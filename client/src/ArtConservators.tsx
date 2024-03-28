@@ -2,6 +2,7 @@ import React from 'react';
 import TextPage from './TextPage';
 import { AFTER_ADOPTION_KEY } from './constants';
 import { Link, NavLink } from 'react-router-dom';
+import { Card, Space } from 'antd';
 import { useArtConservators } from './useArtConservators';
 import { zoomies } from 'ldrs';
 import Markdown from 'react-markdown';
@@ -21,16 +22,14 @@ export default function ArtConservators() {
   }
   return (
     <div>
-      <div className="text-lg font-bold pb-2">Supporting Art Conservators</div>
-      <div className="w-[650px]">
+      <div className="text-lg font-bold text-left pb-10">Supporting Art Conservators</div>
+      <div className="w-[650px] space-y-4 text-left">
         {
           conservators.map((conservator, index) => (
             <div key={index} className="flex-row justify-center">
-              <div className="w-[650px]">
-                <div className="text-lg font-bold pb-2">{conservator.name}</div>
+              <Card title={conservator.name} extra={<a href={conservator.link}>Website</a>}>
                 <Markdown>{conservator.bio}</Markdown>
-                <Link to={conservator.link}>Website</Link>
-              </div>
+              </Card>
             </div>
           ))
         }

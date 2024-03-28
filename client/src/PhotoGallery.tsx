@@ -1,5 +1,5 @@
 import React from 'react';
-import { createSearchParams, useNavigate } from 'react-router-dom';
+import { createSearchParams, NavLink, useNavigate } from 'react-router-dom';
 import Gallery from 'react-photo-gallery'
 import Lightbox from "yet-another-react-lightbox";
 import Captions from "yet-another-react-lightbox/plugins/captions";
@@ -9,6 +9,13 @@ import "yet-another-react-lightbox/plugins/captions.css";
 import { Painting } from './types';
 import { usePaintings } from './usePaintings';
 import { zoomies } from 'ldrs';
+import { Button } from 'antd';
+
+function BuyPaintingButton(props: { paintingId: string }) {
+  return (
+    <Button type="primary"><NavLink to={`/adopt?painting=${props.paintingId}`}>Adopt me!</NavLink></Button>
+  );
+}
 
 /*
 TODO:
@@ -108,8 +115,8 @@ function PhotoGalleryImpl(props: PhotoGalleryProps) {
   const params = new URLSearchParams(document.location.search);
   // Track the painting id and not index in the header, so that the URL can be shared
   // even when the order of the paintings changes.
-  const selectedPaintingId = params.get('selected');
-  const selectedPainting = selectedPaintingId && paintings.find((p) => p.id === selectedPaintingId);
+  const selectedPhotoId = params.get('selected');
+  const selectedPhotoIdx = selectedPhotoId ? paintings.findIndex((p) => p.id === selectedPhotoId) : undefined;
 
   const photos = paintings.map((p) => {
     return {
@@ -117,8 +124,12 @@ function PhotoGalleryImpl(props: PhotoGalleryProps) {
       src: p.frontPhotoUrl,
       width: p.width, // These are inches not pixels, but the ratio should be the same... will this work? lol
       height: p.height,
-      alt: p.title,
-      key: p.id,
+      source: p.frontPhotoUrl,
+      caption: p.title,
+      original: p.frontPhotoUrl,
+      thumbnail: p.frontPhotoUrl,
+      title: p.title,
+      description: getPaintingDescription(p),
     };
   });
 
@@ -138,7 +149,46 @@ function PhotoGalleryImpl(props: PhotoGalleryProps) {
           }
         }}
       />
-      {selectedPainting && <PaintingLightBox painting={selectedPainting} />}
+      <Lightbox
+        styles={{
+          captionsTitleContainer: { backgroundColor: 'transparent' },
+          captionsTitle: { paddingLeft: '60px', paddingTop: '40px' },
+          captionsDescriptionContainer: { backgroundColor: 'transparent' },
+          captionsDescription: {
+            paddingLeft: '40px',
+            height: '200px',
+            width: '300px',
+            textAlign: 'right',
+          }
+        }}
+        toolbar={{
+          buttons: selectedPhotoId ? [<BuyPaintingButton key="buy-painting" paintingId={selectedPhotoId} />, "close"] : [],
+        }}
+        open={selectedPhotoIdx !== undefined}
+        close={() => navigate({ pathname: document.location.pathname })}
+        index={selectedPhotoIdx}
+        slides={photos.map((photo) => {
+          return {
+            ...photo,
+            height: photo.height * 100,
+            width: photo.width * 100,
+          };
+        })}
+        plugins={[Captions]}
+        on={{
+          view: ({ index }) => {
+            const nextSelectedId = photos[index]?.id;
+            if (nextSelectedId) {
+              navigate({
+                pathname: document.location.pathname,
+                search: createSearchParams({
+                  selected: nextSelectedId.toString(),
+                }).toString()
+              });
+            }
+          }
+        }}
+      />
     </div>
   )
 }

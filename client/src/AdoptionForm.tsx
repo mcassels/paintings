@@ -5,6 +5,7 @@ import { Painting } from "./types";
 import { usePaintings } from "./usePaintings";
 import { zoomies } from "ldrs";
 import { redirect, useNavigate } from "react-router";
+import { Button, Checkbox, Form, type FormProps, Input } from 'antd';
 
 // Name
 // Address
@@ -144,20 +145,24 @@ export default function AdoptionForm() {
     }
   }
 
+  const params = new URLSearchParams(document.location.search);
+  const selectedPaintingId = params.get('painting');
+
+  const paintingOptions = [<option key="default" value="">Select a painting</option>];
+  for (const painting of paintings.sort((p0, p1) => {
+    return Number(p0.id.substring(2)) - Number(p1.id.substring(2));
+  })) {
+    paintingOptions.push(<option key={painting.id} value={painting.id}>{`${painting.title} (id: ${painting.id})`}</option>);
+  }
+
   return (
     <div className="pt-8">
         <form onSubmit={handleSubmit(onSubmit)} ref={formRef}>
           <div className="form-wrapper">
             <label className="labelcol">Painting</label>
             <div className="inputcol">
-              <select {...register("paintingId", { required: true })}>
-                {
-                  paintings.sort((p0, p1) => {
-                    return Number(p0.id.substring(2)) - Number(p1.id.substring(2));
-                  }).map((p) => {
-                    return <option key={p.id} value={p.id}>{`${p.title} (id: ${p.id})`}</option>
-                  })
-                }
+              <select {...register("paintingId", { required: true })} defaultValue={selectedPaintingId || ""}>
+                {paintingOptions}
               </select>
               <p>{errors.paintingId?.message}</p>
             </div>
@@ -235,6 +240,46 @@ export default function AdoptionForm() {
           </div>
         </div>
       </form>
+      {/* <Form
+        name="basic"
+        labelCol={{ span: 8 }}
+        wrapperCol={{ span: 16 }}
+        style={{ maxWidth: 600 }}
+        initialValues={{ remember: true }}
+        onFinish={onSubmit}
+        onFinishFailed={onFormSubmitError}
+        autoComplete="off"
+      >
+        <Form.Item<ContactFormInputs>
+          label="Name"
+          name="name"
+          rules={[{ required: true, message: 'Please input your name' }]}
+        >
+          <Input />
+        </Form.Item>
+
+        <Form.Item<ContactFormInputs>
+          label="Name"
+          name="name"
+          rules={[{ required: true, message: 'Please input your name' }]}
+        >
+          <Input />
+        </Form.Item>
+
+        <Form.Item<FieldType>
+          name="remember"
+          valuePropName="checked"
+          wrapperCol={{ offset: 8, span: 16 }}
+        >
+          <Checkbox></Checkbox>
+        </Form.Item>
+
+        <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+          <Button type="primary" htmlType="submit">
+            Submit
+          </Button>
+        </Form.Item>
+      </Form> */}
     </div>
   );
 }
