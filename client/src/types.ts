@@ -16,6 +16,7 @@ export interface Painting {
   medium?: string;
   predominantColors: string[];
   subjectMatter: string[];
+  tags: Set<string>; // Filterable tags, currently derived from subjectMatter and year
 }
 
 export type PaintingsResponse = Painting[]|'error'|'loading';

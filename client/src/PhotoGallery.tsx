@@ -11,6 +11,7 @@ import { Painting } from './types';
 import { usePaintings } from './usePaintings';
 import { zoomies } from 'ldrs';
 import { Button } from 'antd';
+import GalleryFilters from './GalleryFilters';
 
 function SeeReverseButton(props: { paintingId: string, paintings: Painting[] }) {
   const { paintingId, paintings } = props;
@@ -118,11 +119,22 @@ interface PhotoGalleryProps {
 }
 
 function PhotoGalleryImpl(props: PhotoGalleryProps) {
-  const { paintings } = props;
+  const { paintings: allPaintings } = props;
 
   const navigate = useNavigate();
 
   const params = new URLSearchParams(document.location.search);
+
+  const tags = params.getAll('tag');
+  const paintings = tags.length > 0 ? allPaintings.filter((p: Painting) => {
+    for (const tag of tags) {
+      if (p.tags.has(tag)) {
+        return true;
+      }
+    }
+    return false;
+  }) : allPaintings;
+
   // Track the painting id and not index in the header, so that the URL can be shared
   // even when the order of the paintings changes.
   const selectedPhotoId = params.get('selected');
@@ -143,6 +155,9 @@ function PhotoGalleryImpl(props: PhotoGalleryProps) {
 
   return (
     <div>
+      <div>
+        <GalleryFilters paintings={allPaintings}/>
+      </div>
       <Gallery
         photos={galleryPhotos}
         onClick={(e, { index }) => {
