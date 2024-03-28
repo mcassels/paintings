@@ -5,15 +5,46 @@ import Lightbox from "yet-another-react-lightbox";
 import Captions from "yet-another-react-lightbox/plugins/captions";
 import "yet-another-react-lightbox/styles.css";
 import "yet-another-react-lightbox/plugins/captions.css";
+import { HeartOutlined, HeartFilled } from '@ant-design/icons';
 
 import { Painting } from './types';
 import { usePaintings } from './usePaintings';
 import { zoomies } from 'ldrs';
-import { Button } from 'antd';
+import { Button, ConfigProvider } from 'antd';
 
 function BuyPaintingButton(props: { paintingId: string }) {
   return (
     <Button type="primary"><NavLink to={`/adopt?painting=${props.paintingId}`}>Adopt me!</NavLink></Button>
+  );
+}
+
+function SavePaintingButton(props: { paintingId: string }) {
+  const savedPaintingKey = 'GORDANEER_SAVED_PAINTINGS';
+  const savedPaintings = localStorage.getItem(savedPaintingKey)?.split(',') || [];
+  const isSaved = savedPaintings.includes(props.paintingId);
+
+  const [isFavourite, setIsFavourite] = React.useState(isSaved);
+
+  function onClick() {
+    const savedPaintings = localStorage.getItem(savedPaintingKey)?.split(',') || [];
+    if (savedPaintings.includes(props.paintingId)) {
+      localStorage.setItem(savedPaintingKey, savedPaintings.filter((p) => p !== props.paintingId).join(','));
+    } else {
+      localStorage.setItem(savedPaintingKey, [...savedPaintings, props.paintingId].join(','));
+    }
+    setIsFavourite((prev) => !prev);
+  }
+
+  return (
+    <Button
+      className="mr-6"
+      onClick={onClick}
+      type="primary"
+      ghost
+      icon={isFavourite ? <HeartFilled /> : <HeartOutlined />}
+    >
+      {isFavourite ? "unfavourite" : "favourite"}
+    </Button>
   );
 }
 
@@ -162,7 +193,11 @@ function PhotoGalleryImpl(props: PhotoGalleryProps) {
           }
         }}
         toolbar={{
-          buttons: selectedPhotoId ? [<BuyPaintingButton key="buy-painting" paintingId={selectedPhotoId} />, "close"] : [],
+          buttons: selectedPhotoId ? [
+            <SavePaintingButton key="save-painting" paintingId={selectedPhotoId} />,
+            <BuyPaintingButton key="buy-painting" paintingId={selectedPhotoId} />,
+            "close",
+          ] : [],
         }}
         open={selectedPhotoIdx !== undefined}
         close={() => navigate({ pathname: document.location.pathname })}
