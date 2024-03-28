@@ -126,7 +126,7 @@ function PhotoGalleryImpl(props: PhotoGalleryProps) {
   const params = new URLSearchParams(document.location.search);
 
   const tags = params.getAll('tag');
-  const paintings = tags.length > 0 ? allPaintings.filter((p: Painting) => {
+  const paintings = tags.length > 0 && !tags.every((t) => t === '') ? allPaintings.filter((p: Painting) => {
     for (const tag of tags) {
       if (p.tags.has(tag)) {
         return true;
