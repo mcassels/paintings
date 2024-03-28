@@ -46,6 +46,22 @@ enum PickupOption {
   ShipInternational = 'ShipInternational',
 }
 
+interface PickupRadioButtonProps {
+  value: PickupOption;
+  label: string;
+}
+function PickupRadioButton(props: PickupRadioButtonProps) {
+  const { value, label } = props;
+  return (
+    <div className="radio-button-wrapper">
+      <div className="labelcol">
+        <input name="pickupOption" type="radio" id={value} value={value} />
+      </div>
+      <label className="inputcol" htmlFor={value}>{label}</label>
+    </div>
+  )
+}
+
 interface ContactFormInputs {
   name: string;
   address: string;
@@ -92,6 +108,7 @@ export default function AdoptionForm() {
       onFormSubmitError();
       return;
     }
+    debugger;
     const serviceId = process.env.REACT_APP_EMAILJS_SERVICE_ID;
     const templateId = process.env.REACT_APP_EMAILJS_TEMPLATE_ID;
     const publicKey = process.env.REACT_APP_EMAILJS_PUBLIC_KEY;
@@ -128,52 +145,96 @@ export default function AdoptionForm() {
   }
 
   return (
-    <div>
+    <div className="pt-8">
         <form onSubmit={handleSubmit(onSubmit)} ref={formRef}>
-        <label>Name</label>
-        <input type="text" {...register("name", { required: true })} aria-invalid={errors.name ? "true" : "false"} />
-        {errors.name?.type === "required" && (
-          <p role="alert">Name is required</p>
-        )}
-        <label>Address</label>
-        <input type="text" {...register("address")} />
-        <label>Phone Number</label>
-        <input type="tel" {...register("phoneNumber", { validate: (phone) => phone.match(/^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/im) !== null})} />
-        <p>{errors.phoneNumber?.message}</p>
-        <label>Email</label>
-        <input type="email" {...register("email", { validate: (email) => email.match(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g) !== null, required: true })} />
-        <p>{errors.email?.message}</p>
-        <label>Painting</label>
-        <select {...register("paintingId", { required: true })}>
-          {
-            paintings.sort((p0, p1) => {
-              return Number(p0.id.substring(2)) - Number(p1.id.substring(2));
-            }).map((p) => {
-              return <option value={p.id}>{`${p.title} (id: ${p.id})`}</option>
-            })
-          }
-        </select>
-        <p>{errors.paintingId?.message}</p>
-        <label>Price Option</label>
-        <select {...register("priceOption", { required: true })}>
-          <option value={PriceOption.Personal}>Personal</option>
-          <option value={PriceOption.Business}>Business</option>
-        </select>
-        <p>{errors.priceOption?.message}</p>
-        <label>Pickup Option</label>
-        <select {...register("pickupOption", { required: true })}>
-          <option value={PickupOption.InPersonMay17}>In Person May 17</option>
-          <option value={PickupOption.InPersonMay18}>In Person May 18</option>
-          <option value={PickupOption.AlternateDate}>Alternate Date</option>
-          <option value={PickupOption.ShipCanada}>Ship Canada</option>
-          <option value={PickupOption.ShipInternational}>Ship International</option>
-        </select>
-        <p>{errors.priceOption?.message}</p>
-        <label>Acknowledge Damage</label>
-        <input type="checkbox" {...register("acknowledgeDamage", { required: true })} />
-        <p>{errors.acknowledgeDamage?.message}</p>
-        <input type="submit" disabled={!isValid}/>
-        </form>
+          <div className="form-wrapper">
+            <label className="labelcol">Painting</label>
+            <div className="inputcol">
+              <select {...register("paintingId", { required: true })}>
+                {
+                  paintings.sort((p0, p1) => {
+                    return Number(p0.id.substring(2)) - Number(p1.id.substring(2));
+                  }).map((p) => {
+                    return <option key={p.id} value={p.id}>{`${p.title} (id: ${p.id})`}</option>
+                  })
+                }
+              </select>
+              <p>{errors.paintingId?.message}</p>
+            </div>
+            <label className="labelcol">Name:</label>
+            <div className="inputcol">
+              <input placeholder="Name" type="text" {...register("name", { required: true })} aria-invalid={errors.name ? "true" : "false"} />
+              {errors.name?.type === "required" && (
+                <p role="alert">Name is required</p>
+              )}
+            </div>
+            <label className="labelcol">Address:</label>
+            <input placeholder="Address" className="inputcol" type="text" {...register("address")} />
+            <label className="labelcol">Phone Number</label>
+            <div className="inputcol">
+              <input placeholder="Phone Number" type="tel" {...register("phoneNumber", { validate: (phone) => phone.match(/^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/im) !== null})} />
+              {errors.phoneNumber && (<p>{errors.phoneNumber.message}</p>)}
+            </div>
+            <label className="labelcol">Email</label>
+            <div className="inputcol">
+              <input placeholder="Email" type="email" {...register("email", { validate: (email) => email.match(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g) !== null, required: true })} />
+              {errors.email && (<p>{errors.email.message}</p>)}
+            </div>
+          </div>
+          <div className="pt-4 mt-4 mb-4 w-[650px] text-left border-y-1 border-x-0 border-solid border-[#BCC4C4]">
+            Payment -- choose one:
+            <fieldset className="border-none space-y-2" {...register("priceOption", { required: true })}>
+              <div className="radio-button-wrapper">
+                <div className="labelcol">
+                  <input name="priceOption" type="radio" id={PriceOption.Personal} value={PriceOption.Personal} defaultChecked />
+                </div>
+                <label className="inputcol" htmlFor={PriceOption.Personal}>I have sent an e-transfer of $100</label>
+              </div>
+              <div className="radio-button-wrapper">
+                <div className="labelcol">
+                  <input name="priceOption" type="radio" id={PriceOption.Business} value={PriceOption.Business} />
+                </div>
+                <label className="inputcol" htmlFor={PriceOption.Business}>
+                  I have sent an e-transfer of $200 because I plan to display this work at my place of business and will deduct 100% of the cost of this work on my business taxes next year.
+                </label>
+              </div>
+            </fieldset>
+            <div>
+              <p>Please send e-transfers to <a href="mailto:gordaneer@gmail.com">gordaneer@gmail.com</a>.</p>
+            </div>
+          </div>
+          <div className="mb-4 pb-4 w-[650px] text-left border-y-1 border-t-0 border-x-0 border-solid border-[#BCC4C4]">
+            Pickup -- choose one:
+            <fieldset className="border-none space-y-2" {...register("pickupOption", { required: true })}>
+              <div className="radio-button-wrapper">
+                <div className="labelcol">
+                  <input name="pickupOption" type="radio" id={PickupOption.InPersonMay17} value={PickupOption.InPersonMay17} defaultChecked />
+                </div>
+                <label className="inputcol" htmlFor={PickupOption.InPersonMay17}>I will pick up the work in person in Victoria on May 17, 1pm-3pm</label>
+              </div>
+              <PickupRadioButton value={PickupOption.InPersonMay18} label="I will pick up the work in person in Victoria on May 18, noon-3pm" />
+              <PickupRadioButton value={PickupOption.AlternateDate} label="I am unable to pick up the work in person on either of the set days. Please contact me once you have decided on an alternate pickup date." />
+              <PickupRadioButton value={PickupOption.ShipCanada} label="I am unable to pick up the work in person and would like to have it shipped within Canada. I have included the $20 processing fee in my e-transfer. Please contact me to arrange COD for the shipping cost." />
+              <PickupRadioButton value={PickupOption.ShipInternational} label="I am unable to pick up the work in person and would like to have it shipped internationally. I will e-transfer any applicable fees once they are determined." />
+            </fieldset>
+            {errors.pickupOption && (<p>{errors.pickupOption?.message}</p>)}
+          </div>
+        <div className="text-left">
+          <div className="pb-4">Acknowledgment</div>
+          <div className="radio-button-wrapper">
+            <div className="labelcol">
+              <input type="checkbox" {...register("acknowledgeDamage", { required: true })} />
+            </div>
+            <div className="inputcol">
+              I acknowledge that the artwork I am adopting has some degree of damage and am aware that this damage may or may not include mold spores. I agree that I will not hold the Gordaneer estate or family responsible for any negative impact that may result. 
+            </div>
+            {errors.acknowledgeDamage && (<p>{errors.acknowledgeDamage?.message}</p>)}
+          </div>
+          <div className="pt-4">
+            <button type="submit" disabled={!isValid}>Submit</button>
+          </div>
+        </div>
+      </form>
     </div>
   );
 }

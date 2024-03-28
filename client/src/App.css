@@ -55,3 +55,35 @@ html,
   border-radius: 5px;
   padding: 20px;
 }
+
+.inputcol {
+  text-align: left;
+}
+
+.labelcol {
+  text-align: right;
+}
+
+.form-wrapper {
+  display: grid;
+  grid-gap: 10px;
+  grid-template-areas:
+              "labelcol inputcol";
+  grid-template-columns: 150px 300px;
+}
+
+.radio-button-wrapper {
+  display: grid;
+  grid-gap: 10px;
+  grid-template-areas:
+              "labelcol inputcol";
+  grid-template-columns: 50px 650px;
+}
+
+.inputcol {
+  text-align: left;
+}
+
+.labelcol {
+  text-align: right;
+}
