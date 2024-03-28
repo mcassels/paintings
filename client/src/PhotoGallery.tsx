@@ -10,7 +10,39 @@ import { HeartOutlined, HeartFilled } from '@ant-design/icons';
 import { Painting } from './types';
 import { usePaintings } from './usePaintings';
 import { zoomies } from 'ldrs';
-import { Button, ConfigProvider } from 'antd';
+import { Button } from 'antd';
+
+function SeeReverseButton(props: { paintingId: string, paintings: Painting[] }) {
+  const { paintingId, paintings } = props;
+  const navigate = useNavigate();
+  const painting = paintings.find((p) => p.id === paintingId);
+  if (!painting) {
+    return null;
+  }
+  if (!painting.backPhotoUrl) {
+    return null;
+  }
+  const params = new URLSearchParams(document.location.search);
+  const isReversed = params.get('reverse') === 'true';
+
+  return (
+    <Button
+      className="mr-4"
+      type="link"
+      onClick={() => {
+        navigate({
+          pathname: document.location.pathname,
+          search: createSearchParams({
+            selected: paintingId,
+            reverse: isReversed ? 'false' : 'true',
+          }).toString()
+        });
+      }}
+    >
+      {isReversed ? "See painting" : "See reverse"}
+    </Button>
+  );
+}
 
 function BuyPaintingButton(props: { paintingId: string }) {
   return (
@@ -43,7 +75,7 @@ function SavePaintingButton(props: { paintingId: string }) {
       ghost
       icon={isFavourite ? <HeartFilled /> : <HeartOutlined />}
     >
-      {isFavourite ? "unfavourite" : "favourite"}
+      {isFavourite ? "favourited" : "favourite"}
     </Button>
   );
 }
@@ -81,59 +113,6 @@ function getPaintingDescription(p: Painting) {
   return `${parts.map((p) => p.replaceAll('\n', '')).join('\n')}`;
 }
 
-interface PaintingLightBoxProps {
-  painting: Painting;
-}
-
-function PaintingLightBox(props: PaintingLightBoxProps) {
-  const { painting } = props;
-
-  const navigate = useNavigate();
-
-  // We show front and back photos in the lightbox
-  const photos = [
-    {
-      src: painting.frontPhotoUrl,
-      width: painting.width * 100,
-      height: painting.height * 100,
-      caption: painting.title,
-      id: painting.id,
-      title: painting.title,
-      description: getPaintingDescription(painting),
-    },
-  ];
-  if (painting.backPhotoUrl) {
-    photos.push({
-      src: painting.backPhotoUrl,
-      width: painting.width * 100,
-      height: painting.height * 100,
-      caption: painting.title,
-      id: painting.id,
-      title: `(VERSO) ${painting.title}`,
-      description: getPaintingDescription(painting),
-    });
-  }
-  return (
-    <Lightbox
-      styles={{
-        captionsTitleContainer: { backgroundColor: 'transparent' },
-        captionsTitle: { paddingLeft: '60px', paddingTop: '40px' },
-        captionsDescriptionContainer: { backgroundColor: 'transparent' },
-        captionsDescription: {
-          paddingLeft: '40px',
-          height: '200px',
-          width: '300px',
-          textAlign: 'right',
-        }
-      }}
-      open={true}
-      close={() => navigate({ pathname: document.location.pathname })}
-      slides={photos}
-      plugins={[Captions]}
-    />
-  )
-}
-
 interface PhotoGalleryProps {
   paintings: Painting[];
 }
@@ -148,17 +127,15 @@ function PhotoGalleryImpl(props: PhotoGalleryProps) {
   // even when the order of the paintings changes.
   const selectedPhotoId = params.get('selected');
   const selectedPhotoIdx = selectedPhotoId ? paintings.findIndex((p) => p.id === selectedPhotoId) : undefined;
+  const showReverse = params.get('reverse') === 'true';
 
-  const photos = paintings.map((p) => {
+  const galleryPhotos = paintings.map((p) => {
     return {
       id: p.id,
       src: p.frontPhotoUrl,
       width: p.width, // These are inches not pixels, but the ratio should be the same... will this work? lol
       height: p.height,
-      source: p.frontPhotoUrl,
       caption: p.title,
-      original: p.frontPhotoUrl,
-      thumbnail: p.frontPhotoUrl,
       title: p.title,
       description: getPaintingDescription(p),
     };
@@ -167,9 +144,9 @@ function PhotoGalleryImpl(props: PhotoGalleryProps) {
   return (
     <div>
       <Gallery
-        photos={photos}
+        photos={galleryPhotos}
         onClick={(e, { index }) => {
-          const nextSelectedId = photos[index]?.id;
+          const nextSelectedId = galleryPhotos[index]?.id;
           if (nextSelectedId) {
             navigate({
               pathname: document.location.pathname,
@@ -194,6 +171,7 @@ function PhotoGalleryImpl(props: PhotoGalleryProps) {
         }}
         toolbar={{
           buttons: selectedPhotoId ? [
+            <SeeReverseButton key="see-reverse" paintingId={selectedPhotoId} paintings={paintings} />,
             <SavePaintingButton key="save-painting" paintingId={selectedPhotoId} />,
             <BuyPaintingButton key="buy-painting" paintingId={selectedPhotoId} />,
             "close",
@@ -202,17 +180,22 @@ function PhotoGalleryImpl(props: PhotoGalleryProps) {
         open={selectedPhotoIdx !== undefined}
         close={() => navigate({ pathname: document.location.pathname })}
         index={selectedPhotoIdx}
-        slides={photos.map((photo) => {
+        slides={paintings.map((painting) => {
+          const photoUrl = showReverse ? painting.backPhotoUrl : painting.frontPhotoUrl;
           return {
-            ...photo,
-            height: photo.height * 100,
-            width: photo.width * 100,
-          };
+            src: photoUrl,
+            width: painting.width * 100,
+            height: painting.height * 100,
+            caption: painting.title,
+            id: painting.id,
+            title: `${showReverse ? '(VERSO) ' : ''}${painting.title}`,
+            description: getPaintingDescription(painting),
+          }
         })}
         plugins={[Captions]}
         on={{
           view: ({ index }) => {
-            const nextSelectedId = photos[index]?.id;
+            const nextSelectedId = galleryPhotos[index]?.id;
             if (nextSelectedId) {
               navigate({
                 pathname: document.location.pathname,
