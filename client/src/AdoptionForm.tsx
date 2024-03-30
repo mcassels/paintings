@@ -5,7 +5,7 @@ import { Painting } from "./types";
 import { usePaintings } from "./usePaintings";
 import { zoomies } from "ldrs";
 import { redirect, useNavigate } from "react-router";
-import { Button, Checkbox, Form, type FormProps, Input } from 'antd';
+import { Button, Checkbox, Form, type FormProps, Input, Divider } from 'antd';
 
 // Name
 // Address
@@ -155,6 +155,7 @@ export default function AdoptionForm() {
     paintingOptions.push(<option key={painting.id} value={painting.id}>{`${painting.title} (id: ${painting.id})`}</option>);
   }
 
+  // TODO: organize into sections with divider
   return (
     <div className="pt-8">
         <form onSubmit={handleSubmit(onSubmit)} ref={formRef}>
@@ -166,6 +167,7 @@ export default function AdoptionForm() {
               </select>
               <p>{errors.paintingId?.message}</p>
             </div>
+            <Divider className="w-650px" orientation="left">Contact Information</Divider>
             <label className="labelcol">Name:</label>
             <div className="inputcol">
               <input placeholder="Name" type="text" {...register("name", { required: true })} aria-invalid={errors.name ? "true" : "false"} />

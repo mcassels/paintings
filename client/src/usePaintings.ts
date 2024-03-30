@@ -26,28 +26,36 @@ async function fetchPaintings(): Promise<Painting[]> {
   const paintings: Painting[] = [];
 
   for (const record of data.records) {
-    const fields = record.fields;
-    const painting: Omit<Painting, 'tags'> = {
-      id: fields.id.toUpperCase(),
-      title: fields.title,
-      frontPhotoUrl: fields.front_photo_url,
-      backPhotoUrl: fields.back_photo_url,
-      year: fields.year,
-      yearGuess: fields.year_guess,
-      damageLevel: fields.damage_level,
-      medium: fields.medium,
-      height: fields.height,
-      width: fields.width,
-      predominantColors: fields.predominant_color || [],
-      subjectMatter: fields.subject_matter || [],
-      conditionNotes: fields.condition_notes,
-    };
-    paintings.push({
-      ...painting,
-      tags: getTags(painting),
-    });
+    try {
+      const fields = record.fields;
+      const painting: Omit<Painting, 'tags'> = {
+        id: fields.id.toUpperCase(),
+        title: fields.title,
+        frontPhotoUrl: fields.front_photo_url,
+        backPhotoUrl: fields.back_photo_url,
+        year: fields.year,
+        yearGuess: fields.year_guess,
+        damageLevel: fields.damage_level,
+        medium: fields.medium,
+        height: fields.height,
+        width: fields.width,
+        predominantColors: fields.predominant_color || [],
+        subjectMatter: fields.subject_matter || [],
+        conditionNotes: fields.condition_notes,
+      };
+      paintings.push({
+        ...painting,
+        tags: getTags(painting),
+      });
+    } catch (e) {
+      console.error('Error parsing painting', record, e);
+      continue;
+    }
   }
-  return paintings;
+  return paintings.sort(() => {
+    // Random number between -1 and 1
+    return (Math.random() * 2) - 1;
+  });
 }
 
 export function usePaintings(): PaintingsResponse {
