@@ -28,6 +28,12 @@ async function fetchPaintings(): Promise<Painting[]> {
   for (const record of data.records) {
     try {
       const fields = record.fields;
+      if (!fields.id || !fields.title || !fields.front_photo_url || !fields.width || !fields.height) {
+        // IF we need to handle paintings that have width and/or height missing,
+        // we need to account for this in the photo gallery so that the photos don't show up massive.
+        console.error('Skipping painting with missing fields', fields);
+        continue;
+      }
       const painting: Omit<Painting, 'tags'> = {
         id: fields.id.toUpperCase(),
         title: fields.title,

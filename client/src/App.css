@@ -91,3 +91,12 @@ html,
   grid-template-areas:
               "name bio website";
 }
+
+
+:where(.css-dev-only-do-not-override-42nv3w).ant-carousel .slick-dots li.slick-active button {
+  background-color: black;
+}
+
+:where(.css-dev-only-do-not-override-42nv3w).ant-carousel .slick-dots li button {
+  background-color: gray;
+}

@@ -2,14 +2,6 @@ import React from "react";
 import { usePaintings } from "./usePaintings";
 import { Carousel, Image } from "antd";
 
-const contentStyle: React.CSSProperties = {
-  height: '160px',
-  color: '#fff',
-  lineHeight: '160px',
-  textAlign: 'center',
-  background: '#364d79',
-};
-
 function FeaturedPaintingDisplay() {
   const paintings = usePaintings();
   if (paintings.length === 0) {
@@ -21,18 +13,28 @@ function FeaturedPaintingDisplay() {
   if (paintings === "loading") {
     return <div>Loading...</div>;
   }
+
+  const height = 440;
   return (
-    <Carousel className="max-w-650px" autoplay>
-      {paintings.slice(0, 3).map((painting) => (
-        <div key={painting.id} style={contentStyle}>
-          {/* <Image
-            width={200}
-            height={200}
-            src={painting.frontPhotoUrl}
-          /> */}
-          Hello
-        </div>
-      ))}
+    <Carousel className="max-w-[650px] h-[500px]" autoplay>
+      {paintings.splice(0, 3).map((painting) => {
+        const width = (painting.width / painting.height) * height;
+        console.log(width);
+        return (
+          <div>
+            <div style={{ display: 'flex', justifyContent: 'center'}}>
+              <div className="my-[30px]">
+                <Image
+                  width={width}
+                  height={height}
+                  src={painting.frontPhotoUrl}
+                  preview={false}
+                />
+              </div>
+            </div>
+          </div>
+        );
+      })}
     </Carousel>
   );
 }
@@ -41,13 +43,15 @@ function FeaturedPaintingDisplay() {
 export default function LandingPage() {
   return (
     <div>
-      <h1>A fundraiser for Victoria Visual Arts Legacy Society</h1>
-      <p>
-        Supporting the James Gordaneer Legacy Award, given annually to a Camosun College Visual Arts student.
-      </p>
-      <p>
-        To get started, visit the <a href="/gallery">gallery</a>.
-      </p>
+      <div className="mb-4">
+        <h1>A fundraiser for Victoria Visual Arts Legacy Society</h1>
+        <p>
+          Supporting the James Gordaneer Legacy Award, given annually to a Camosun College Visual Arts student.
+        </p>
+        <p>
+          To get started, visit the <a href="/gallery">gallery</a>.
+        </p>
+      </div>
       <FeaturedPaintingDisplay />
     </div>
   );
