@@ -93,10 +93,12 @@ html,
 }
 
 
+/*
+The following 2 overrides are for the bottom pill buttons in the carousel component from antd.
+*/
 :where(.css-dev-only-do-not-override-42nv3w).ant-carousel .slick-dots li.slick-active button {
   background-color: black;
 }
-
 :where(.css-dev-only-do-not-override-42nv3w).ant-carousel .slick-dots li button {
   background-color: gray;
 }

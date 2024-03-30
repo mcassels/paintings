@@ -1,17 +1,23 @@
 import React from "react";
 import { usePaintings } from "./usePaintings";
-import { Carousel, Image } from "antd";
+import { Carousel, Image, Skeleton, Spin } from "antd";
 
 function FeaturedPaintingDisplay() {
   const paintings = usePaintings();
-  if (paintings.length === 0) {
-    return null;
-  }
-  if (paintings === "error") {
-    return <div>There was an error loading the paintings.</div>;
+
+  if (paintings === "error" || paintings.length === 0) {
+    return (
+      <div className="w-[650px] h-[500px] flex items-center justify-center">
+        <Skeleton.Image />
+      </div>
+    );
   }
   if (paintings === "loading") {
-    return <div>Loading...</div>;
+    return (
+      <div className="w-[650px] h-[500px] flex items-center justify-center">
+        <Spin />
+      </div>
+    );
   }
 
   const height = 440;
