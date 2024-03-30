@@ -1,11 +1,10 @@
-import { useForm, SubmitHandler } from "react-hook-form"
+import { useForm } from "react-hook-form"
 import emailjs from '@emailjs/browser';
 import { useRef } from "react";
-import { Painting } from "./types";
 import { usePaintings } from "./usePaintings";
 import { zoomies } from "ldrs";
-import { redirect, useNavigate } from "react-router";
-import { Button, Checkbox, Form, type FormProps, Input, Divider } from 'antd';
+import { useNavigate } from "react-router";
+import { Divider } from 'antd';
 
 // Name
 // Address

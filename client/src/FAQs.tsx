@@ -1,5 +1,4 @@
 import React from 'react';
-import Faq from 'react-faq-component';
 import { useFAQs } from './useFAQs';
 import { zoomies } from 'ldrs';
 import { Collapse, CollapseProps } from 'antd';

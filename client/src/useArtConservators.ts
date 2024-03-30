@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { ArtConservator, ArtConservatorResponse, TextContent, TextContentResponse } from "./types";
+import { ArtConservator, ArtConservatorResponse } from "./types";
 
 async function fetchArtConservators(): Promise<ArtConservator[]> {
   const faqsUrl = "https://api.airtable.com/v0/app2HxNPQejnLR2g0/tblBe0EJkCZEjFfW0";

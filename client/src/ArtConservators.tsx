@@ -1,8 +1,5 @@
 import React from 'react';
-import TextPage from './TextPage';
-import { AFTER_ADOPTION_KEY } from './constants';
-import { Link, NavLink } from 'react-router-dom';
-import { Card, Space } from 'antd';
+import { Card } from 'antd';
 import { useArtConservators } from './useArtConservators';
 import { zoomies } from 'ldrs';
 import Markdown from 'react-markdown';
