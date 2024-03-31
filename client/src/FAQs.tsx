@@ -1,5 +1,6 @@
 import React from 'react';
 import { useFAQs } from './useFAQs';
+import Markdown from 'react-markdown';
 import { zoomies } from 'ldrs';
 import { Collapse, CollapseProps } from 'antd';
 
@@ -21,7 +22,7 @@ export default function FAQs() {
   const items: CollapseProps['items'] = faqs.map((faq) => ({
     key: faq.question,
     label: faq.question,
-    children: <p>{faq.answer}</p>,
+    children: <Markdown>{faq.answer}</Markdown>,
   }));
 
   return (

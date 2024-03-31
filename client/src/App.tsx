@@ -44,7 +44,7 @@ function Layout() {
   const defaultSelectedKey = location.pathname.split('/')[0];
   return (
     <div className="box wrapper">
-      <div className="App-header header">
+      <div className="App-header header bg-[#193259]">
         Gordaneer Painting Adoption Project
       </div>
       <div className="box sidebar">
