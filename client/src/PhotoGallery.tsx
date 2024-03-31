@@ -10,7 +10,7 @@ import { HeartOutlined, HeartFilled } from '@ant-design/icons';
 import { Painting } from './types';
 import { usePaintings } from './usePaintings';
 import { zoomies } from 'ldrs';
-import { Button, Pagination } from 'antd';
+import { Button, Empty, Pagination } from 'antd';
 import GalleryFilters from './GalleryFilters';
 import { Footer } from 'antd/es/layout/layout';
 
@@ -206,20 +206,31 @@ function PhotoGalleryImpl(props: PhotoGalleryProps) {
         <GalleryFilters paintings={allPaintings}/>
       </div>
       <div style={{ maxHeight: "calc(100vh - 200px)", minHeight:"calc(100vh - 200px)", overflow: "scroll" }}>
-        <Gallery
-          photos={galleryPhotos}
-          onClick={(e, { index }) => {
-            const nextSelectedId = galleryPhotos[index]?.id;
-            if (nextSelectedId) {
-              const nextParams = new URLSearchParams(params);
-              nextParams.set('selected', nextSelectedId);
-              navigate({
-                pathname: location.pathname,
-                search: nextParams.toString()
-              });
-            }
-          }}
-        />
+        {
+          galleryPhotos.length === 0 ? (
+            <div style={{ minHeight:"calc(100vh - 200px)" }} className="flex justify-center items-center">
+              <Empty
+                image={Empty.PRESENTED_IMAGE_SIMPLE}
+                description="No paintings match your filters."
+              />
+            </div>
+          ) : (
+            <Gallery
+              photos={galleryPhotos}
+              onClick={(e, { index }) => {
+                const nextSelectedId = galleryPhotos[index]?.id;
+                if (nextSelectedId) {
+                  const nextParams = new URLSearchParams(params);
+                  nextParams.set('selected', nextSelectedId);
+                  navigate({
+                    pathname: location.pathname,
+                    search: nextParams.toString()
+                  });
+                }
+              }}
+            />
+          )
+        }
       </div>
       <Lightbox
         styles={{

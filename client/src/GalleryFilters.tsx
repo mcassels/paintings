@@ -128,11 +128,6 @@ export default function GalleryFilters(props: GalleryFiltersProps) {
         <div className="mr-2">
           <Divider type="vertical" style={{ height: '1.4rem', border: '0.5px solid black' }}/>
         </div>
-        {/* {
-          false && (
-            <Tag color="green">test</Tag>
-          )
-        } */}
         <div>
           {
             statuses.map((status: PaintingStatus) => {
