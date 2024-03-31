@@ -10,8 +10,9 @@ import { HeartOutlined, HeartFilled } from '@ant-design/icons';
 import { Painting } from './types';
 import { usePaintings } from './usePaintings';
 import { zoomies } from 'ldrs';
-import { Button, Empty, Pagination } from 'antd';
+import { Button, Empty, Modal, Pagination, Tag } from 'antd';
 import GalleryFilters from './GalleryFilters';
+import Markdown from 'react-markdown';
 
 function SeeReverseButton(props: { setShowReverse: React.Dispatch<React.SetStateAction<boolean>>, showReverse: boolean }) {
   const { setShowReverse, showReverse } = props;
@@ -26,13 +27,54 @@ function SeeReverseButton(props: { setShowReverse: React.Dispatch<React.SetState
   );
 }
 
-function BuyPaintingButton(props: { paintingId: string }) {
+function BuyPaintingButton(props: { painting: Painting|undefined }) {
+  if (!props.painting) {
+    return null;
+  }
+  if (props.painting.tags.status === 'pending') {
+    return (
+      <Tag className="w-[125px] h-fit flex justify-center" color="gold"><div>Pending</div></Tag>
+    );
+  }
+  if (props.painting.tags.status === 'sold') {
+    return (
+      <Tag className="w-[125px] h-fit flex justify-center" color="red"><div>Sold</div></Tag>
+    );
+  }
   return (
-    <Button className="flex flex-col justify-center" type="primary">
-      <NavLink to={`/adopt?painting=${props.paintingId}`}>
+    <Button className="flex justify-center" type="primary">
+      <NavLink to={`/adopt?painting=${props.painting.id}`}>
         Adopt me!
       </NavLink>
     </Button>
+  );
+}
+
+function PaintingStoryButton(props: { painting: Painting|undefined }) {
+  const { painting } = props;
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  if (!painting || !painting.story) {
+    return null;
+  }
+  return (
+    <>
+      <Button type="primary" ghost onClick={() => setIsModalOpen(true)}>
+        Read story
+      </Button>
+      <Modal
+        title={`Story of "${painting.title}"`}
+        open={isModalOpen}
+        onOk={() => setIsModalOpen(false)}
+        footer={[
+          <Button key="submit" type="primary" onClick={() => setIsModalOpen(false)}>
+            Done
+          </Button>,
+        ]}
+      >
+        <Markdown>{painting.story}</Markdown>
+      </Modal>
+    </>
   );
 }
 
@@ -81,7 +123,7 @@ function SavePaintingButton(props: { paintingId: string }) {
 function getPaintingDescription(p: Painting) {
   const year = (p.year || p.yearGuess || 'ND').toString();
   const size = `${p.height} x ${p.width}`;
-  const parts = [year, size];
+  const parts = [p.title, year, size];
   if (p.medium) {
     parts.push(p.medium);
   }
@@ -94,10 +136,7 @@ function getPaintingDescription(p: Painting) {
   if (p.conditionNotes) {
     parts.push(p.conditionNotes);
   }
-  if (p.status) {
-    parts.push(p.status);
-  }
-  parts.push(`Damage level: ${p.damageLevel}`);
+  parts.push(`Damage level ${p.damageLevel}`);
   // TODO: for some reason, this shows an ellipses at the end of only the third line.
   // Possibly may need to do this properly as a component and not just text, by adding a plugin?
   // See https://yet-another-react-lightbox.com/advanced#Modules
@@ -239,6 +278,7 @@ function PhotoGalleryImpl(props: PhotoGalleryProps) {
           captionsDescriptionContainer: { backgroundColor: 'transparent' },
           captionsDescription: {
             paddingLeft: '40px',
+            paddingBottom: '100px',
             height: '200px',
             width: '300px',
             textAlign: 'right',
@@ -249,15 +289,14 @@ function PhotoGalleryImpl(props: PhotoGalleryProps) {
         }}
         toolbar={{
           buttons: selectedPhotoId ? [
-            <div className="flex flex-col justify-center align-middle space-y-2 mt-4 mr-4">
-              <div className="flex space-x-2">
+            <div className="custom-button mt-4 mr-4">
+              <div className="left-col">
                 <SavePaintingButton key="save-painting" paintingId={selectedPhotoId} />
-                <BuyPaintingButton key="buy-painting" paintingId={selectedPhotoId} />
               </div>
-              <div>
-                <div className="float-right">
-                  <SeeReverseButton key="see-reverse" showReverse={showReverse} setShowReverse={setShowReverse} />
-                </div>
+              <div className="right-col flex flex-col justify-center space-y-4">
+                <BuyPaintingButton key="buy-painting" painting={paintings.find((p) => p.id === selectedPhotoId)} />
+                <PaintingStoryButton key="painting-story" painting={paintings.find((p) => p.id === selectedPhotoId)} />
+                <SeeReverseButton key="see-reverse" showReverse={showReverse} setShowReverse={setShowReverse} />
               </div>
             </div>,
             "close",
@@ -316,11 +355,11 @@ function PhotoGalleryImpl(props: PhotoGalleryProps) {
       <div className="pt-4 min-w-[calc(100vw-200px)]">
         <div className="flex justify-center">
             <Pagination
-            defaultCurrent={pageNum}
-            total={paintings.length}
-            showSizeChanger={false}
-            defaultPageSize={PAGE_SIZE}
-            onChange={(page) => setPageNum(page)}
+              defaultCurrent={pageNum}
+              total={paintings.length}
+              showSizeChanger={false}
+              defaultPageSize={PAGE_SIZE}
+              onChange={(page) => setPageNum(page)}
           />
         </div>
       </div>
@@ -329,6 +368,7 @@ function PhotoGalleryImpl(props: PhotoGalleryProps) {
 }
 
 export default function PhotoGallery() {
+  debugger;
   const paintings = usePaintings();
 
   if (paintings === 'loading') {

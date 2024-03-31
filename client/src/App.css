@@ -184,10 +184,24 @@ The following 2 overrides are for the bottom pill buttons in the carousel compon
   display: flex;
 }
 
-/* .custom-button {
+.custom-button {
   display: grid;
   grid-gap: 10px;
   grid-template-areas:
-              "save-painting buy-painting";
-} */
+              "left-col right-col"
+              "right-col"
+              "right-col";
+  grid-template-columns: 125px 125px;
+}
 
+.left-col {
+  display: flex;
+  justify-content: center;
+}
+
+:where(.css-dev-only-do-not-override-42nv3w).ant-modal-root .ant-modal-mask {
+  z-index: 10000;
+}
+:where(.css-dev-only-do-not-override-42nv3w).ant-modal-root .ant-modal-wrap {
+  z-index: 10001;
+}

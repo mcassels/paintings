@@ -23,6 +23,7 @@ export interface Painting {
   predominantColors: string[];
   subjectMatter: string[];
   tags: PaintingTags;
+  story?: string;
 }
 
 export type PaintingsResponse = Painting[]|'error'|'loading';

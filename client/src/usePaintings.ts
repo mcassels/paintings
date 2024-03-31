@@ -81,6 +81,7 @@ async function fetchPaintings(): Promise<Painting[]> {
         conditionNotes: fields.condition_notes,
         isFramed: fields.is_framed,
         status,
+        story: fields.story,
       };
       paintings.push({
         ...painting,
