@@ -41,7 +41,7 @@ function AppInner() {
 
 function Layout() {
   const location = useLocation();
-  const defaultSelectedKey = location.pathname.split('/')[0];
+  const selectedKey = location.pathname.split('/')[1];
   return (
     <div className="box wrapper">
       <div className="App-header header bg-[#193259]">
@@ -50,7 +50,8 @@ function Layout() {
       <div className="box sidebar">
         <Menu
           style={{ width: 154 }}
-          defaultSelectedKeys={[defaultSelectedKey]}
+          defaultSelectedKeys={[selectedKey]}
+          selectedKeys={[selectedKey]}
         >
           <Menu.Item key="home"><NavLink to="/home">Home</NavLink></Menu.Item>
           <Menu.Item key="gallery"><NavLink to="/gallery">Gallery</NavLink></Menu.Item>

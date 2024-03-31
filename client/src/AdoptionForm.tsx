@@ -4,7 +4,11 @@ import { useRef } from "react";
 import { usePaintings } from "./usePaintings";
 import { zoomies } from "ldrs";
 import { useLocation, useNavigate } from "react-router";
-import { Divider } from 'antd';
+import { Form, Input, Tooltip, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete, FormInstance, Image } from 'antd';
+import BrowsePaintingsButton from "./BrowsePaintingsButton";
+const FormItem = Form.Item;
+const Option = Select.Option;
+const AutoCompleteOption = AutoComplete.Option;
 
 // Name
 // Address
@@ -67,7 +71,6 @@ interface ContactFormInputs {
   address: string;
   phoneNumber: string;
   email: string;
-  paintingId: string;
   priceOption: PriceOption;
   pickupOption: PickupOption;
   acknowledgeDamage: boolean;
@@ -75,10 +78,13 @@ interface ContactFormInputs {
 
 // TODO: autoselect specific painting based on query params
 export default function AdoptionForm() {
-  const formRef = useRef<HTMLFormElement|null>(null);
+  const formRef = useRef<FormInstance|null>(null);
+  const oldRef = useRef<HTMLFormElement|null>(null);
 
   const navigate = useNavigate()
   const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+
 
   function onFormSubmitError() {
     window.alert("Error submitting form! Please contact gordaneer@gmail.com");
@@ -104,45 +110,49 @@ export default function AdoptionForm() {
     return <div className="loading">Error loading paintings</div>;
   }
 
+  const paintingId = searchParams.get('painting');
+  const painting = paintings.find((p) => p.id === paintingId);
+
   async function onSubmit(data: ContactFormInputs) {
+    debugger;
     if (!formRef.current) {
       onFormSubmitError();
       return;
     }
-    debugger;
-    const serviceId = process.env.REACT_APP_EMAILJS_SERVICE_ID;
-    const templateId = process.env.REACT_APP_EMAILJS_TEMPLATE_ID;
-    const publicKey = process.env.REACT_APP_EMAILJS_PUBLIC_KEY;
+    return;
+    // const serviceId = process.env.REACT_APP_EMAILJS_SERVICE_ID;
+    // const templateId = process.env.REACT_APP_EMAILJS_TEMPLATE_ID;
+    // const publicKey = process.env.REACT_APP_EMAILJS_PUBLIC_KEY;
 
-    // Keys must correspond to template fields set up in emailjs template
-    const emailTemplate = {
-      name: data.name,
-      address: data.address,
-      phone: data.phoneNumber,
-      email: data.email,
-      bpid: data.paintingId,
-      price_option: data.priceOption,
-      pickup_option: data.pickupOption,
-      painting_name: Array.isArray(paintings) && paintings.find((p) => p.id === data.paintingId)?.title,
-    };
-    if (!serviceId || !templateId) {
-      onFormSubmitError();
-      return;
-    }
-    try {
-      const res = await emailjs.send(serviceId, templateId, emailTemplate, {
-        publicKey,
-      });
-      if (res.status < 200 || res.status >= 300) {
-        onFormSubmitError();
-      } else {
-        window.alert("Your adoption has been submitted!");
-        navigate("/after-adoption")
-      }
-    } catch (e) {
-      console.error(e);
-      onFormSubmitError();
-    }
+    // // Keys must correspond to template fields set up in emailjs template
+    // const emailTemplate = {
+    //   name: data.name,
+    //   address: data.address,
+    //   phone: data.phoneNumber,
+    //   email: data.email,
+    //   bpid: data.paintingId,
+    //   price_option: data.priceOption,
+    //   pickup_option: data.pickupOption,
+    //   painting_name: Array.isArray(paintings) && paintings.find((p) => p.id === data.paintingId)?.title,
+    // };
+    // if (!serviceId || !templateId) {
+    //   onFormSubmitError();
+    //   return;
+    // }
+    // try {
+    //   const res = await emailjs.send(serviceId, templateId, emailTemplate, {
+    //     publicKey,
+    //   });
+    //   if (res.status < 200 || res.status >= 300) {
+    //     onFormSubmitError();
+    //   } else {
+    //     window.alert("Your adoption has been submitted!");
+    //     navigate("/after-adoption")
+    //   }
+    // } catch (e) {
+    //   console.error(e);
+    //   onFormSubmitError();
+    // }
   }
 
   const params = new URLSearchParams(location.search);
@@ -158,7 +168,7 @@ export default function AdoptionForm() {
   // TODO: organize into sections with divider
   return (
     <div className="pt-8">
-        <form onSubmit={handleSubmit(onSubmit)} ref={formRef}>
+        {/* <form onSubmit={handleSubmit(onSubmit)} ref={oldRef}>
           <div className="form-wrapper">
             <label className="labelcol">Painting</label>
             <div className="inputcol">
@@ -167,7 +177,6 @@ export default function AdoptionForm() {
               </select>
               <p>{errors.paintingId?.message}</p>
             </div>
-            <Divider className="w-650px" orientation="left">Contact Information</Divider>
             <label className="labelcol">Name:</label>
             <div className="inputcol">
               <input placeholder="Name" type="text" {...register("name", { required: true })} aria-invalid={errors.name ? "true" : "false"} />
@@ -241,47 +250,114 @@ export default function AdoptionForm() {
             <button type="submit" disabled={!isValid}>Submit</button>
           </div>
         </div>
-      </form>
-      {/* <Form
-        name="basic"
+      </form> */}
+      { painting ? (
+        <div>
+          <div>
+            <h2>{painting.title}</h2>
+            <p>{painting.year}</p>
+            <p>{painting.medium}</p>
+            <p>{painting.damageLevel}</p>
+            <p>{painting.conditionNotes}</p>
+          </div>
+          <Image
+            width={painting.width}
+            height={painting.height}
+            src={painting.frontPhotoUrl}
+          />
+        </div>
+      ) : <BrowsePaintingsButton />}
+      <Form
+        style={{ maxWidth: 600 }}
+        ref={formRef}
+        onFinish={onSubmit}
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 16 }}
-        style={{ maxWidth: 600 }}
         initialValues={{ remember: true }}
-        onFinish={onSubmit}
         onFinishFailed={onFormSubmitError}
-        autoComplete="off"
       >
-        <Form.Item<ContactFormInputs>
-          label="Name"
+        <Form.Item
           name="name"
-          rules={[{ required: true, message: 'Please input your name' }]}
+          label="Your Name"
+          rules={[{ required: true, message: 'Name is required' }]}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item
+          name="email"
+          label="E-mail"
+          rules={[
+            {
+              type: 'email',
+              message: 'The input is not a valid email',
+            },
+            {
+              required: true,
+              message: 'Email is required',
+            },
+          ]}
         >
           <Input />
         </Form.Item>
 
-        <Form.Item<ContactFormInputs>
-          label="Name"
-          name="name"
-          rules={[{ required: true, message: 'Please input your name' }]}
+        {/* <Form.Item
+          label="InputNumber"
+          name="InputNumber"
+          rules={[{ required: true, message: 'Please input!' }]}
         >
-          <Input />
+          <InputNumber style={{ width: '100%' }} />
         </Form.Item>
 
-        <Form.Item<FieldType>
-          name="remember"
-          valuePropName="checked"
-          wrapperCol={{ offset: 8, span: 16 }}
+        <Form.Item
+          label="Mentions"
+          name="Mentions"
+          rules={[{ required: true, message: 'Please input!' }]}
         >
-          <Checkbox></Checkbox>
+          <Mentions />
         </Form.Item>
 
-        <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+        <Form.Item label="Select" name="Select" rules={[{ required: true, message: 'Please input!' }]}>
+          <Select />
+        </Form.Item>
+
+        <Form.Item
+          label="Cascader"
+          name="Cascader"
+          rules={[{ required: true, message: 'Please input!' }]}
+        >
+          <Cascader />
+        </Form.Item>
+
+        <Form.Item
+          label="TreeSelect"
+          name="TreeSelect"
+          rules={[{ required: true, message: 'Please input!' }]}
+        >
+          <TreeSelect />
+        </Form.Item>
+
+        <Form.Item
+          label="DatePicker"
+          name="DatePicker"
+          rules={[{ required: true, message: 'Please input!' }]}
+        >
+          <DatePicker />
+        </Form.Item>
+
+        <Form.Item
+          label="RangePicker"
+          name="RangePicker"
+          rules={[{ required: true, message: 'Please input!' }]}
+        >
+          <RangePicker />
+        </Form.Item> */}
+
+        <Form.Item wrapperCol={{ offset: 6, span: 16 }}>
           <Button type="primary" htmlType="submit">
             Submit
           </Button>
         </Form.Item>
-      </Form> */}
+      </Form>
     </div>
   );
 }

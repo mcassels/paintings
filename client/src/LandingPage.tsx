@@ -2,9 +2,14 @@ import React from "react";
 import { usePaintings } from "./usePaintings";
 import { Carousel, Image, Skeleton, Spin } from "antd";
 import BrowsePaintingsButton from "./BrowsePaintingsButton";
+import { useLocation, useNavigate } from "react-router";
+import { createSearchParams } from "react-router-dom";
 
 function FeaturedPaintingDisplay() {
   const paintings = usePaintings();
+
+  const location = useLocation();
+  const navigate = useNavigate();
 
   if (paintings === "error" || paintings.length === 0) {
     return (
@@ -23,17 +28,29 @@ function FeaturedPaintingDisplay() {
 
   const height = 550;
   return (
-    <Carousel className="max-w-[650px] h-[610px]" autoplay>
-      {paintings.splice(0, 3).map((painting) => {
+    <Carousel
+      className="max-w-[650px] h-[610px]"
+      autoplay
+    >
+      {paintings.slice(0, 3).map((painting) => {
         const width = (painting.width / painting.height) * height;
         return (
-          <div>
+          <div key={painting.id}>
             <div className="my-[30px] w-[650px] flex justify-center">
               <Image
+                className="cursor-pointer"
                 width={width}
                 height={height}
                 src={painting.frontPhotoUrl}
                 preview={false}
+                onClick={() => {
+                  const searchParams = new URLSearchParams(location.search);
+                  searchParams.set("selected", painting.id);
+                  navigate({
+                    search: searchParams.toString(),
+                    pathname: "/gallery",
+                  });
+                }}
               />
             </div>
           </div>
