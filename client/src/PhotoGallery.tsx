@@ -122,28 +122,34 @@ function filterPaintings(
   paintings: Painting[],
 ): Painting[] {
   const decades = searchParams.getAll('decade').filter((d) => d !== '');
-  const damageLevels = searchParams.getAll('damage').filter((d) => d !== '').map((d) => parseInt(d));
+  const minDamageLevelParam = searchParams.get('damage_min');
+  const maxDamageLevelParam = searchParams.get('damage_max');
+  const minDamageLevel = minDamageLevelParam ? parseInt(minDamageLevelParam) : 1;
+  const maxDamageLevel = maxDamageLevelParam ? parseInt(maxDamageLevelParam) : 5;
   const colors = searchParams.getAll('color').filter((d) => d !== '');
-  const statuses = searchParams.getAll('status').filter((d) => d !== '') as ('Available'|'Pending'|'Sold')[];
+  const statuses = searchParams.getAll('status').filter((d) => d !== '') as ('available'|'pending'|'sold')[];
 
   // If no filters are set, return all paintings
-  if (decades.length === 0 && damageLevels.length === 0 && colors.length === 0 && statuses.length === 0) {
+  if (decades.length === 0 && (minDamageLevel === 1 && maxDamageLevel === 5) && colors.length === 0 && statuses.length === 0) {
     return paintings;
   }
+  // The filters for each of decade, damage, color, and status are ANDed together
+  // FOR EACH FILTER THAT IS SET.
+  // The options within each filter are ORed together.
   return paintings.filter((p: Painting) => {
-    if (decades.length > 0 && decades.includes(p.tags.decade)) {
-      return true;
+    if (p.damageLevel < minDamageLevel || p.damageLevel > maxDamageLevel) {
+      return false;
     }
-    if (damageLevels.length > 0 && damageLevels.includes(p.damageLevel)) {
-      return true;
+    if (decades.length > 0 && !decades.includes(p.tags.decade)) {
+      return false;
     }
-    if (colors.length > 0 && colors.some((c) => p.tags.predominantColors.includes(c))) {
-      return true;
+    if (colors.length > 0 && !colors.some((c) => p.tags.predominantColors.includes(c))) {
+      return false;
     }
-    if (statuses.length > 0 && statuses.includes(p.tags.status)) {
-      return true;
+    if (statuses.length > 0 && !statuses.includes(p.tags.status)) {
+      return false;
     }
-    return false;
+    return true;
   });
 }
 

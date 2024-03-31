@@ -58,11 +58,11 @@ async function fetchPaintings(): Promise<Painting[]> {
         console.error('Skipping painting with missing year', fields);
         continue;
       }
-      let status: PaintingStatus = 'Available';
+      let status: PaintingStatus = 'available';
       if (fields.adoption_pending) {
-        status = 'Pending';
+        status = 'pending';
       } else if (fields.red_dot) {
-        status = 'Sold';
+        status = 'sold';
       }
       // TODO: later, once these are act
       const painting: Omit<Painting, 'tags'> = {
