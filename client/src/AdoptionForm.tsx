@@ -3,7 +3,7 @@ import emailjs from '@emailjs/browser';
 import { useRef } from "react";
 import { usePaintings } from "./usePaintings";
 import { zoomies } from "ldrs";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { Divider } from 'antd';
 
 // Name
@@ -78,6 +78,7 @@ export default function AdoptionForm() {
   const formRef = useRef<HTMLFormElement|null>(null);
 
   const navigate = useNavigate()
+  const location = useLocation();
 
   function onFormSubmitError() {
     window.alert("Error submitting form! Please contact gordaneer@gmail.com");
@@ -144,7 +145,7 @@ export default function AdoptionForm() {
     }
   }
 
-  const params = new URLSearchParams(document.location.search);
+  const params = new URLSearchParams(location.search);
   const selectedPaintingId = params.get('painting');
 
   const paintingOptions = [<option key="default" value="">Select a painting</option>];

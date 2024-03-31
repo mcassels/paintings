@@ -13,6 +13,10 @@ html,
   font-family: theme('fontFamily.sans', ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"); /* 4 */
 }
 
+.App {
+  max-height: 100vh;
+}
+
 .App-header {
   align-items: center;
   justify-content: center;
@@ -36,6 +40,7 @@ html,
 
 .header {
   grid-area: header;
+  margin-bottom: 10px;
 }
 
 
@@ -49,7 +54,6 @@ html,
 
 .box {
   border-radius: 5px;
-  padding: 10px;
 }
 
 .inputcol {

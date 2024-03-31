@@ -13,19 +13,34 @@ function getTags(painting: Omit<Painting, 'tags'>): Set<string> {
   return tags;
 }
 
-async function fetchPaintings(): Promise<Painting[]> {
-  const response = await fetch(
-    paintingsTableUrl,
-    { headers: { Authorization: `Bearer ${process.env.REACT_APP_AIRTABLE_TOKEN}` }},
-  );
+async function fetchAllTableRecords(tableUrl: string): Promise<any[]> {
+  const records: any[] = [];
+  let offset: string|undefined = undefined;
 
-  // TODO: THIS IS ONLY RETURNING FIRST 100
-  // Need to handle pagination!!
-  const data = await response.json();
+  let i = 0;
+  while (true && i < 1000) { // 1000 is an arbitrary limit to prevent infinite loops
+    const response: any = await fetch(
+      `${tableUrl}${offset ? `?offset=${offset}` : ''}`,
+      { headers: { Authorization: `Bearer ${process.env.REACT_APP_AIRTABLE_TOKEN}` }},
+    );
+
+    const data: any = await response.json();
+    records.push(...data.records);
+    if (!data.offset) {
+      break;
+    }
+    offset = data.offset;
+    i++;
+  }
+  return records;
+}
+
+async function fetchPaintings(): Promise<Painting[]> {
+  const records = await fetchAllTableRecords(paintingsTableUrl);
 
   const paintings: Painting[] = [];
 
-  for (const record of data.records) {
+  for (const record of records) {
     try {
       const fields = record.fields;
       if (!fields.id || !fields.title || !fields.front_photo_url || !fields.width || !fields.height) {

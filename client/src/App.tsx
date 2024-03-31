@@ -49,13 +49,13 @@ function Layout() {
       </div>
       <div className="box sidebar">
         <Menu
-          style={{ width: 220 }}
+          style={{ width: 154 }}
           defaultSelectedKeys={[defaultSelectedKey]}
         >
           <Menu.Item key="home"><NavLink to="/home">Home</NavLink></Menu.Item>
           <Menu.Item key="gallery"><NavLink to="/gallery">Gallery</NavLink></Menu.Item>
           <Menu.Item key="about"><NavLink to="/about">Biography</NavLink></Menu.Item>
-          <Menu.Item key="why-adopt"><NavLink to="/why-adopt">Why Adopt a Painting</NavLink></Menu.Item>
+          <Menu.Item key="why-adopt"><NavLink to="/why-adopt">Why Adopt</NavLink></Menu.Item>
           <Menu.Item key="faqs"><NavLink to="/faqs">FAQs</NavLink></Menu.Item>
           <Menu.Item key="adopt"><NavLink to="/adopt">Adopt a Painting</NavLink></Menu.Item>
           <Menu.Item key="after-adoption"><NavLink to="/after-adoption">After Adoption</NavLink></Menu.Item>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { createSearchParams, NavLink, useNavigate } from 'react-router-dom';
+import { createSearchParams, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import Gallery from 'react-photo-gallery'
 import Lightbox from "yet-another-react-lightbox";
 import Captions from "yet-another-react-lightbox/plugins/captions";
@@ -10,12 +10,14 @@ import { HeartOutlined, HeartFilled } from '@ant-design/icons';
 import { Painting } from './types';
 import { usePaintings } from './usePaintings';
 import { zoomies } from 'ldrs';
-import { Button } from 'antd';
+import { Button, Pagination } from 'antd';
 import GalleryFilters from './GalleryFilters';
 
 function SeeReverseButton(props: { paintingId: string, paintings: Painting[] }) {
   const { paintingId, paintings } = props;
   const navigate = useNavigate();
+  const location = useLocation();
+
   const painting = paintings.find((p) => p.id === paintingId);
   if (!painting) {
     return null;
@@ -23,7 +25,7 @@ function SeeReverseButton(props: { paintingId: string, paintings: Painting[] }) 
   if (!painting.backPhotoUrl) {
     return null;
   }
-  const params = new URLSearchParams(document.location.search);
+  const params = new URLSearchParams(location.search);
   const isReversed = params.get('reverse') === 'true';
 
   return (
@@ -32,7 +34,7 @@ function SeeReverseButton(props: { paintingId: string, paintings: Painting[] }) 
       type="link"
       onClick={() => {
         navigate({
-          pathname: document.location.pathname,
+          pathname: location.pathname,
           search: createSearchParams({
             selected: paintingId,
             reverse: isReversed ? 'false' : 'true',
@@ -114,6 +116,8 @@ function getPaintingDescription(p: Painting) {
   return `${parts.map((p) => p.replaceAll('\n', '')).join('\n')}`;
 }
 
+const PAGE_SIZE = 15;
+
 interface PhotoGalleryProps {
   paintings: Painting[];
 }
@@ -122,8 +126,22 @@ function PhotoGalleryImpl(props: PhotoGalleryProps) {
   const { paintings: allPaintings } = props;
 
   const navigate = useNavigate();
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
 
-  const params = new URLSearchParams(document.location.search);
+  const pageNumFromParams = params.get('page');
+  // Do not let user go to a page greater than the last page
+  // TODO: redirect invalid or unset page numbers such that the url updates?
+  const pageNum = Math.min(pageNumFromParams ? parseInt(pageNumFromParams) : 1, Math.ceil(allPaintings.length / PAGE_SIZE));
+
+  function setPageNum(pageNum: number) {
+    navigate({
+      search: createSearchParams({
+        ...params,
+        page: pageNum.toString(),
+      }).toString()
+    });
+  }
 
   const tags = params.getAll('tag');
   const paintings = tags.length > 0 && !tags.every((t) => t === '') ? allPaintings.filter((p: Painting) => {
@@ -151,27 +169,29 @@ function PhotoGalleryImpl(props: PhotoGalleryProps) {
       title: p.title,
       description: getPaintingDescription(p),
     };
-  });
+  }).slice((pageNum - 1) * PAGE_SIZE, pageNum * PAGE_SIZE);
 
   return (
     <div>
       <div>
         <GalleryFilters paintings={allPaintings}/>
       </div>
-      <Gallery
-        photos={galleryPhotos}
-        onClick={(e, { index }) => {
-          const nextSelectedId = galleryPhotos[index]?.id;
-          if (nextSelectedId) {
-            navigate({
-              pathname: document.location.pathname,
-              search: createSearchParams({
-                selected: nextSelectedId.toString(),
-              }).toString()
-            });
-          }
-        }}
-      />
+      <div style={{ maxHeight: "calc(100vh - 200px)", overflow: "scroll" }}>
+        <Gallery
+          photos={galleryPhotos}
+          onClick={(e, { index }) => {
+            const nextSelectedId = galleryPhotos[index]?.id;
+            if (nextSelectedId) {
+              const nextParams = new URLSearchParams(params);
+              nextParams.set('selected', nextSelectedId);
+              navigate({
+                pathname: location.pathname,
+                search: nextParams.toString()
+              });
+            }
+          }}
+        />
+      </div>
       <Lightbox
         styles={{
           captionsTitleContainer: { backgroundColor: 'transparent' },
@@ -193,7 +213,11 @@ function PhotoGalleryImpl(props: PhotoGalleryProps) {
           ] : [],
         }}
         open={selectedPhotoIdx !== undefined}
-        close={() => navigate({ pathname: document.location.pathname })}
+        close={() => {
+          const nextParams = new URLSearchParams(params);
+          nextParams.delete('selected');
+          navigate({ pathname: location.pathname, search: nextParams.toString()})
+        }}
         index={selectedPhotoIdx}
         slides={paintings.map((painting) => {
           const photoUrl = showReverse ? painting.backPhotoUrl : painting.frontPhotoUrl;
@@ -213,8 +237,9 @@ function PhotoGalleryImpl(props: PhotoGalleryProps) {
             const nextSelectedId = galleryPhotos[index]?.id;
             if (nextSelectedId) {
               navigate({
-                pathname: document.location.pathname,
+                pathname: location.pathname,
                 search: createSearchParams({
+                  ...params,
                   selected: nextSelectedId.toString(),
                 }).toString()
               });
@@ -222,6 +247,15 @@ function PhotoGalleryImpl(props: PhotoGalleryProps) {
           }
         }}
       />
+      <div className="flex justify-center pt-4">
+        <Pagination
+          defaultCurrent={pageNum}
+          total={paintings.length}
+          showSizeChanger={false}
+          defaultPageSize={PAGE_SIZE}
+          onChange={(page) => setPageNum(page)}
+        />
+      </div>
     </div>
   )
 }
@@ -240,5 +274,8 @@ export default function PhotoGallery() {
   if (paintings === 'error') {
     return <div className="loading">Error loading paintings</div>;
   }
-  return <PhotoGalleryImpl paintings={paintings} />;
+
+  return (
+    <PhotoGalleryImpl paintings={paintings} />
+  );
 }
