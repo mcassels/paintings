@@ -1,4 +1,4 @@
-import { Tag } from "antd";
+import { Select, Tag } from "antd";
 import React from "react";
 import { Painting } from "./types";
 import { useLocation, useNavigate } from "react-router";
@@ -9,16 +9,36 @@ interface GalleryFiltersProps {
 
 export default function GalleryFilters(props: GalleryFiltersProps) {
   const { paintings } = props;
-  const tags: Set<string> = new Set(paintings.flatMap((p) => Array.from(p.tags)));
 
   const navigate = useNavigate();
   const location = useLocation();
   const params = new URLSearchParams(location.search);
-  const selectedTags = params.getAll('tag');
+
+  function handleChange(key: string, values: string[]) {
+    const searchParams = new URLSearchParams(location.search);
+    searchParams.delete(key);
+    values.forEach((value) => {
+      searchParams.append(key, value);
+    });
+    navigate({
+      search: searchParams.toString(),
+    });
+  }
 
   return (
     <div className="mb-4">
-      {
+      <div className="w-[300px]">
+        <Select
+          mode="multiple"
+          allowClear
+          style={{ width: '100%' }}
+          placeholder="Decades"
+          defaultValue={params.getAll('decade')}
+          onChange={(values) => handleChange('decade', values)}
+          options={Array.from(new Set(paintings.map((p) => p.tags.decade))).sort().map((decade) => { return { value: decade, label: decade }; })}
+        />
+      </div>
+      {/* {
         Array.from(tags).sort().map((tag) => (
           <Tag.CheckableTag
             key={tag}
@@ -47,7 +67,7 @@ export default function GalleryFilters(props: GalleryFiltersProps) {
           </Tag.CheckableTag>
         
         ))
-      }
+      } */}
     </div>
   );
 }

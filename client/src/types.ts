@@ -1,3 +1,11 @@
+export type PaintingStatus = 'Available'|'Pending'|'Sold';
+
+export interface PaintingTags {
+  decade: string;
+  damageLevel: number;
+  predominantColors: string[];
+  status: PaintingStatus;
+}
 export interface Painting {
   id: string;
   title: string;
@@ -8,15 +16,13 @@ export interface Painting {
   damageLevel: number;
   year?: number;
   yearGuess?: number; // only used if year is unknown
-  name?: string;
-  status?: 'Available'|'Sold';
+  status: PaintingStatus;
   conditionNotes?: string;
-  isFramed?: boolean;
-  isSigned?: boolean;
-  medium?: string;
+  isFramed: boolean;
+  medium: string;
   predominantColors: string[];
   subjectMatter: string[];
-  tags: Set<string>; // Filterable tags, currently derived from subjectMatter and year
+  tags: PaintingTags;
 }
 
 export type PaintingsResponse = Painting[]|'error'|'loading';

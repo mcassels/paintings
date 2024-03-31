@@ -1,16 +1,19 @@
 import { useQuery } from "@tanstack/react-query";
-import { Painting, PaintingsResponse } from "./types";
+import { Painting, PaintingsResponse, PaintingStatus, PaintingTags } from "./types";
 
-const paintingsTableUrl = "https://api.airtable.com/v0/app2HxNPQejnLR2g0/tblY6WWDZPflob9MC";
+// used url encoder here https://codepen.io/airtable/full/MeXqOg
+const paintingsTableUrl = "https://api.airtable.com/v0/app2HxNPQejnLR2g0/tblY6WWDZPflob9MC?filterByFormula=AND(%7Bhidden%7D+!%3D+TRUE()%2C+%7Bdamage_level%7D+%3E+0)";
 
-function getTags(painting: Omit<Painting, 'tags'>): Set<string> {
-  const tags = new Set<string>();
-  painting.subjectMatter.forEach((tag) => tags.add(tag));
-  if (painting.year) {
-    const decade = Math.floor(painting.year / 10) * 10;
-    tags.add(`${decade}s`);
-  }
-  return tags;
+function getTags(painting: Omit<Painting, 'tags'>): PaintingTags {
+  // We have previously filtered out paintings without a year or yearGuess
+  const year: number = (painting.year || painting.yearGuess)!;
+  const decade = `${Math.floor(year / 10) * 10}s`;
+  return {
+    decade,
+    damageLevel: painting.damageLevel,
+    predominantColors: painting.predominantColors,
+    status: painting.status,
+  };
 }
 
 async function fetchAllTableRecords(tableUrl: string): Promise<any[]> {
@@ -20,7 +23,7 @@ async function fetchAllTableRecords(tableUrl: string): Promise<any[]> {
   let i = 0;
   while (true && i < 1000) { // 1000 is an arbitrary limit to prevent infinite loops
     const response: any = await fetch(
-      `${tableUrl}${offset ? `?offset=${offset}` : ''}`,
+      `${tableUrl}${offset ? `&offset=${offset}` : ''}`,
       { headers: { Authorization: `Bearer ${process.env.REACT_APP_AIRTABLE_TOKEN}` }},
     );
 
@@ -49,6 +52,19 @@ async function fetchPaintings(): Promise<Painting[]> {
         console.error('Skipping painting with missing fields', fields);
         continue;
       }
+
+      // Every painting must either have a year or a year guess
+      if (!fields.year && !fields.year_guess) {
+        console.error('Skipping painting with missing year', fields);
+        continue;
+      }
+      let status: PaintingStatus = 'Available';
+      if (fields.adoption_pending) {
+        status = 'Pending';
+      } else if (fields.red_dot) {
+        status = 'Sold';
+      }
+      // TODO: later, once these are act
       const painting: Omit<Painting, 'tags'> = {
         id: fields.id.toUpperCase(),
         title: fields.title,
@@ -56,13 +72,15 @@ async function fetchPaintings(): Promise<Painting[]> {
         backPhotoUrl: fields.back_photo_url,
         year: fields.year,
         yearGuess: fields.year_guess,
-        damageLevel: fields.damage_level,
+        damageLevel: Math.ceil(fields.damage_level),
         medium: fields.medium,
         height: fields.height,
         width: fields.width,
         predominantColors: fields.predominant_color || [],
         subjectMatter: fields.subject_matter || [],
         conditionNotes: fields.condition_notes,
+        isFramed: fields.is_framed,
+        status,
       };
       paintings.push({
         ...painting,
@@ -73,10 +91,14 @@ async function fetchPaintings(): Promise<Painting[]> {
       continue;
     }
   }
-  return paintings.sort(() => {
-    // Random number between -1 and 1
-    return (Math.random() * 2) - 1;
+  return paintings.sort((a, b) => {
+    return Number(a.id.slice(2, undefined)) - Number((b.id.slice(2, undefined)));
   });
+  // TODO: uncomment this!
+  // return paintings.sort(() => {
+  //   // Random number between -1 and 1
+  //   return (Math.random() * 2) - 1;
+  // });
 }
 
 export function usePaintings(): PaintingsResponse {

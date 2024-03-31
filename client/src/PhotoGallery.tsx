@@ -117,6 +117,36 @@ function getPaintingDescription(p: Painting) {
   return `${parts.map((p) => p.replaceAll('\n', '')).join('\n')}`;
 }
 
+function filterPaintings(
+  searchParams: URLSearchParams,
+  paintings: Painting[],
+): Painting[] {
+  const decades = searchParams.getAll('decade').filter((d) => d !== '');
+  const damageLevels = searchParams.getAll('damage').filter((d) => d !== '').map((d) => parseInt(d));
+  const colors = searchParams.getAll('color').filter((d) => d !== '');
+  const statuses = searchParams.getAll('status').filter((d) => d !== '') as ('Available'|'Pending'|'Sold')[];
+
+  // If no filters are set, return all paintings
+  if (decades.length === 0 && damageLevels.length === 0 && colors.length === 0 && statuses.length === 0) {
+    return paintings;
+  }
+  return paintings.filter((p: Painting) => {
+    if (decades.length > 0 && decades.includes(p.tags.decade)) {
+      return true;
+    }
+    if (damageLevels.length > 0 && damageLevels.includes(p.damageLevel)) {
+      return true;
+    }
+    if (colors.length > 0 && colors.some((c) => p.tags.predominantColors.includes(c))) {
+      return true;
+    }
+    if (statuses.length > 0 && statuses.includes(p.tags.status)) {
+      return true;
+    }
+    return false;
+  });
+}
+
 const PAGE_SIZE = 15;
 
 interface PhotoGalleryProps {
@@ -144,15 +174,7 @@ function PhotoGalleryImpl(props: PhotoGalleryProps) {
     });
   }
 
-  const tags = params.getAll('tag');
-  const paintings = tags.length > 0 && !tags.every((t) => t === '') ? allPaintings.filter((p: Painting) => {
-    for (const tag of tags) {
-      if (p.tags.has(tag)) {
-        return true;
-      }
-    }
-    return false;
-  }) : allPaintings;
+  const paintings = filterPaintings(params, allPaintings);
 
   // Track the painting id and not index in the header, so that the URL can be shared
   // even when the order of the paintings changes.
