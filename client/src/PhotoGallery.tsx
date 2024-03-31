@@ -54,8 +54,9 @@ function BuyPaintingButton(props: { paintingId: string }) {
   );
 }
 
+const savedPaintingKey = 'GORDANEER_SAVED_PAINTINGS';
+
 function SavePaintingButton(props: { paintingId: string }) {
-  const savedPaintingKey = 'GORDANEER_SAVED_PAINTINGS';
   const savedPaintings = localStorage.getItem(savedPaintingKey)?.split(',') || [];
   const isSaved = savedPaintings.includes(props.paintingId);
 
@@ -129,8 +130,13 @@ function filterPaintings(
   const colors = searchParams.getAll('color').filter((d) => d !== '');
   const statuses = searchParams.getAll('status').filter((d) => d !== '') as ('available'|'pending'|'sold')[];
 
+  let favourited: string[]|null = null;
+  if (searchParams.get('favourites') === 'true') {
+    favourited = localStorage.getItem(savedPaintingKey)?.split(',') || [];
+  }
+
   // If no filters are set, return all paintings
-  if (decades.length === 0 && (minDamageLevel === 1 && maxDamageLevel === 5) && colors.length === 0 && statuses.length === 0) {
+  if (decades.length === 0 && (minDamageLevel === 1 && maxDamageLevel === 5) && colors.length === 0 && statuses.length === 0 && !favourited) {
     return paintings;
   }
   // The filters for each of decade, damage, color, and status are ANDed together
@@ -147,6 +153,9 @@ function filterPaintings(
       return false;
     }
     if (statuses.length > 0 && !statuses.includes(p.tags.status)) {
+      return false;
+    }
+    if (favourited && !favourited.includes(p.id)) {
       return false;
     }
     return true;

@@ -2,6 +2,7 @@ import { Divider, Flex, Select, Slider, SliderSingleProps, Tag } from "antd";
 import React, { ReactNode } from "react";
 import { Painting, PaintingStatus } from "./types";
 import { useLocation, useNavigate } from "react-router";
+import { HeartFilled, HeartOutlined } from "@ant-design/icons";
 
 const statusStylesAndColors: { [K in PaintingStatus]: { color: string, style: string }} = {
   available: {
@@ -131,7 +132,6 @@ export default function GalleryFilters(props: GalleryFiltersProps) {
         <div>
           {
             statuses.map((status: PaintingStatus) => {
-              debugger;
               return (
                 <Tag.CheckableTag
                   key={status}
@@ -166,6 +166,35 @@ export default function GalleryFilters(props: GalleryFiltersProps) {
             })
           }
         </div>
+        <div className="mr-2">
+          <Divider type="vertical" style={{ height: '1.4rem', border: '0.5px solid black' }}/>
+        </div>
+        <Tag.CheckableTag
+          style={{
+            height: 'fit-content',
+            color: params.get('favourites') === 'true' ? 'white' : '#f5206e',
+            backgroundColor: params.get('favourites') === 'true' ? '#f5206e' : 'white',
+          }}
+          checked={params.has('favourites')}
+          onChange={(checked) => {
+            const searchParams = new URLSearchParams(location.search);
+            if (checked) {
+              searchParams.set('favourites', 'true');
+            } else {
+              searchParams.delete('favourites');
+            }
+            // Always reset to first page when filters change
+            searchParams.set('page', '1');
+            navigate({
+              search: searchParams.toString()
+            });
+          }}
+        >
+          <div className="flex space-x-1">
+            {params.get('favourites') === 'true' ? <HeartFilled className="text-xxs" /> : <HeartOutlined className="text-xxs" /> }
+            <div>Favourites</div>
+          </div>
+        </Tag.CheckableTag>
       </div>
     </div>
   );
