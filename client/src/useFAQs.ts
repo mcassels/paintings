@@ -16,7 +16,7 @@ async function fetchFAQs(): Promise<FAQ[]> {
     index: record.fields.index,
   }));
   const faqs = faqsWithIdx.sort((a, b) => a.index - b.index).map(({ question, answer }) => ({ question, answer }));
-  return faqs;
+  return faqs.filter((faq) => faq.question && faq.answer && faq.question.length > 0 && faq.answer.length > 0);
 }
 
 export function useFAQs(): FAQResponse {

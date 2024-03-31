@@ -1,6 +1,8 @@
 import React from "react";
 import { usePaintings } from "./usePaintings";
-import { Carousel, Image, Skeleton, Spin } from "antd";
+import { Button, Carousel, Image, Skeleton, Spin } from "antd";
+import { NavLink } from "react-router-dom";
+import BrowsePaintingsButton from "./BrowsePaintingsButton";
 
 function FeaturedPaintingDisplay() {
   const paintings = usePaintings();
@@ -49,14 +51,14 @@ function FeaturedPaintingDisplay() {
 export default function LandingPage() {
   return (
     <div>
-      <div className="mb-4">
+      <div className="pb-2">
         <h1>A fundraiser for Victoria Visual Arts Legacy Society</h1>
         <p>
           Supporting the James Gordaneer Legacy Award, given annually to a Camosun College Visual Arts student.
         </p>
-        <p>
-          To get started, visit the <a href="/gallery">gallery</a>.
-        </p>
+      </div>
+      <div className="pt-2">
+        <BrowsePaintingsButton />
       </div>
       <FeaturedPaintingDisplay />
     </div>

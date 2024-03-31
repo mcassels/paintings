@@ -1,9 +1,9 @@
 import React from 'react';
-import { Sidebar, Menu, MenuItem } from 'react-pro-sidebar';
+import { Menu } from 'antd';
 import './App.css';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import PhotoGallery from './PhotoGallery';
-import { NavLink, Navigate, Outlet, Route, Routes } from 'react-router-dom';
+import { NavLink, Navigate, Outlet, Route, Routes, useLocation } from 'react-router-dom';
 import HowToAdoptAPainting from './HowToAdoptAPainting';
 import FAQs from './FAQs';
 import TextPage from './TextPage';
@@ -12,6 +12,7 @@ import WhyAdopt from './WhyAdopt';
 import AfterAdoption from './AfterAdoption';
 import ArtConservators from './ArtConservators';
 import LandingPage from './LandingPage';
+
 
 const queryClient = new QueryClient();
 
@@ -39,33 +40,27 @@ function AppInner() {
 }
 
 function Layout() {
+  const location = useLocation();
+  const defaultSelectedKey = location.pathname.split('/')[0];
   return (
     <div className="box wrapper">
       <div className="App-header header">
         Gordaneer Painting Adoption Project
       </div>
       <div className="box sidebar">
-        <Sidebar>
-          <Menu
-            menuItemStyles={{
-              button: {
-                [`&.active`]: {
-                  backgroundColor: '#13395e',
-                  color: '#b6c8d9',
-                },
-              },
-            }}
-          >
-            <MenuItem component={<NavLink to="/home" />}>Home</MenuItem>
-            <MenuItem component={<NavLink to="/gallery" />}>Gallery</MenuItem>
-            <MenuItem component={<NavLink to="/about" />}>Biography</MenuItem>
-            <MenuItem component={<NavLink to="/why-adopt" />}>Why Adopt a Painting</MenuItem>
-            <MenuItem component={<NavLink to="/faqs" />}>FAQs</MenuItem>
-            <MenuItem component={<NavLink to="/adopt" />}>Adopt a Painting</MenuItem>
-            <MenuItem component={<NavLink to="/after-adoption" />}>After Adoption</MenuItem>
-            <MenuItem component={<NavLink to="/art-conservators" />}>Art Conservators</MenuItem>
-          </Menu>
-        </Sidebar>
+        <Menu
+          style={{ width: 220 }}
+          defaultSelectedKeys={[defaultSelectedKey]}
+        >
+          <Menu.Item key="home"><NavLink to="/home">Home</NavLink></Menu.Item>
+          <Menu.Item key="gallery"><NavLink to="/gallery">Gallery</NavLink></Menu.Item>
+          <Menu.Item key="about"><NavLink to="/about">Biography</NavLink></Menu.Item>
+          <Menu.Item key="why-adopt"><NavLink to="/why-adopt">Why Adopt a Painting</NavLink></Menu.Item>
+          <Menu.Item key="faqs"><NavLink to="/faqs">FAQs</NavLink></Menu.Item>
+          <Menu.Item key="adopt"><NavLink to="/adopt">Adopt a Painting</NavLink></Menu.Item>
+          <Menu.Item key="after-adoption"><NavLink to="/after-adoption">After Adoption</NavLink></Menu.Item>
+          <Menu.Item key="art-conservators"><NavLink to="/art-conservators">Art Conservators</NavLink></Menu.Item>
+        </Menu>
       </div>
       <div className="box content">
         <Outlet />
