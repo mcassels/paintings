@@ -287,7 +287,7 @@ function PhotoGalleryImpl(props: PhotoGalleryProps) {
           }
         }}
       />
-      <div className="pt-4 min-w-[calc(100vw-154px)]">
+      <div className="pt-4 min-w-[calc(100vw-200px)]">
         <div className="flex justify-center">
             <Pagination
             defaultCurrent={pageNum}
