@@ -24,7 +24,7 @@ export default function ArtConservators() {
         {
           conservators.map((conservator, index) => (
             <div key={index} className="flex-row justify-center">
-              <Card title={conservator.name} extra={<a href={conservator.link}>Website</a>}>
+              <Card title={conservator.name}>
                 <Markdown>{conservator.bio}</Markdown>
               </Card>
             </div>

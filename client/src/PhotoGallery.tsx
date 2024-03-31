@@ -12,6 +12,7 @@ import { usePaintings } from './usePaintings';
 import { zoomies } from 'ldrs';
 import { Button, Pagination } from 'antd';
 import GalleryFilters from './GalleryFilters';
+import { Footer } from 'antd/es/layout/layout';
 
 function SeeReverseButton(props: { paintingId: string, paintings: Painting[] }) {
   const { paintingId, paintings } = props;
@@ -176,7 +177,7 @@ function PhotoGalleryImpl(props: PhotoGalleryProps) {
       <div>
         <GalleryFilters paintings={allPaintings}/>
       </div>
-      <div style={{ maxHeight: "calc(100vh - 200px)", overflow: "scroll" }}>
+      <div style={{ maxHeight: "calc(100vh - 200px)", minHeight:"calc(100vh - 200px)", overflow: "scroll" }}>
         <Gallery
           photos={galleryPhotos}
           onClick={(e, { index }) => {
@@ -247,14 +248,16 @@ function PhotoGalleryImpl(props: PhotoGalleryProps) {
           }
         }}
       />
-      <div className="flex justify-center pt-4">
-        <Pagination
-          defaultCurrent={pageNum}
-          total={paintings.length}
-          showSizeChanger={false}
-          defaultPageSize={PAGE_SIZE}
-          onChange={(page) => setPageNum(page)}
-        />
+      <div className="pt-4 min-w-[calc(100vw-154px)]">
+        <div className="flex justify-center">
+            <Pagination
+            defaultCurrent={pageNum}
+            total={paintings.length}
+            showSizeChanger={false}
+            defaultPageSize={PAGE_SIZE}
+            onChange={(page) => setPageNum(page)}
+          />
+        </div>
       </div>
     </div>
   )

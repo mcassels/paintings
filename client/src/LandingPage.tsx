@@ -51,6 +51,7 @@ function FeaturedPaintingDisplay() {
                     pathname: "/gallery",
                   });
                 }}
+                alt={painting.title}
               />
             </div>
           </div>

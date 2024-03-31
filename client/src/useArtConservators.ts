@@ -19,7 +19,6 @@ async function fetchArtConservators(): Promise<ArtConservator[]> {
     const content: ArtConservator = {
       name: fields.name,
       bio: fields.bio,
-      link: fields.link,
     };
     conservators.push(content);
   }
