@@ -156,3 +156,38 @@ The following 2 overrides are for the bottom pill buttons in the carousel compon
 .pending {
   color: #d46b08;
 }
+
+.ribbon-holder {
+  overflow: hidden;
+  position: relative
+}
+.ribbon {
+  position: absolute;
+  background: yellow;
+  color: black;
+  transform: rotate(-45deg);
+  text-align: center;
+  top: 32px;
+  left: -32px;
+  width: 145px;
+}
+
+.yarl__toolbar {
+  /* align-items: center; */
+  display: grid !important;
+  grid-gap: 10px;
+  grid-template-areas:
+              "custom-button yarl__button";
+  /* grid-template-columns: 1fr 1fr; */
+}
+.yarl__button {
+  display: flex;
+}
+
+/* .custom-button {
+  display: grid;
+  grid-gap: 10px;
+  grid-template-areas:
+              "save-painting buy-painting";
+} */
+

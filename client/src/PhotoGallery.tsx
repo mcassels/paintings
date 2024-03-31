@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { createSearchParams, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import Gallery from 'react-photo-gallery'
 import Lightbox from "yet-another-react-lightbox";
@@ -12,45 +12,27 @@ import { usePaintings } from './usePaintings';
 import { zoomies } from 'ldrs';
 import { Button, Empty, Pagination } from 'antd';
 import GalleryFilters from './GalleryFilters';
-import { Footer } from 'antd/es/layout/layout';
 
-function SeeReverseButton(props: { paintingId: string, paintings: Painting[] }) {
-  const { paintingId, paintings } = props;
-  const navigate = useNavigate();
-  const location = useLocation();
-
-  const painting = paintings.find((p) => p.id === paintingId);
-  if (!painting) {
-    return null;
-  }
-  if (!painting.backPhotoUrl) {
-    return null;
-  }
-  const params = new URLSearchParams(location.search);
-  const isReversed = params.get('reverse') === 'true';
-
+function SeeReverseButton(props: { setShowReverse: React.Dispatch<React.SetStateAction<boolean>>, showReverse: boolean }) {
+  const { setShowReverse, showReverse } = props;
   return (
     <Button
-      className="mr-4"
       type="link"
-      onClick={() => {
-        navigate({
-          pathname: location.pathname,
-          search: createSearchParams({
-            selected: paintingId,
-            reverse: isReversed ? 'false' : 'true',
-          }).toString()
-        });
-      }}
+      className="w-[105px]"
+      onClick={() => setShowReverse((prev) => !prev)}
     >
-      {isReversed ? "See painting" : "See reverse"}
+      {showReverse ? "See the front" : "See the back"}
     </Button>
   );
 }
 
 function BuyPaintingButton(props: { paintingId: string }) {
   return (
-    <Button type="primary"><NavLink to={`/adopt?painting=${props.paintingId}`}>Adopt me!</NavLink></Button>
+    <Button className="flex flex-col justify-center" type="primary">
+      <NavLink to={`/adopt?painting=${props.paintingId}`}>
+        Adopt me!
+      </NavLink>
+    </Button>
   );
 }
 
@@ -59,37 +41,42 @@ const savedPaintingKey = 'GORDANEER_SAVED_PAINTINGS';
 function SavePaintingButton(props: { paintingId: string }) {
   const savedPaintings = localStorage.getItem(savedPaintingKey)?.split(',') || [];
   const isSaved = savedPaintings.includes(props.paintingId);
+  debugger;
 
   const [isFavourite, setIsFavourite] = React.useState(isSaved);
 
   function onClick() {
     const savedPaintings = localStorage.getItem(savedPaintingKey)?.split(',') || [];
+    debugger;
     if (savedPaintings.includes(props.paintingId)) {
       localStorage.setItem(savedPaintingKey, savedPaintings.filter((p) => p !== props.paintingId).join(','));
     } else {
       localStorage.setItem(savedPaintingKey, [...savedPaintings, props.paintingId].join(','));
+
+      const url = window.location.href;
+      const newWindow = window.open(url, '_blank', 'noopener,noreferrer');
+      if (newWindow) newWindow.opener = null;
     }
     setIsFavourite((prev) => !prev);
   }
+  console.log(`Painting ${props.paintingId} is ${isFavourite ? 'favourited' : 'not favourited'}`);
 
   return (
     <Button
-      className="mr-6"
+      className="mr-2"
       onClick={onClick}
-      type="primary"
-      ghost
+      type="link"
+      style={{
+        color: '#f5206e',
+        fontWeight: isFavourite ? "bold" : "normal",
+        width: '125px',
+      }}
       icon={isFavourite ? <HeartFilled /> : <HeartOutlined />}
     >
       {isFavourite ? "favourited" : "favourite"}
     </Button>
   );
 }
-
-/*
-TODO:
-* click on painting makes it flip
-* can click through lightbox to go to all photos using next
-*/
 
 function getPaintingDescription(p: Painting) {
   const year = (p.year || p.yearGuess || 'ND').toString();
@@ -195,7 +182,6 @@ function PhotoGalleryImpl(props: PhotoGalleryProps) {
   // even when the order of the paintings changes.
   const selectedPhotoId = params.get('selected');
   const selectedPhotoIdx = selectedPhotoId ? paintings.findIndex((p) => p.id === selectedPhotoId) : undefined;
-  const showReverse = params.get('reverse') === 'true';
 
   const galleryPhotos = paintings.map((p) => {
     return {
@@ -208,6 +194,8 @@ function PhotoGalleryImpl(props: PhotoGalleryProps) {
       description: getPaintingDescription(p),
     };
   }).slice((pageNum - 1) * PAGE_SIZE, pageNum * PAGE_SIZE);
+
+  const [showReverse, setShowReverse] = useState<boolean>(false);
 
   return (
     <div>
@@ -243,37 +231,65 @@ function PhotoGalleryImpl(props: PhotoGalleryProps) {
       </div>
       <Lightbox
         styles={{
-          captionsTitleContainer: { backgroundColor: 'transparent' },
-          captionsTitle: { paddingLeft: '60px', paddingTop: '40px' },
+          captionsTitleContainer: {
+            backgroundColor: 'transparent',
+            display: 'flex',
+            justifyContent: 'center',
+          },
           captionsDescriptionContainer: { backgroundColor: 'transparent' },
           captionsDescription: {
             paddingLeft: '40px',
             height: '200px',
             width: '300px',
             textAlign: 'right',
-          }
+          },
+        }}
+        carousel={{
+          padding: '60px',
         }}
         toolbar={{
           buttons: selectedPhotoId ? [
-            <SeeReverseButton key="see-reverse" paintingId={selectedPhotoId} paintings={paintings} />,
-            <SavePaintingButton key="save-painting" paintingId={selectedPhotoId} />,
-            <BuyPaintingButton key="buy-painting" paintingId={selectedPhotoId} />,
+            <div className="flex flex-col justify-center align-middle space-y-2 mt-4 mr-4">
+              <div className="flex space-x-2">
+                <SavePaintingButton key="save-painting" paintingId={selectedPhotoId} />
+                <BuyPaintingButton key="buy-painting" paintingId={selectedPhotoId} />
+              </div>
+              <div>
+                <div className="float-right">
+                  <SeeReverseButton key="see-reverse" showReverse={showReverse} setShowReverse={setShowReverse} />
+                </div>
+              </div>
+            </div>,
             "close",
           ] : [],
+
         }}
         open={selectedPhotoIdx !== undefined}
         close={() => {
           const nextParams = new URLSearchParams(params);
           nextParams.delete('selected');
           navigate({ pathname: location.pathname, search: nextParams.toString()})
+          setShowReverse(false);
         }}
         index={selectedPhotoIdx}
         slides={paintings.map((painting) => {
           const photoUrl = showReverse ? painting.backPhotoUrl : painting.frontPhotoUrl;
+
+          // The lightbox photos must take up a document.documentElement.clientHeight - 32 x document.documentElement.clientHeight - 32
+          // square space, so that there is enough room for the title and toolbar, etc.
+          const maxHeight = document.documentElement.clientHeight - 32;
+          const maxWidthNoOverlap = document.documentElement.clientWidth - 400;
+
+          let height = maxHeight;
+          let width = maxHeight * (painting.width / painting.height);
+          if (width > maxWidthNoOverlap) {
+            width = maxWidthNoOverlap;
+            height = width * (painting.height / painting.width);
+          }
           return {
             src: photoUrl,
-            width: painting.width * 100,
-            height: painting.height * 100,
+            width,
+            height,
             caption: painting.title,
             id: painting.id,
             title: `${showReverse ? '(VERSO) ' : ''}${painting.title}`,
@@ -292,6 +308,7 @@ function PhotoGalleryImpl(props: PhotoGalleryProps) {
                   selected: nextSelectedId.toString(),
                 }).toString()
               });
+              setShowReverse(false);
             }
           }
         }}
