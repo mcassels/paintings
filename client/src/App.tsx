@@ -12,6 +12,7 @@ import WhyAdopt from './WhyAdopt';
 import AfterAdoption from './AfterAdoption';
 import ArtConservators from './ArtConservators';
 import LandingPage from './LandingPage';
+import Biography from './Biography';
 
 
 const queryClient = new QueryClient();
@@ -25,7 +26,7 @@ function AppInner() {
               <Route index element={<Navigate to="home" />} />
               <Route path="home" element={<LandingPage />} />
               <Route path="gallery" element={<PhotoGallery />} />
-              <Route path="about" element={<TextPage textKey={JIM_BIO_KEY} />} />
+              <Route path="about" element={<Biography />} />
               <Route path="why-adopt" element={<WhyAdopt />} />
               <Route path="adopt" element={<HowToAdoptAPainting />} />
               <Route path="faqs" element={<FAQs />} />
