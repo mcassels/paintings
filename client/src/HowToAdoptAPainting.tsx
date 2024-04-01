@@ -2,6 +2,7 @@ import { Anchor, Col, Row } from "antd";
 import AdoptionForm from "./AdoptionForm";
 import { HOW_TO_ADOPT_KEY } from "./constants";
 import TextPage from "./TextPage";
+import SelectAPainting from "./SelectAPainting";
 
 export default function HowToAdoptAPainting() {
   return (
@@ -10,6 +11,9 @@ export default function HowToAdoptAPainting() {
         <Col span={16}>
           <div id="how-to">
             <TextPage textKey={HOW_TO_ADOPT_KEY} />
+          </div>
+          <div id="painting-selection">
+            <SelectAPainting />
           </div>
           <div id="adoption-form">
             <AdoptionForm />
@@ -22,6 +26,11 @@ export default function HowToAdoptAPainting() {
                 key: 'how-to',
                 href: '#how-to',
                 title: 'How to adopt a painting',
+              },
+              {
+                key: 'painting-selection',
+                href: '#painting-selection',
+                title: 'Painting selection',
               },
               {
                 key: 'adoption-form',

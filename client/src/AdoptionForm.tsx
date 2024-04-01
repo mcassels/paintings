@@ -3,7 +3,7 @@
 import { useRef } from "react";
 import { usePaintings } from "./usePaintings";
 import { useLocation, useNavigate } from "react-router";
-import { Form, Input, Button, FormInstance, Image, Spin } from 'antd';
+import { Form, Input, Button, FormInstance, Image, Spin, Card } from 'antd';
 import BrowsePaintingsButton from "./BrowsePaintingsButton";
 // const FormItem = Form.Item;
 // const Option = Select.Option;
@@ -261,6 +261,22 @@ export default function AdoptionForm() {
             height={painting.height}
             src={painting.frontPhotoUrl}
           />
+          <Card
+            title={painting.title}
+            className="w-[650px]"
+            extra={<div>
+              <p>{painting.year}</p>
+              <p>{painting.medium}</p>
+              <p>{painting.damageLevel}</p>
+              <p>{painting.conditionNotes}</p>
+            </div>}
+          >
+            <Image
+              alt={painting.title}
+              preview={false}
+              src={painting.frontPhotoUrl}
+            />
+          </Card>
         </div>
       ) : <BrowsePaintingsButton />}
       <Form
