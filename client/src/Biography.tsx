@@ -1,18 +1,7 @@
 import React from 'react';
 import TextPage from './TextPage';
 import { JIM_BIO_KEY } from './constants';
-import { Card, Image } from 'antd';
-
-function ImageCard(props: { imageKey: string; }) {
-  const { imageKey } = props;
-  return (
-    <Card key={imageKey} className="w-[400px]">
-      <Image
-        src={`https://james-gordaneer-paintings.s3.ca-central-1.amazonaws.com/website_images/${imageKey}.jpeg`}
-      />
-    </Card>
-  )
-}
+import ImageCard from './ImageCard';
 
 export default function Biography() {
   return (
