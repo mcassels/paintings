@@ -9,13 +9,14 @@ async function fetchFAQs(): Promise<FAQ[]> {
   );
 
   const data = await response.json();
+  debugger;
 
-  const faqsWithIdx: Array<FAQ & { index: number }> = data.records.map((record: any) => ({
+  const faqsWithIdx: Array<FAQ & { sort: number }> = data.records.map((record: any) => ({
     question: record.fields.question,
     answer: record.fields.answer,
-    index: record.fields.index,
+    sort: record.fields.sort,
   }));
-  const faqs = faqsWithIdx.sort((a, b) => a.index - b.index).map(({ question, answer }) => ({ question, answer }));
+  const faqs = faqsWithIdx.sort((a, b) => a.sort - b.sort).map(({ question, answer }) => ({ question, answer }));
   return faqs.filter((faq) => faq.question && faq.answer && faq.question.length > 0 && faq.answer.length > 0);
 }
 

@@ -24,7 +24,7 @@ export default function FAQs() {
   }));
 
   return (
-    <div className="w-[650px]">
+    <div className="w-[650px] pb-8">
       <div className="text-lg font-bold pb-10">Frequently Asked Questions</div>
       <Collapse items={items} />
     </div>

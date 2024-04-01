@@ -172,8 +172,9 @@ export default function GalleryFilters(props: GalleryFiltersProps) {
         <Tag.CheckableTag
           style={{
             height: 'fit-content',
-            color: params.get('favourites') === 'true' ? 'white' : '#f5206e',
-            backgroundColor: params.get('favourites') === 'true' ? '#f5206e' : 'white',
+            color: '#f5206e',
+            fontWeight: params.get('favourites') === 'true' ? 'bold' : undefined,
+            backgroundColor: 'unset',
           }}
           checked={params.has('favourites')}
           onChange={(checked) => {
