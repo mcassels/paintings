@@ -1,10 +1,9 @@
 // import { useForm } from "react-hook-form"
 // import emailjs from '@emailjs/browser';
-import { useRef } from "react";
 import { usePaintings } from "./usePaintings";
 import { useLocation, useNavigate } from "react-router";
-import { Form, Input, Button, FormInstance, Image, Spin, Card, Divider, Cascader, Checkbox } from 'antd';
-import BrowsePaintingsButton from "./BrowsePaintingsButton";
+import { Form, Input, Button, Spin, Divider, Cascader, Checkbox, Table } from 'antd';
+import { NavLink } from "react-router-dom";
 // const FormItem = Form.Item;
 // const Option = Select.Option;
 // const AutoCompleteOption = AutoComplete.Option;
@@ -36,10 +35,10 @@ import BrowsePaintingsButton from "./BrowsePaintingsButton";
 // [required] 
 // I acknowledge that the artwork I am adopting has some degree of damage and am aware that this damage may or may not include mold spores. I agree that I will not hold the Gordaneer estate or family responsible for any negative impact that may result. 
 
-enum PriceOption {
-  Personal = 'Personal',
-  Business = 'Business',
-}
+// enum PriceOption {
+//   Personal = 'Personal',
+//   Business = 'Business',
+// }
 
 enum PickupOption {
   InPersonMay17 = 'InPersonMay17',
@@ -89,14 +88,73 @@ function getPickupOptionSubtitle(cascaderOptions: string[]|undefined): string|nu
   return null;
 }
 
+function getPriceFromDamageLevel(damageLevel: number): number {
+  let price = 500; // damage level 1
+  if (damageLevel > 1 && damageLevel <= 2) {
+    price = 300;
+  } else if (damageLevel > 2 && damageLevel <= 3) {
+    price = 200;
+  } else if (damageLevel > 3) {
+    price = 100;
+  }
+  return price;
+}
+
+function PriceTable() {
+  const dataSource = Array.from(Array(5).keys()).map((idx) => {
+    const damageLevel = idx + 1;
+    const price = getPriceFromDamageLevel(damageLevel);
+
+    return {
+      key: damageLevel,
+      damageLevel: `Damage level ${damageLevel}`,
+      price: `$${price}`,
+      browse: (
+        <Button type="link">
+          <NavLink to={`/gallery?damage_min=${damageLevel}&damage_max=${damageLevel}`}>
+            Browse paintings
+          </NavLink>
+        </Button>
+      ),
+    }
+  })
+  
+  const columns = [
+    {
+      title: 'Damage level',
+      dataIndex: 'damageLevel',
+      key: 'damageLevel',
+    },
+    {
+      title: 'Donation amount',
+      dataIndex: 'price',
+      key: 'price',
+    },
+    {
+      title: 'Browse paintings',
+      dataIndex: 'browse',
+      key: 'browse',
+    },
+  ];
+
+  return (
+    <Table
+      dataSource={dataSource}
+      columns={columns}
+      pagination={false}
+    />
+  )
+}
+
 interface ContactFormInputs {
   name: string;
   address: string;
   phoneNumber: string;
   email: string;
-  priceOption: PriceOption;
+  // priceOption: PriceOption;
   pickupOption: PickupOption;
   acknowledgeDamage: boolean;
+  etransferSent: boolean;
 }
 
 // TODO: autoselect specific painting based on query params
@@ -176,17 +234,6 @@ export default function AdoptionForm() {
     // }
   }
 
-  // const params = new URLSearchParams(location.search);
-  // const selectedPaintingId = params.get('painting');
-
-  const paintingOptions = [<option key="default" value="">Select a painting</option>];
-  for (const painting of paintings.sort((p0, p1) => {
-    return Number(p0.id.substring(2)) - Number(p1.id.substring(2));
-  })) {
-    paintingOptions.push(<option key={painting.id} value={painting.id}>{`${painting.title} (id: ${painting.id})`}</option>);
-  }
-
-  // TODO: organize into sections with divider
   return (
     <div className="pt-8">
         {/* <form onSubmit={handleSubmit(onSubmit)} ref={oldRef}>
@@ -324,6 +371,51 @@ export default function AdoptionForm() {
         <div id="donation" className="w-[650px]">
           <Divider className="border-slate-400" orientation="left">Donation</Divider>
         </div>
+        {
+          painting && (
+            <div className="flex flex-col space-y-2">
+              <div className="flex justify-center">
+                <div className="flex flex-col w-1/2">
+                  <div className="w-[500px] flex space-x-2 text-base">
+                    <div className="font-bold">
+                      Adoption amount:
+                    </div>
+                    <div>
+                      {`$${getPriceFromDamageLevel(painting.damageLevel)} CAD`}
+                    </div>
+                  </div>
+                  <div className="w-[500px] flex space-x-2 text-base">
+                    <div>
+                      {`(Damage level ${painting.damageLevel})`}
+                    </div>
+                  </div>
+                </div>
+                <div className="text-sm">
+                  Refer to table below showing adoption amounts based on damage level.
+                </div>
+              </div>
+              <Form.Item
+                name="etransferSent"
+                valuePropName="checked"
+                rules={[
+                  {
+                    validator: (_, value) =>
+                      value ? Promise.resolve() : Promise.reject(new Error('Please send an etransfer in order to adopt the painting')),
+                  },
+                ]}
+              >
+                <Checkbox>
+                  <div className="w-[650px] ml-4">
+                  <p>{`I have sent an e-transfer of $${getPriceFromDamageLevel(painting.damageLevel)} to `}<a href="mailto:gordaneer@gmail.com">gordaneer@gmail.com</a>.</p> 
+                  </div>
+                </Checkbox>
+              </Form.Item>
+            </div>
+          )
+        }
+        <div className="py-4">
+          <PriceTable />
+        </div>
         <div id="pickup" className="w-[650px]">
           <Divider className="border-slate-400" orientation="left">Pickup / shipping</Divider>
         </div>
@@ -372,7 +464,7 @@ export default function AdoptionForm() {
             ]}
           />
         </Form.Item>
-        <div className="flex justify-center">
+        <div className="flex justify-center pb-4">
           <div className="w-[500px]">
             {/* TODO: figure out how to send only the leaf nodes as selected in cascader */}
             {getPickupOptionSubtitle(pickupValue as any)}
