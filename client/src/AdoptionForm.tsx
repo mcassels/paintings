@@ -272,7 +272,7 @@ export default function AdoptionForm() {
         initialValues={{ remember: true }}
         onFinishFailed={onFormSubmitError}
       >
-        <div className="bg-red h-[20px] m-8 text-white font-bold p-4">
+        <div className="bg-red-500 h-[20px] m-8 text-white font-bold p-4">
           Hi! FORM IS CURRENTLY UNDER CONSTRUCTION -Morgan
         </div>
         <Form.Item
