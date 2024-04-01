@@ -9,8 +9,7 @@ import { HeartOutlined, HeartFilled } from '@ant-design/icons';
 
 import { Painting } from './types';
 import { usePaintings } from './usePaintings';
-import { zoomies } from 'ldrs';
-import { Button, Empty, Modal, Pagination, Tag } from 'antd';
+import { Button, Empty, Modal, Pagination, Spin, Tag } from 'antd';
 import GalleryFilters from './GalleryFilters';
 import Markdown from 'react-markdown';
 
@@ -368,14 +367,12 @@ function PhotoGalleryImpl(props: PhotoGalleryProps) {
 }
 
 export default function PhotoGallery() {
-  debugger;
   const paintings = usePaintings();
 
   if (paintings === 'loading') {
-    zoomies.register();
     return (
-      <div className="loading">
-        <l-zoomies/>
+      <div className="w-[650px] h-[500px] flex items-center justify-center">
+        <Spin />
       </div>
     );
   }

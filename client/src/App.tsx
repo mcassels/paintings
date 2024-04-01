@@ -6,8 +6,6 @@ import PhotoGallery from './PhotoGallery';
 import { NavLink, Navigate, Outlet, Route, Routes, useLocation } from 'react-router-dom';
 import HowToAdoptAPainting from './HowToAdoptAPainting';
 import FAQs from './FAQs';
-import TextPage from './TextPage';
-import { JIM_BIO_KEY } from './constants';
 import WhyAdopt from './WhyAdopt';
 import AfterAdoption from './AfterAdoption';
 import ArtConservators from './ArtConservators';

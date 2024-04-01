@@ -92,14 +92,13 @@ async function fetchPaintings(): Promise<Painting[]> {
       continue;
     }
   }
-  return paintings.sort((a, b) => {
-    return Number(a.id.slice(2, undefined)) - Number((b.id.slice(2, undefined)));
-  });
-  // TODO: uncomment this!
-  // return paintings.sort(() => {
-  //   // Random number between -1 and 1
-  //   return (Math.random() * 2) - 1;
+  // return paintings.sort((a, b) => {
+  //   return Number(a.id.slice(2, undefined)) - Number((b.id.slice(2, undefined)));
   // });
+  return paintings.sort(() => {
+    // Random number between -1 and 1
+    return (Math.random() * 2) - 1;
+  });
 }
 
 export function usePaintings(): PaintingsResponse {

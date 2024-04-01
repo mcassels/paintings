@@ -1,16 +1,14 @@
 import React from 'react';
-import { Card } from 'antd';
+import { Card, Spin } from 'antd';
 import { useArtConservators } from './useArtConservators';
-import { zoomies } from 'ldrs';
 import Markdown from 'react-markdown';
 
 export default function ArtConservators() {
   const conservators = useArtConservators();
   if (conservators === 'loading') { // TODO: reusable component for loading and error
-    zoomies.register();
     return (
-      <div className="loading">
-        <l-zoomies/>
+      <div className="w-[650px] h-[500px] flex items-center justify-center">
+        <Spin />
       </div>
     );
   }

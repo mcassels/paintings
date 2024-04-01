@@ -1,6 +1,6 @@
-import { zoomies } from "ldrs";
 import Markdown from 'react-markdown'
 import { useTextContent } from "./useTextContent";
+import { Spin } from "antd";
 
 interface TextPageProps {
   textKey: string;
@@ -10,10 +10,9 @@ export default function TextPage(props: TextPageProps) {
   const content = useTextContent(props.textKey);
 
   if (content === 'loading') {
-    zoomies.register();
     return (
-      <div className="loading">
-        <l-zoomies/>
+      <div className="w-[650px] h-[500px] flex items-center justify-center">
+        <Spin />
       </div>
     );
   }

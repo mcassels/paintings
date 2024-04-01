@@ -3,7 +3,6 @@ import { usePaintings } from "./usePaintings";
 import { Carousel, Image, Skeleton, Spin } from "antd";
 import BrowsePaintingsButton from "./BrowsePaintingsButton";
 import { useLocation, useNavigate } from "react-router";
-import { createSearchParams } from "react-router-dom";
 
 function FeaturedPaintingDisplay() {
   const paintings = usePaintings();

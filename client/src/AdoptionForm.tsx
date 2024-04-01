@@ -1,14 +1,13 @@
-import { useForm } from "react-hook-form"
-import emailjs from '@emailjs/browser';
+// import { useForm } from "react-hook-form"
+// import emailjs from '@emailjs/browser';
 import { useRef } from "react";
 import { usePaintings } from "./usePaintings";
-import { zoomies } from "ldrs";
 import { useLocation, useNavigate } from "react-router";
-import { Form, Input, Tooltip, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete, FormInstance, Image } from 'antd';
+import { Form, Input, Button, FormInstance, Image, Spin } from 'antd';
 import BrowsePaintingsButton from "./BrowsePaintingsButton";
-const FormItem = Form.Item;
-const Option = Select.Option;
-const AutoCompleteOption = AutoComplete.Option;
+// const FormItem = Form.Item;
+// const Option = Select.Option;
+// const AutoCompleteOption = AutoComplete.Option;
 
 // Name
 // Address
@@ -50,21 +49,21 @@ enum PickupOption {
   ShipInternational = 'ShipInternational',
 }
 
-interface PickupRadioButtonProps {
-  value: PickupOption;
-  label: string;
-}
-function PickupRadioButton(props: PickupRadioButtonProps) {
-  const { value, label } = props;
-  return (
-    <div className="radio-button-wrapper">
-      <div className="labelcol">
-        <input name="pickupOption" type="radio" id={value} value={value} />
-      </div>
-      <label className="inputcol" htmlFor={value}>{label}</label>
-    </div>
-  )
-}
+// interface PickupRadioButtonProps {
+//   value: PickupOption;
+//   label: string;
+// }
+// function PickupRadioButton(props: PickupRadioButtonProps) {
+//   const { value, label } = props;
+//   return (
+//     <div className="radio-button-wrapper">
+//       <div className="labelcol">
+//         <input name="pickupOption" type="radio" id={value} value={value} />
+//       </div>
+//       <label className="inputcol" htmlFor={value}>{label}</label>
+//     </div>
+//   )
+// }
 
 interface ContactFormInputs {
   name: string;
@@ -79,7 +78,6 @@ interface ContactFormInputs {
 // TODO: autoselect specific painting based on query params
 export default function AdoptionForm() {
   const formRef = useRef<FormInstance|null>(null);
-  const oldRef = useRef<HTMLFormElement|null>(null);
 
   const navigate = useNavigate()
   const location = useLocation();
@@ -91,18 +89,17 @@ export default function AdoptionForm() {
     navigate("/");
   }
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isValid },
-  } = useForm<ContactFormInputs>();
+  // const {
+  //   register,
+  //   handleSubmit,
+  //   formState: { errors, isValid },
+  // } = useForm<ContactFormInputs>();
 
   const paintings = usePaintings();
   if (paintings === 'loading') {
-    zoomies.register();
     return (
-      <div className="loading">
-        <l-zoomies/>
+      <div className="w-[650px] h-[500px] flex items-center justify-center">
+        <Spin />
       </div>
     );
   }
@@ -114,7 +111,6 @@ export default function AdoptionForm() {
   const painting = paintings.find((p) => p.id === paintingId);
 
   async function onSubmit(data: ContactFormInputs) {
-    debugger;
     if (!formRef.current) {
       onFormSubmitError();
       return;
@@ -155,8 +151,8 @@ export default function AdoptionForm() {
     // }
   }
 
-  const params = new URLSearchParams(location.search);
-  const selectedPaintingId = params.get('painting');
+  // const params = new URLSearchParams(location.search);
+  // const selectedPaintingId = params.get('painting');
 
   const paintingOptions = [<option key="default" value="">Select a painting</option>];
   for (const painting of paintings.sort((p0, p1) => {
@@ -276,6 +272,9 @@ export default function AdoptionForm() {
         initialValues={{ remember: true }}
         onFinishFailed={onFormSubmitError}
       >
+        <div className="bg-red h-[20px] m-8 text-white font-bold p-4">
+          Hi! FORM IS CURRENTLY UNDER CONSTRUCTION -Morgan
+        </div>
         <Form.Item
           name="name"
           label="Your Name"

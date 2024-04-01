@@ -1,5 +1,5 @@
-import { Divider, Flex, Select, Slider, SliderSingleProps, Tag } from "antd";
-import React, { ReactNode } from "react";
+import React from "react";
+import { Divider, Select, Slider, SliderSingleProps, Tag } from "antd";
 import { Painting, PaintingStatus } from "./types";
 import { useLocation, useNavigate } from "react-router";
 import { HeartFilled, HeartOutlined } from "@ant-design/icons";

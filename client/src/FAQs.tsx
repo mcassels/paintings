@@ -1,17 +1,15 @@
 import React from 'react';
 import { useFAQs } from './useFAQs';
 import Markdown from 'react-markdown';
-import { zoomies } from 'ldrs';
-import { Collapse, CollapseProps } from 'antd';
+import { Collapse, CollapseProps, Spin } from 'antd';
 
 export default function FAQs() {
   const faqs = useFAQs();
 
   if (faqs === 'loading') {
-    zoomies.register();
     return (
-      <div className="loading">
-        <l-zoomies/>
+      <div className="w-[650px] h-[500px] flex items-center justify-center">
+        <Spin />
       </div>
     );
   }
