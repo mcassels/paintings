@@ -378,7 +378,6 @@ export default function AdoptionForm() {
         </Form.Item>
         <div className="flex justify-center pb-4">
           <div className="w-[500px]">
-            {/* TODO: figure out how to send only the leaf nodes as selected in cascader */}
             {getPickupOptionSubtitle(pickupValue as any)}
           </div>
         </div>

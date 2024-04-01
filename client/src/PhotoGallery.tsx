@@ -99,7 +99,6 @@ function SavePaintingButton(props: { paintingId: string }) {
     }
     setIsFavourite((prev) => !prev);
   }
-  console.log(`Painting ${props.paintingId} is ${isFavourite ? 'favourited' : 'not favourited'}`);
 
   return (
     <Button
