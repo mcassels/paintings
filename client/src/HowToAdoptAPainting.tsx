@@ -7,22 +7,25 @@ import SelectAPainting from "./SelectAPainting";
 export default function HowToAdoptAPainting() {
   return (
     <div>
-      <Row>
-        <Col span={16}>
+      <Row className="space-x-8">
+        <Col>
           <div id="how-to">
             <TextPage textKey={HOW_TO_ADOPT_KEY} />
           </div>
-          <div className="w-[650px]">
+          <div className="w-[650px] pt-4">
             <Divider className="border-slate-400" orientation="left">Select a painting</Divider>
           </div>
           <div id="painting-selection" className="">
             <SelectAPainting />
           </div>
+          <div className="w-[650px]">
+            <Divider className="border-slate-400" orientation="left">Adoption form</Divider>
+          </div>
           <div id="adoption-form">
             <AdoptionForm />
           </div>
         </Col>
-        <Col span={8}>
+        <Col>
           <Anchor
             items={[
               {
