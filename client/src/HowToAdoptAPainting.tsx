@@ -53,6 +53,11 @@ export default function HowToAdoptAPainting() {
                 href: '#pickup',
                 title: 'Pickup / shipping',
               },
+              {
+                key: 'acknowledgement',
+                href: '#acknowledgement',
+                title: 'Acknowledgement',
+              },
             ]}
           />
         </Col>

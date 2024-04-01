@@ -3,7 +3,7 @@
 import { useRef } from "react";
 import { usePaintings } from "./usePaintings";
 import { useLocation, useNavigate } from "react-router";
-import { Form, Input, Button, FormInstance, Image, Spin, Card, Divider, Cascader } from 'antd';
+import { Form, Input, Button, FormInstance, Image, Spin, Card, Divider, Cascader, Checkbox } from 'antd';
 import BrowsePaintingsButton from "./BrowsePaintingsButton";
 // const FormItem = Form.Item;
 // const Option = Select.Option;
@@ -65,11 +65,15 @@ enum PickupOption {
 //   )
 // }
 
-function getPickupOptionSubtitle(cascaderOptions: string[]|undefined): string|null {
-  if (!cascaderOptions || cascaderOptions.length < 2) {
+function getPickupOptionFromCascaderValue(cascaderValue: string[]|undefined): PickupOption|null {
+  if (!cascaderValue || cascaderValue.length < 2) {
     return null;
   }
-  const pickupOption = cascaderOptions[1];
+  return cascaderValue[1] as PickupOption;
+}
+
+function getPickupOptionSubtitle(cascaderOptions: string[]|undefined): string|null {
+  const pickupOption = getPickupOptionFromCascaderValue(cascaderOptions)
   switch (pickupOption) {
     case PickupOption.InPersonMay17:
       return "I will pick up the work in person in Victoria on May 17, 1pm-3pm";
@@ -374,59 +378,42 @@ export default function AdoptionForm() {
             {getPickupOptionSubtitle(pickupValue as any)}
           </div>
         </div>
-        {/* <Form.Item
-          label="InputNumber"
-          name="InputNumber"
-          rules={[{ required: true, message: 'Please input!' }]}
-        >
-          <InputNumber style={{ width: '100%' }} />
-        </Form.Item>
-
+        {
+          (getPickupOptionFromCascaderValue(pickupValue as any) === PickupOption.ShipCanada || getPickupOptionFromCascaderValue(pickupValue as any) ===PickupOption.ShipInternational) && (
+            <Form.Item
+              name="address"
+              label="Shipping Address"
+              rules={[
+                {
+                  required: true,
+                  message: 'Shipping address is required',
+                },
+              ]}
+            >
+              <Input />
+            </Form.Item>
+          )
+        }
+        <div id="acknowledgement" className="w-[650px]">
+          <Divider className="border-slate-400" orientation="left">Acknowledgement</Divider>
+        </div>
         <Form.Item
-          label="Mentions"
-          name="Mentions"
-          rules={[{ required: true, message: 'Please input!' }]}
+          name="acknowledgeDamage"
+          valuePropName="checked"
+          rules={[
+            {
+              validator: (_, value) =>
+                value ? Promise.resolve() : Promise.reject(new Error('Acknowledgement is required')),
+            },
+          ]}
         >
-          <Mentions />
+          <Checkbox>
+            <div className="w-[650px] ml-4">
+              I acknowledge that the artwork I am adopting has some degree of damage and am aware that this damage may or may not include mold spores. I agree that I will not hold the Gordaneer estate or family responsible for any negative impact that may result. 
+            </div>
+          </Checkbox>
         </Form.Item>
-
-        <Form.Item label="Select" name="Select" rules={[{ required: true, message: 'Please input!' }]}>
-          <Select />
-        </Form.Item>
-
-        <Form.Item
-          label="Cascader"
-          name="Cascader"
-          rules={[{ required: true, message: 'Please input!' }]}
-        >
-          <Cascader />
-        </Form.Item>
-
-        <Form.Item
-          label="TreeSelect"
-          name="TreeSelect"
-          rules={[{ required: true, message: 'Please input!' }]}
-        >
-          <TreeSelect />
-        </Form.Item>
-
-        <Form.Item
-          label="DatePicker"
-          name="DatePicker"
-          rules={[{ required: true, message: 'Please input!' }]}
-        >
-          <DatePicker />
-        </Form.Item>
-
-        <Form.Item
-          label="RangePicker"
-          name="RangePicker"
-          rules={[{ required: true, message: 'Please input!' }]}
-        >
-          <RangePicker />
-        </Form.Item> */}
-
-        <Form.Item wrapperCol={{ offset: 6, span: 16 }}>
+        <Form.Item className="pt-4" wrapperCol={{ offset: 6, span: 16 }}>
           <Button type="primary" htmlType="submit">
             Submit
           </Button>
