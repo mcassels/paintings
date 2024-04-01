@@ -83,13 +83,11 @@ const savedPaintingKey = 'GORDANEER_SAVED_PAINTINGS';
 function SavePaintingButton(props: { paintingId: string }) {
   const savedPaintings = localStorage.getItem(savedPaintingKey)?.split(',') || [];
   const isSaved = savedPaintings.includes(props.paintingId);
-  debugger;
 
   const [isFavourite, setIsFavourite] = React.useState(isSaved);
 
   function onClick() {
     const savedPaintings = localStorage.getItem(savedPaintingKey)?.split(',') || [];
-    debugger;
     if (savedPaintings.includes(props.paintingId)) {
       localStorage.setItem(savedPaintingKey, savedPaintings.filter((p) => p !== props.paintingId).join(','));
     } else {

@@ -9,7 +9,7 @@ export default function AfterAdoption() {
     <div>
       <TextPage textKey={AFTER_ADOPTION_KEY} />
       <div className="pt-6">
-        <Button><NavLink to="/art-conservators">See supporting art conservators</NavLink></Button>
+        <Button type="primary" ghost><NavLink to="/art-conservators">See supporting art conservators</NavLink></Button>
       </div>
     </div>
   )

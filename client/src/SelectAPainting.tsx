@@ -1,7 +1,6 @@
 import React from 'react';
 import { useLocation } from 'react-router';
 import { usePaintings } from './usePaintings';
-import BrowsePaintingsButton from './BrowsePaintingsButton';
 import { Card, Spin, Image, Divider, Button } from 'antd';
 import { getPaintingInfos } from './utils';
 import { NavLink } from 'react-router-dom';
@@ -19,7 +18,11 @@ export default function SelectAPainting() {
         className="w-[650px] flex flex-col justify-center w-400"
       >
         <div>
-          <BrowsePaintingsButton />
+          <Button type="primary">
+            <NavLink to="/gallery">
+              Browse paintings
+            </NavLink>
+          </Button>
         </div>
       </Card>
     );

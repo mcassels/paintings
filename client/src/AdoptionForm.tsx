@@ -1,44 +1,14 @@
-// import { useForm } from "react-hook-form"
-// import emailjs from '@emailjs/browser';
+import emailjs from '@emailjs/browser';
 import { usePaintings } from "./usePaintings";
 import { useLocation, useNavigate } from "react-router";
-import { Form, Input, Button, Spin, Divider, Cascader, Checkbox, Table } from 'antd';
+import { Form, Input, Button, Spin, Divider, Cascader, Checkbox, Table, Radio, Space } from 'antd';
 import { NavLink } from "react-router-dom";
-// const FormItem = Form.Item;
-// const Option = Select.Option;
-// const AutoCompleteOption = AutoComplete.Option;
+import { useEffect, useState } from "react";
 
-// Name
-// Address
-// Phone number
-// Email
-
-// I would like to adopt this painting [can it correspond to the number somehow?]. 
-// - I have sent an e-transfer of $100
-// [or] 
-// - I have sent an e-transfer of $200 because I plan to display this work at my place of business and will deduct 100% of the cost of this work on my business taxes next year.
-
-// Send e-transfers to gordaneer@gmail.com
-
-// [pick one]
-// - I, or my representative, will pick up the work in person in Victoria on the following (pick one).
-
-// 	May 17, 1pm-3pm 
-// May 18, noon-3pm. 
-
-// - I am unable to pick up the work in person on either of the set days. Please contact me once you have decided on an alternate pickup date.
-
-// - I am unable to pick up the work in person and would like to have it shipped within Canada. I have included the $20 processing fee in my e-transfer. Please contact me to arrange COD for the shipping cost.
-
-// - I am unable to pick up the work in person and would like to have it shipped internationally. I will e-transfer any applicable fees once they are determined. 
-
-// [required] 
-// I acknowledge that the artwork I am adopting has some degree of damage and am aware that this damage may or may not include mold spores. I agree that I will not hold the Gordaneer estate or family responsible for any negative impact that may result. 
-
-// enum PriceOption {
-//   Personal = 'Personal',
-//   Business = 'Business',
-// }
+enum PriceOption {
+  Personal = 'Personal',
+  Business = 'Business',
+}
 
 enum PickupOption {
   InPersonMay17 = 'InPersonMay17',
@@ -47,22 +17,6 @@ enum PickupOption {
   ShipCanada = 'ShipCanada',
   ShipInternational = 'ShipInternational',
 }
-
-// interface PickupRadioButtonProps {
-//   value: PickupOption;
-//   label: string;
-// }
-// function PickupRadioButton(props: PickupRadioButtonProps) {
-//   const { value, label } = props;
-//   return (
-//     <div className="radio-button-wrapper">
-//       <div className="labelcol">
-//         <input name="pickupOption" type="radio" id={value} value={value} />
-//       </div>
-//       <label className="inputcol" htmlFor={value}>{label}</label>
-//     </div>
-//   )
-// }
 
 function getPickupOptionFromCascaderValue(cascaderValue: string[]|undefined): PickupOption|null {
   if (!cascaderValue || cascaderValue.length < 2) {
@@ -149,18 +103,30 @@ function PriceTable() {
 interface ContactFormInputs {
   name: string;
   address: string;
-  phoneNumber: string;
+  phone: string;
   email: string;
-  // priceOption: PriceOption;
+  priceOption: PriceOption;
   pickupOption: PickupOption;
   acknowledgeDamage: boolean;
   etransferSent: boolean;
 }
 
-// TODO: autoselect specific painting based on query params
+
 export default function AdoptionForm() {
   const [form] = Form.useForm<ContactFormInputs>();
   const pickupValue = Form.useWatch('pickupOption', form);
+
+  const [submittable, setSubmittable] = useState<boolean>(false);
+
+  // Watch all values
+  const values = Form.useWatch([], form);
+
+  useEffect(() => {
+    form
+      .validateFields({ validateOnly: true })
+      .then(() => setSubmittable(true))
+      .catch(() => setSubmittable(false));
+  }, [form, values]);
 
   const navigate = useNavigate()
   const location = useLocation();
@@ -171,12 +137,6 @@ export default function AdoptionForm() {
     window.alert("Error submitting form! Please contact gordaneer@gmail.com");
     navigate("/");
   }
-
-  // const {
-  //   register,
-  //   handleSubmit,
-  //   formState: { errors, isValid },
-  // } = useForm<ContactFormInputs>();
 
   const paintings = usePaintings();
   if (paintings === 'loading') {
@@ -194,131 +154,55 @@ export default function AdoptionForm() {
   const painting = paintings.find((p) => p.id === paintingId);
 
   async function onSubmit(data: ContactFormInputs) {
-    // if (!formRef.current) {
-    //   onFormSubmitError();
-    //   return;
-    // }
-    return;
-    // const serviceId = process.env.REACT_APP_EMAILJS_SERVICE_ID;
-    // const templateId = process.env.REACT_APP_EMAILJS_TEMPLATE_ID;
-    // const publicKey = process.env.REACT_APP_EMAILJS_PUBLIC_KEY;
+    if (!painting) {
+      onFormSubmitError();
+      return;
+    }
+    const serviceId = process.env.REACT_APP_EMAILJS_SERVICE_ID;
+    const templateId = process.env.REACT_APP_EMAILJS_TEMPLATE_ID;
+    const publicKey = process.env.REACT_APP_EMAILJS_PUBLIC_KEY;
 
-    // // Keys must correspond to template fields set up in emailjs template
-    // const emailTemplate = {
-    //   name: data.name,
-    //   address: data.address,
-    //   phone: data.phoneNumber,
-    //   email: data.email,
-    //   bpid: data.paintingId,
-    //   price_option: data.priceOption,
-    //   pickup_option: data.pickupOption,
-    //   painting_name: Array.isArray(paintings) && paintings.find((p) => p.id === data.paintingId)?.title,
-    // };
-    // if (!serviceId || !templateId) {
-    //   onFormSubmitError();
-    //   return;
-    // }
-    // try {
-    //   const res = await emailjs.send(serviceId, templateId, emailTemplate, {
-    //     publicKey,
-    //   });
-    //   if (res.status < 200 || res.status >= 300) {
-    //     onFormSubmitError();
-    //   } else {
-    //     window.alert("Your adoption has been submitted!");
-    //     navigate("/after-adoption")
-    //   }
-    // } catch (e) {
-    //   console.error(e);
-    //   onFormSubmitError();
-    // }
+    const pickupOption = getPickupOptionSubtitle(pickupValue as any);
+
+    let price = getPriceFromDamageLevel(painting.damageLevel);
+    if (data.priceOption === PriceOption.Business) {
+      price = 200;
+    }
+
+    // Keys must correspond to template fields set up in emailjs template
+    const emailTemplate = {
+      name: data.name,
+      address: data.address,
+      phone: data.phone,
+      email: data.email,
+      bpid: painting.id,
+      price: price,
+      pickup_option: pickupOption,
+      painting_name: painting.title,
+      is_business: data.priceOption === PriceOption.Business,
+    };
+    if (!serviceId || !templateId) {
+      onFormSubmitError();
+      return;
+    }
+    try {
+      const res = await emailjs.send(serviceId, templateId, emailTemplate, {
+        publicKey,
+      });
+      if (res.status < 200 || res.status >= 300) {
+        onFormSubmitError();
+      } else {
+        window.alert("Your adoption has been submitted!");
+        navigate("/after-adoption")
+      }
+    } catch (e) {
+      console.error(e);
+      onFormSubmitError();
+    }
   }
 
   return (
     <div className="pt-8">
-        {/* <form onSubmit={handleSubmit(onSubmit)} ref={oldRef}>
-          <div className="form-wrapper">
-            <label className="labelcol">Painting</label>
-            <div className="inputcol">
-              <select {...register("paintingId", { required: true })} defaultValue={selectedPaintingId || ""}>
-                {paintingOptions}
-              </select>
-              <p>{errors.paintingId?.message}</p>
-            </div>
-            <label className="labelcol">Name:</label>
-            <div className="inputcol">
-              <input placeholder="Name" type="text" {...register("name", { required: true })} aria-invalid={errors.name ? "true" : "false"} />
-              {errors.name?.type === "required" && (
-                <p role="alert">Name is required</p>
-              )}
-            </div>
-            <label className="labelcol">Address:</label>
-            <input placeholder="Address" className="inputcol" type="text" {...register("address")} />
-            <label className="labelcol">Phone Number</label>
-            <div className="inputcol">
-              <input placeholder="Phone Number" type="tel" {...register("phoneNumber", { validate: (phone) => phone.match(/^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/im) !== null})} />
-              {errors.phoneNumber && (<p>{errors.phoneNumber.message}</p>)}
-            </div>
-            <label className="labelcol">Email</label>
-            <div className="inputcol">
-              <input placeholder="Email" type="email" {...register("email", { validate: (email) => email.match(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g) !== null, required: true })} />
-              {errors.email && (<p>{errors.email.message}</p>)}
-            </div>
-          </div>
-          <div className="pt-4 mt-4 mb-4 w-[650px] text-left border-y-1 border-x-0 border-solid border-[#BCC4C4]">
-            Payment -- choose one:
-            <fieldset className="border-none space-y-2" {...register("priceOption", { required: true })}>
-              <div className="radio-button-wrapper">
-                <div className="labelcol">
-                  <input name="priceOption" type="radio" id={PriceOption.Personal} value={PriceOption.Personal} defaultChecked />
-                </div>
-                <label className="inputcol" htmlFor={PriceOption.Personal}>I have sent an e-transfer of $100</label>
-              </div>
-              <div className="radio-button-wrapper">
-                <div className="labelcol">
-                  <input name="priceOption" type="radio" id={PriceOption.Business} value={PriceOption.Business} />
-                </div>
-                <label className="inputcol" htmlFor={PriceOption.Business}>
-                  I have sent an e-transfer of $200 because I plan to display this work at my place of business and will deduct 100% of the cost of this work on my business taxes next year.
-                </label>
-              </div>
-            </fieldset>
-            <div>
-              <p>Please send e-transfers to <a href="mailto:gordaneer@gmail.com">gordaneer@gmail.com</a>.</p>
-            </div>
-          </div>
-          <div className="mb-4 pb-4 w-[650px] text-left border-y-1 border-t-0 border-x-0 border-solid border-[#BCC4C4]">
-            Pickup -- choose one:
-            <fieldset className="border-none space-y-2" {...register("pickupOption", { required: true })}>
-              <div className="radio-button-wrapper">
-                <div className="labelcol">
-                  <input name="pickupOption" type="radio" id={PickupOption.InPersonMay17} value={PickupOption.InPersonMay17} defaultChecked />
-                </div>
-                <label className="inputcol" htmlFor={PickupOption.InPersonMay17}>I will pick up the work in person in Victoria on May 17, 1pm-3pm</label>
-              </div>
-              <PickupRadioButton value={PickupOption.InPersonMay18} label="I will pick up the work in person in Victoria on May 18, noon-3pm" />
-              <PickupRadioButton value={PickupOption.AlternateDate} label="I am unable to pick up the work in person on either of the set days. Please contact me once you have decided on an alternate pickup date." />
-              <PickupRadioButton value={PickupOption.ShipCanada} label="I am unable to pick up the work in person and would like to have it shipped within Canada. I have included the $20 processing fee in my e-transfer. Please contact me to arrange COD for the shipping cost." />
-              <PickupRadioButton value={PickupOption.ShipInternational} label="I am unable to pick up the work in person and would like to have it shipped internationally. I will e-transfer any applicable fees once they are determined." />
-            </fieldset>
-            {errors.pickupOption && (<p>{errors.pickupOption?.message}</p>)}
-          </div>
-        <div className="text-left">
-          <div className="pb-4">Acknowledgment</div>
-          <div className="radio-button-wrapper">
-            <div className="labelcol">
-              <input type="checkbox" {...register("acknowledgeDamage", { required: true })} />
-            </div>
-            <div className="inputcol">
-              I acknowledge that the artwork I am adopting has some degree of damage and am aware that this damage may or may not include mold spores. I agree that I will not hold the Gordaneer estate or family responsible for any negative impact that may result. 
-            </div>
-            {errors.acknowledgeDamage && (<p>{errors.acknowledgeDamage?.message}</p>)}
-          </div>
-          <div className="pt-4">
-            <button type="submit" disabled={!isValid}>Submit</button>
-          </div>
-        </div>
-      </form> */}
       <Form
         style={{ maxWidth: 600 }}
         form={form}
@@ -372,7 +256,7 @@ export default function AdoptionForm() {
           <Divider className="border-slate-400" orientation="left">Donation</Divider>
         </div>
         {
-          painting && (
+          painting ? (
             <div className="flex flex-col space-y-2">
               <div className="flex justify-center">
                 <div className="flex flex-col w-1/2">
@@ -394,22 +278,50 @@ export default function AdoptionForm() {
                   Refer to table below showing adoption amounts based on damage level.
                 </div>
               </div>
-              <Form.Item
-                name="etransferSent"
-                valuePropName="checked"
-                rules={[
-                  {
-                    validator: (_, value) =>
-                      value ? Promise.resolve() : Promise.reject(new Error('Please send an etransfer in order to adopt the painting')),
-                  },
-                ]}
-              >
-                <Checkbox>
-                  <div className="w-[650px] ml-4">
-                  <p>{`I have sent an e-transfer of $${getPriceFromDamageLevel(painting.damageLevel)} to `}<a href="mailto:gordaneer@gmail.com">gordaneer@gmail.com</a>.</p> 
+              {
+                getPriceFromDamageLevel(painting.damageLevel) === 100 ? (
+                  <div className="pt-4">
+                    <Form.Item
+                      name="priceOption"
+                      className="w-[700px]"
+                      rules={
+                        [
+                          { required: true, message: 'Selection is required' },
+                        ]
+                      }
+                    >
+                      <Radio.Group value={PriceOption.Personal}>
+                        <Space direction="vertical">
+                          <Radio value={PriceOption.Personal}>I have sent an e-transfer of $100</Radio>
+                          <Radio value={PriceOption.Business}>I have sent an e-transfer of $200 because I plan to display this work at my place of business and will deduct 100% of the cost of this work on my business taxes next year.</Radio>
+                        </Space>
+                      </Radio.Group>
+                    </Form.Item>
+                    <div><p>Please send e-transfers to <a href="mailto:gordaneer@gmail.com">gordaneer@gmail.com</a>.</p></div>
                   </div>
-                </Checkbox>
-              </Form.Item>
+                ) : (
+                  <Form.Item
+                    name="etransferSent"
+                    valuePropName="checked"
+                    rules={[
+                      {
+                        validator: (_, value) =>
+                          value ? Promise.resolve() : Promise.reject(new Error('Please send an etransfer in order to adopt the painting')),
+                      },
+                    ]}
+                  >
+                    <Checkbox>
+                      <div className="w-[650px] ml-4">
+                      <p>{`I have sent an e-transfer of $${getPriceFromDamageLevel(painting.damageLevel)} to `}<a href="mailto:gordaneer@gmail.com">gordaneer@gmail.com</a>.</p> 
+                      </div>
+                    </Checkbox>
+                  </Form.Item>
+                )
+              }
+            </div>
+          ) : (
+            <div className="text-sm">
+              Adoption amount is based on the painting's damage level:
             </div>
           )
         }
@@ -506,9 +418,16 @@ export default function AdoptionForm() {
           </Checkbox>
         </Form.Item>
         <Form.Item className="pt-4" wrapperCol={{ offset: 6, span: 16 }}>
-          <Button type="primary" htmlType="submit">
+          <Button type="primary" htmlType="submit" disabled={!submittable || !painting}>
             Submit
           </Button>
+          {
+            !painting && (
+              <div className="text-sm mt-4 text-slate-500">
+                Please <a href="#painting-selection">select a painting</a> to adopt.
+              </div>
+            )
+          }
         </Form.Item>
       </Form>
     </div>

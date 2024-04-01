@@ -9,7 +9,6 @@ async function fetchFAQs(): Promise<FAQ[]> {
   );
 
   const data = await response.json();
-  debugger;
 
   const faqsWithIdx: Array<FAQ & { sort: number }> = data.records.map((record: any) => ({
     question: record.fields.question,
