@@ -1,4 +1,4 @@
-import { Anchor, Col, Row } from "antd";
+import { Anchor, Col, Divider, Row } from "antd";
 import AdoptionForm from "./AdoptionForm";
 import { HOW_TO_ADOPT_KEY } from "./constants";
 import TextPage from "./TextPage";
@@ -12,7 +12,10 @@ export default function HowToAdoptAPainting() {
           <div id="how-to">
             <TextPage textKey={HOW_TO_ADOPT_KEY} />
           </div>
-          <div id="painting-selection">
+          <div className="w-[650px]">
+            <Divider className="border-slate-400" orientation="left">Select a painting</Divider>
+          </div>
+          <div id="painting-selection" className="">
             <SelectAPainting />
           </div>
           <div id="adoption-form">
@@ -30,7 +33,7 @@ export default function HowToAdoptAPainting() {
               {
                 key: 'painting-selection',
                 href: '#painting-selection',
-                title: 'Painting selection',
+                title: 'Select a painting',
               },
               {
                 key: 'adoption-form',

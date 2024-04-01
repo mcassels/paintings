@@ -12,6 +12,7 @@ import { usePaintings } from './usePaintings';
 import { Button, Empty, Modal, Pagination, Spin, Tag } from 'antd';
 import GalleryFilters from './GalleryFilters';
 import Markdown from 'react-markdown';
+import { getPaintingInfos } from './utils';
 
 function SeeReverseButton(props: { setShowReverse: React.Dispatch<React.SetStateAction<boolean>>, showReverse: boolean }) {
   const { setShowReverse, showReverse } = props;
@@ -119,23 +120,8 @@ function SavePaintingButton(props: { paintingId: string }) {
   );
 }
 
-function getPaintingDescription(p: Painting) {
-  const year = (p.year || p.yearGuess || 'ND').toString();
-  const size = `${p.height} x ${p.width}`;
-  const parts = [p.title, year, size];
-  if (p.medium) {
-    parts.push(p.medium);
-  }
-  if (p.isFramed) {
-    parts.push('Framed');
-  }
-  if (p.isFramed === false) { // undefined means we don't know if it's framed or not
-    parts.push('Unframed');
-  }
-  if (p.conditionNotes) {
-    parts.push(p.conditionNotes);
-  }
-  parts.push(`Damage level ${p.damageLevel}`);
+function getPaintingDescription(p: Painting): string {
+  const parts = [p.title, ...getPaintingInfos(p)];
   // TODO: for some reason, this shows an ellipses at the end of only the third line.
   // Possibly may need to do this properly as a component and not just text, by adding a plugin?
   // See https://yet-another-react-lightbox.com/advanced#Modules

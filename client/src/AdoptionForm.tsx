@@ -247,38 +247,6 @@ export default function AdoptionForm() {
           </div>
         </div>
       </form> */}
-      { painting ? (
-        <div>
-          <div>
-            <h2>{painting.title}</h2>
-            <p>{painting.year}</p>
-            <p>{painting.medium}</p>
-            <p>{painting.damageLevel}</p>
-            <p>{painting.conditionNotes}</p>
-          </div>
-          <Image
-            width={painting.width}
-            height={painting.height}
-            src={painting.frontPhotoUrl}
-          />
-          <Card
-            title={painting.title}
-            className="w-[650px]"
-            extra={<div>
-              <p>{painting.year}</p>
-              <p>{painting.medium}</p>
-              <p>{painting.damageLevel}</p>
-              <p>{painting.conditionNotes}</p>
-            </div>}
-          >
-            <Image
-              alt={painting.title}
-              preview={false}
-              src={painting.frontPhotoUrl}
-            />
-          </Card>
-        </div>
-      ) : <BrowsePaintingsButton />}
       <Form
         style={{ maxWidth: 600 }}
         ref={formRef}
