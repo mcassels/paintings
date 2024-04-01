@@ -12,16 +12,16 @@ export default function HowToAdoptAPainting() {
           <div id="how-to">
             <TextPage textKey={HOW_TO_ADOPT_KEY} />
           </div>
-          <div className="w-[650px] pt-4">
+          <div className="w-[650px] pt-4" id="painting-selection">
             <Divider className="border-slate-400" orientation="left">Select a painting</Divider>
           </div>
-          <div id="painting-selection" className="">
+          <div className="">
             <SelectAPainting />
           </div>
-          <div className="w-[650px]">
-            <Divider className="border-slate-400" orientation="left">Adoption form</Divider>
+          <div className="w-[650px]" id="adoption-form">
+            <Divider className="border-slate-400" orientation="left">Contact details</Divider>
           </div>
-          <div id="adoption-form">
+          <div>
             <AdoptionForm />
           </div>
         </Col>
@@ -41,7 +41,17 @@ export default function HowToAdoptAPainting() {
               {
                 key: 'adoption-form',
                 href: '#adoption-form',
-                title: 'Adoption form',
+                title: 'Contact',
+              },
+              {
+                key: 'donation',
+                href: '#donation',
+                title: 'Donation',
+              },
+              {
+                key: 'pickup',
+                href: '#pickup',
+                title: 'Pickup / shipping',
               },
             ]}
           />

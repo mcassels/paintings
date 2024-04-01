@@ -3,7 +3,7 @@
 import { useRef } from "react";
 import { usePaintings } from "./usePaintings";
 import { useLocation, useNavigate } from "react-router";
-import { Form, Input, Button, FormInstance, Image, Spin, Card } from 'antd';
+import { Form, Input, Button, FormInstance, Image, Spin, Card, Divider, Cascader } from 'antd';
 import BrowsePaintingsButton from "./BrowsePaintingsButton";
 // const FormItem = Form.Item;
 // const Option = Select.Option;
@@ -65,6 +65,26 @@ enum PickupOption {
 //   )
 // }
 
+function getPickupOptionSubtitle(cascaderOptions: string[]|undefined): string|null {
+  if (!cascaderOptions || cascaderOptions.length < 2) {
+    return null;
+  }
+  const pickupOption = cascaderOptions[1];
+  switch (pickupOption) {
+    case PickupOption.InPersonMay17:
+      return "I will pick up the work in person in Victoria on May 17, 1pm-3pm";
+    case PickupOption.InPersonMay18:
+      return "I will pick up the work in person in Victoria on May 18, noon-3pm";
+    case PickupOption.AlternateDate:
+      return "I am unable to pick up the work in person on either of the set days. Please contact me once you have decided on an alternate pickup date.";
+    case PickupOption.ShipCanada:
+      return "I am unable to pick up the work in person and would like to have it shipped within Canada. I have included the $20 processing fee in my e-transfer. Please contact me to arrange COD for the shipping cost.";
+    case PickupOption.ShipInternational:
+      return "I am unable to pick up the work in person and would like to have it shipped internationally. I will e-transfer any applicable fees once they are determined.";
+  }
+  return null;
+}
+
 interface ContactFormInputs {
   name: string;
   address: string;
@@ -77,7 +97,8 @@ interface ContactFormInputs {
 
 // TODO: autoselect specific painting based on query params
 export default function AdoptionForm() {
-  const formRef = useRef<FormInstance|null>(null);
+  const [form] = Form.useForm<ContactFormInputs>();
+  const pickupValue = Form.useWatch('pickupOption', form);
 
   const navigate = useNavigate()
   const location = useLocation();
@@ -111,10 +132,10 @@ export default function AdoptionForm() {
   const painting = paintings.find((p) => p.id === paintingId);
 
   async function onSubmit(data: ContactFormInputs) {
-    if (!formRef.current) {
-      onFormSubmitError();
-      return;
-    }
+    // if (!formRef.current) {
+    //   onFormSubmitError();
+    //   return;
+    // }
     return;
     // const serviceId = process.env.REACT_APP_EMAILJS_SERVICE_ID;
     // const templateId = process.env.REACT_APP_EMAILJS_TEMPLATE_ID;
@@ -249,16 +270,13 @@ export default function AdoptionForm() {
       </form> */}
       <Form
         style={{ maxWidth: 600 }}
-        ref={formRef}
+        form={form}
         onFinish={onSubmit}
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 16 }}
         initialValues={{ remember: true }}
         onFinishFailed={onFormSubmitError}
       >
-        <div className="bg-red-500 h-[20px] m-8 text-white font-bold p-4">
-          Hi! FORM IS CURRENTLY UNDER CONSTRUCTION -Morgan
-        </div>
         <Form.Item
           name="name"
           label="Your Name"
@@ -272,7 +290,7 @@ export default function AdoptionForm() {
           rules={[
             {
               type: 'email',
-              message: 'The input is not a valid email',
+              message: 'not a valid email',
             },
             {
               required: true,
@@ -282,7 +300,80 @@ export default function AdoptionForm() {
         >
           <Input />
         </Form.Item>
-
+        <Form.Item
+          name="phone"
+          label="Phone"
+          rules={[
+            {
+              type: 'regexp',
+              pattern: /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/im,
+              message: 'Not a valid phone number',
+            },
+            {
+              required: true,
+              message: 'Phone is required',
+            },
+          ]}
+        >
+          <Input />
+        </Form.Item>
+        <div id="donation" className="w-[650px]">
+          <Divider className="border-slate-400" orientation="left">Donation</Divider>
+        </div>
+        <div id="pickup" className="w-[650px]">
+          <Divider className="border-slate-400" orientation="left">Pickup / shipping</Divider>
+        </div>
+        <Form.Item
+          name="pickupOption"
+          className="ml-8"
+          rules={[
+            { required: true, message: 'Pickup or shipping option is required' },
+          ]}
+        >
+          <Cascader
+            placeholder="Select a pickup or shipping option"
+            options={[
+              {
+                value: 'Pickup in Victoria BC',
+                label: 'Pickup in Victoria BC',
+                children: [
+                  {
+                    value: PickupOption.InPersonMay17,
+                    label: 'May 17, 1pm-3pm',
+                  },
+                  {
+                    value: PickupOption.InPersonMay18,
+                    label: 'May 18, noon-3pm',
+                  },
+                  {
+                    value: PickupOption.AlternateDate,
+                    label: 'Alternate Date',
+                  },
+                ],
+              },
+              {
+                value: 'Shipping',
+                label: 'Shipping',
+                children: [
+                  {
+                    value: PickupOption.ShipCanada,
+                    label: 'Ship within Canada',
+                  },
+                  {
+                    value: PickupOption.ShipInternational,
+                    label: 'Ship internationally',
+                  },
+                ],
+              },
+            ]}
+          />
+        </Form.Item>
+        <div className="flex justify-center">
+          <div className="w-[500px]">
+            {/* TODO: figure out how to send only the leaf nodes as selected in cascader */}
+            {getPickupOptionSubtitle(pickupValue as any)}
+          </div>
+        </div>
         {/* <Form.Item
           label="InputNumber"
           name="InputNumber"
