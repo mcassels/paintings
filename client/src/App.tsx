@@ -11,6 +11,7 @@ import AfterAdoption from './AfterAdoption';
 import ArtConservators from './ArtConservators';
 import LandingPage from './LandingPage';
 import Biography from './Biography';
+import { areAdoptionsOpen } from './utils';
 
 
 const queryClient = new QueryClient();
@@ -45,9 +46,13 @@ function Layout() {
     <div className="box wrapper">
       <div className="App-header header bg-[#193259]">
         <div>Gordaneer Painting Adoption Project</div>
-        <div className="text-base pt-2">
-          Adoptions open April 10th!
-        </div>
+        {
+          !areAdoptionsOpen() && (
+            <div className="text-base pt-2">
+              Adoptions open April 10th!
+            </div>
+          )
+        }
       </div>
       <div className="box sidebar">
         <Menu
