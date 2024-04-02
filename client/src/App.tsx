@@ -54,19 +54,19 @@ function Layout() {
       </div>
       <div className="box sidebar">
         <Menu
-          style={{ width: 154 }}
+          style={{ width: 'fit-content' }}
           defaultSelectedKeys={[selectedKey]}
           selectedKeys={[selectedKey]}
         >
-          <Menu.Item key="home"><NavLink to="/home">Home</NavLink></Menu.Item>
-          <Menu.Item key="gallery"><NavLink to="/gallery">Gallery</NavLink></Menu.Item>
-          <Menu.Item key="about"><NavLink to="/about">Biography</NavLink></Menu.Item>
-          <Menu.Item key="why-adopt"><NavLink to="/why-adopt">Why Adopt</NavLink></Menu.Item>
-          <Menu.Item key="pricing"><NavLink to="/pricing">Pricing</NavLink></Menu.Item>
-          <Menu.Item key="faqs"><NavLink to="/faqs">FAQs</NavLink></Menu.Item>
-          <Menu.Item key="adopt"><NavLink to="/adopt">Adopt a Painting</NavLink></Menu.Item>
-          <Menu.Item key="after-adoption"><NavLink to="/after-adoption">After Adoption</NavLink></Menu.Item>
-          <Menu.Item key="art-conservators"><NavLink to="/art-conservators">Art Conservators</NavLink></Menu.Item>
+          <Menu.Item key="home" title="Home"><NavLink to="/home">Home</NavLink></Menu.Item>
+          <Menu.Item key="gallery" title="Gallery"><NavLink to="/gallery">Gallery</NavLink></Menu.Item>
+          <Menu.Item key="about" title="Biography"><NavLink to="/about">Biography</NavLink></Menu.Item>
+          <Menu.Item key="why-adopt" title="About this Project"><NavLink to="/why-adopt">About this Project</NavLink></Menu.Item>
+          <Menu.Item key="pricing" title="Pricing"><NavLink to="/pricing">Pricing</NavLink></Menu.Item>
+          <Menu.Item key="adopt" title="Adopt a Painting"><NavLink to="/adopt">Adopt a Painting</NavLink></Menu.Item>
+          <Menu.Item key="after-adoption" title="After Adoption"><NavLink to="/after-adoption">After Adoption</NavLink></Menu.Item>
+          <Menu.Item key="art-conservators" title="Care & Conservation"><NavLink to="/art-conservators">Care & Conservation</NavLink></Menu.Item>
+          <Menu.Item key="faqs" title="FAQs"><NavLink to="/faqs">FAQs</NavLink></Menu.Item>
         </Menu>
       </div>
       <div className="box content">

@@ -2,6 +2,8 @@ import React from 'react';
 import { Card, Spin } from 'antd';
 import { useArtConservators } from './useArtConservators';
 import Markdown from 'react-markdown';
+import TextPage from './TextPage';
+import { CARE_AND_CONSERVATION_KEY } from './constants';
 
 export default function ArtConservators() {
   const conservators = useArtConservators();
@@ -16,9 +18,9 @@ export default function ArtConservators() {
     return <div className="loading">Error loading Conservators</div>;
   }
   return (
-    <div>
-      <div className="text-lg font-bold text-left pb-10">Supporting Art Conservators</div>
-      <div className="w-[650px] space-y-4 text-left">
+    <div className="flex space-x-16">
+      <TextPage textKey={CARE_AND_CONSERVATION_KEY} />
+      <div className="w-[400px] space-y-4 text-left">
         {
           conservators.map((conservator, index) => (
             <div key={index} className="flex-row justify-center">
