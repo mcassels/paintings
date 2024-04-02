@@ -40,6 +40,7 @@ export default function GalleryFilters(props: GalleryFiltersProps) {
     });
     // Always reset to first page when filters change
     searchParams.set('page', '1');
+    console.log(searchParams.toString());
     navigate({
       search: searchParams.toString(),
     });
@@ -72,6 +73,7 @@ export default function GalleryFilters(props: GalleryFiltersProps) {
                 }
                 // Always reset to first page when filters change
                 searchParams.set('page', '1');
+                console.log(searchParams.toString());
                 navigate({
                   search: searchParams.toString()
                 });
@@ -106,6 +108,7 @@ export default function GalleryFilters(props: GalleryFiltersProps) {
               searchParams.set('damage_max', max.toString());
               // Always reset to first page when filters change
               searchParams.set('page', '1');
+              console.log(searchParams.toString());
               navigate({
                 search: searchParams.toString()
               });
@@ -155,6 +158,7 @@ export default function GalleryFilters(props: GalleryFiltersProps) {
                     });
                     // Always reset to first page when filters change
                     searchParams.set('page', '1');
+                    console.log(searchParams.toString());
                     navigate({
                       search: searchParams.toString()
                     });
@@ -186,6 +190,7 @@ export default function GalleryFilters(props: GalleryFiltersProps) {
             }
             // Always reset to first page when filters change
             searchParams.set('page', '1');
+            console.log(searchParams.toString());
             navigate({
               search: searchParams.toString()
             });

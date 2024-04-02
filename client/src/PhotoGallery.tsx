@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { createSearchParams, NavLink, useLocation, useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import Gallery from 'react-photo-gallery'
 import Lightbox from "yet-another-react-lightbox";
 import Captions from "yet-another-react-lightbox/plugins/captions";
@@ -209,11 +209,10 @@ function PhotoGalleryImpl(props: PhotoGalleryProps) {
   const pageNum = Math.min(pageNumFromParams ? parseInt(pageNumFromParams) : 1, Math.ceil(allPaintings.length / PAGE_SIZE));
 
   function setPageNum(pageNum: number) {
+    const nextParams = new URLSearchParams(location.search);
+    nextParams.set('page', pageNum.toString());
     navigate({
-      search: createSearchParams({
-        ...params,
-        page: pageNum.toString(),
-      }).toString()
+      search: nextParams.toString()
     });
   }
 
@@ -256,7 +255,7 @@ function PhotoGalleryImpl(props: PhotoGalleryProps) {
               onClick={(e, { index }) => {
                 const nextSelectedId = galleryPhotos[index]?.id;
                 if (nextSelectedId) {
-                  const nextParams = new URLSearchParams(params);
+                  const nextParams = new URLSearchParams(location.search);
                   nextParams.set('selected', nextSelectedId);
                   navigate({
                     pathname: location.pathname,
@@ -305,8 +304,9 @@ function PhotoGalleryImpl(props: PhotoGalleryProps) {
         }}
         open={selectedPhotoIdx !== undefined}
         close={() => {
-          const nextParams = new URLSearchParams(params);
+          const nextParams = new URLSearchParams(location.search);
           nextParams.delete('selected');
+          console.log(`313 ${nextParams.toString()}`);
           navigate({ pathname: location.pathname, search: nextParams.toString()})
         }}
         index={selectedPhotoIdx}
@@ -339,12 +339,11 @@ function PhotoGalleryImpl(props: PhotoGalleryProps) {
           view: ({ index }) => {
             const nextSelectedId = paintings[index]?.id;
             if (nextSelectedId) {
+              const nextParams = new URLSearchParams(location.search);
+              nextParams.set('selected', nextSelectedId);
               navigate({
                 pathname: location.pathname,
-                search: createSearchParams({
-                  ...params,
-                  selected: nextSelectedId.toString(),
-                }).toString()
+                search: nextParams.toString()
               });
             }
           }
