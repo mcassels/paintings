@@ -23,3 +23,11 @@ export function getPaintingInfos(p: Painting): string[] {
   parts.push(`Damage level ${p.damageLevel}`);
   return parts;
 }
+
+export function areAdoptionsOpen(): boolean {
+  if (process.env.REACT_APP_ADOPTIONS_ARE_OPEN === 'true') {
+    return true;
+  }
+  const aprilTenthTenAmPacific = new Date('2024-04-10T10:00:00-07:00');
+  return Date.now() >= aprilTenthTenAmPacific.getTime();
+}

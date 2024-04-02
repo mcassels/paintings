@@ -44,7 +44,10 @@ function Layout() {
   return (
     <div className="box wrapper">
       <div className="App-header header bg-[#193259]">
-        Gordaneer Painting Adoption Project
+        <div>Gordaneer Painting Adoption Project</div>
+        <div className="text-base pt-2">
+          Adoptions open April 10th!
+        </div>
       </div>
       <div className="box sidebar">
         <Menu

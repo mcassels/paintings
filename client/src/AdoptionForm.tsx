@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from "react-router";
 import { Form, Input, Button, Spin, Divider, Cascader, Checkbox, Table, Radio, Space } from 'antd';
 import { NavLink } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { areAdoptionsOpen } from './utils';
 
 enum PriceOption {
   Personal = 'Personal',
@@ -417,13 +418,28 @@ export default function AdoptionForm() {
           </Checkbox>
         </Form.Item>
         <Form.Item className="pt-4" wrapperCol={{ offset: 6, span: 16 }}>
-          <Button type="primary" htmlType="submit" disabled={!submittable || !painting}>
-            Submit
-          </Button>
           {
-            !painting && (
-              <div className="text-sm mt-4 text-slate-500">
-                Please <a href="#painting-selection">select a painting</a> to adopt.
+            areAdoptionsOpen() ? (
+              <div>
+                <Button type="primary" htmlType="submit" disabled={!submittable || !painting}>
+                  Submit
+                </Button>
+                {
+                  !painting && (
+                    <div className="text-sm mt-4 text-slate-500">
+                      Please <a href="#painting-selection">select a painting</a> to adopt.
+                    </div>
+                  )
+                }
+              </div>
+            ) : (
+              <div className="flex space-x-4">
+                <Button type="primary" htmlType="submit" disabled={true}>
+                  Submit
+                </Button>
+                <div className="text-red-500 align-middle">
+                  Adoptions open April 10th!
+                </div>
               </div>
             )
           }
