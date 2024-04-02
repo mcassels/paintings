@@ -240,7 +240,7 @@ function PhotoGalleryImpl(props: PhotoGalleryProps) {
       <div>
         <GalleryFilters paintings={allPaintings}/>
       </div>
-      <div style={{ maxHeight: "calc(100vh - 200px)", minHeight:"calc(100vh - 200px)", overflow: "scroll" }}>
+      <div style={{ maxHeight: "calc(100vh - 220px)", minHeight:"calc(100vh - 220px)", overflow: "scroll" }}>
         {
           galleryPhotos.length === 0 ? (
             <div style={{ minHeight:"calc(100vh - 200px)" }} className="flex justify-center items-center">
