@@ -17,8 +17,14 @@ export default function WhyAdopt() {
         <div>
           <BrowsePaintingsButton />
         </div>
-        <ImageCard imageKey="paintings-sunbathing" />
-        <ImageCard imageKey="paintings-under-tarp" />
+        <ImageCard
+          imageKey="paintings-sunbathing"
+          caption="Some of Gordaneer’s flood-soaked paintings drying in the sun, September 2021."
+        />
+        <ImageCard
+          imageKey="paintings-under-tarp"
+          caption="Flood-soaked paintings wait in triage to be assessed for damage, September 2021."
+        />
       </div>
     </div>
   )
