@@ -34,7 +34,7 @@ export interface FAQ {
 }
 export type FAQResponse = FAQ[]|'error'|'loading';
 
-export type TextContentId = 'jim_bio'|'why_adopt'|'how_to_adopt'|'after_adoption';
+export type TextContentId = 'jim_bio'|'why_adopt'|'how_to_adopt'|'after_adoption'|'pricing';
 export interface TextContent {
   id: TextContentId;
   title: string;
@@ -48,3 +48,9 @@ export interface ArtConservator {
 }
 
 export type ArtConservatorResponse = ArtConservator[]|'error'|'loading';
+
+export interface DamageLevel {
+  level: number;
+  description: string;
+}
+export type DamageLevelResponse = DamageLevel[]|'error'|'loading';

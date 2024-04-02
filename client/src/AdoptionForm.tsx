@@ -1,10 +1,10 @@
 import emailjs from '@emailjs/browser';
 import { usePaintings } from "./usePaintings";
 import { useLocation, useNavigate } from "react-router";
-import { Form, Input, Button, Spin, Divider, Cascader, Checkbox, Table, Radio, Space } from 'antd';
-import { NavLink } from "react-router-dom";
+import { Form, Input, Button, Spin, Divider, Cascader, Checkbox, Radio, Space } from 'antd';
 import { useEffect, useState } from "react";
-import { areAdoptionsOpen } from './utils';
+import { areAdoptionsOpen, getPriceFromDamageLevel } from './utils';
+import PriceTable from './PriceTable';
 
 enum PriceOption {
   Personal = 'Personal',
@@ -41,64 +41,6 @@ function getPickupOptionSubtitle(cascaderOptions: string[]|undefined): string|nu
       return "I am unable to pick up the work in person and would like to have it shipped internationally. I will e-transfer any applicable fees once they are determined.";
   }
   return null;
-}
-
-function getPriceFromDamageLevel(damageLevel: number): number {
-  let price = 500; // damage level 1
-  if (damageLevel > 1 && damageLevel <= 2) {
-    price = 300;
-  } else if (damageLevel > 2 && damageLevel <= 3) {
-    price = 200;
-  } else if (damageLevel > 3) {
-    price = 100;
-  }
-  return price;
-}
-
-function PriceTable() {
-  const dataSource = Array.from(Array(5).keys()).map((idx) => {
-    const damageLevel = idx + 1;
-    const price = getPriceFromDamageLevel(damageLevel);
-
-    return {
-      key: damageLevel,
-      damageLevel: `Damage level ${damageLevel}`,
-      price: `$${price}`,
-      browse: (
-        <Button type="link">
-          <NavLink to={`/gallery?damage_min=${damageLevel}&damage_max=${damageLevel}`}>
-            Browse paintings
-          </NavLink>
-        </Button>
-      ),
-    }
-  })
-  
-  const columns = [
-    {
-      title: 'Damage level',
-      dataIndex: 'damageLevel',
-      key: 'damageLevel',
-    },
-    {
-      title: 'Donation amount',
-      dataIndex: 'price',
-      key: 'price',
-    },
-    {
-      title: 'Browse paintings',
-      dataIndex: 'browse',
-      key: 'browse',
-    },
-  ];
-
-  return (
-    <Table
-      dataSource={dataSource}
-      columns={columns}
-      pagination={false}
-    />
-  )
 }
 
 interface ContactFormInputs {
@@ -327,7 +269,7 @@ export default function AdoptionForm() {
           )
         }
         <div className="py-4">
-          <PriceTable />
+          <PriceTable selectedDamageLevel={painting?.damageLevel}/>
         </div>
         <div id="pickup" className="w-[650px]">
           <Divider className="border-slate-400" orientation="left">Pickup / shipping</Divider>

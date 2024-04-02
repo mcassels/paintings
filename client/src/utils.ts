@@ -31,3 +31,12 @@ export function areAdoptionsOpen(): boolean {
   const aprilTenthTenAmPacific = new Date('2024-04-10T10:00:00-07:00');
   return Date.now() >= aprilTenthTenAmPacific.getTime();
 }
+
+export function getPriceFromDamageLevel(damageLevel: number): number {
+  for (let i = 1; i <= 5; i++) {
+    if (damageLevel <= i) {
+      return 600 - (100 * i);
+    }
+  }
+  return 100;
+}

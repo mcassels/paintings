@@ -12,6 +12,7 @@ import ArtConservators from './ArtConservators';
 import LandingPage from './LandingPage';
 import Biography from './Biography';
 import { areAdoptionsOpen } from './utils';
+import Pricing from './Pricing';
 
 
 const queryClient = new QueryClient();
@@ -27,6 +28,7 @@ function AppInner() {
               <Route path="gallery" element={<PhotoGallery />} />
               <Route path="about" element={<Biography />} />
               <Route path="why-adopt" element={<WhyAdopt />} />
+              <Route path="pricing" element={<Pricing />} />
               <Route path="adopt" element={<HowToAdoptAPainting />} />
               <Route path="faqs" element={<FAQs />} />
               <Route path="after-adoption" element={<AfterAdoption />} />
@@ -64,6 +66,7 @@ function Layout() {
           <Menu.Item key="gallery"><NavLink to="/gallery">Gallery</NavLink></Menu.Item>
           <Menu.Item key="about"><NavLink to="/about">Biography</NavLink></Menu.Item>
           <Menu.Item key="why-adopt"><NavLink to="/why-adopt">Why Adopt</NavLink></Menu.Item>
+          <Menu.Item key="pricing"><NavLink to="/pricing">Pricing</NavLink></Menu.Item>
           <Menu.Item key="faqs"><NavLink to="/faqs">FAQs</NavLink></Menu.Item>
           <Menu.Item key="adopt"><NavLink to="/adopt">Adopt a Painting</NavLink></Menu.Item>
           <Menu.Item key="after-adoption"><NavLink to="/after-adoption">After Adoption</NavLink></Menu.Item>
