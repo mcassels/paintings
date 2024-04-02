@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { createSearchParams, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import Gallery from 'react-photo-gallery'
 import Lightbox from "yet-another-react-lightbox";
@@ -27,12 +27,12 @@ function SeeReverseButton(props: { painting?: Painting; }) {
         title={`"${painting.title}" reverse`}
         open={isModalOpen}
         onCancel={() => setIsModalOpen(false)}
-        width="50%"
         footer={[]}
       >
         <Image
           src={painting.backPhotoUrl}
           preview={false}
+          loading='lazy'
         />
       </Modal>
       <Button
@@ -100,23 +100,24 @@ function PaintingStoryButton(props: { painting: Painting|undefined }) {
 const savedPaintingKey = 'GORDANEER_SAVED_PAINTINGS';
 
 function SavePaintingButton(props: { paintingId: string }) {
+  const { paintingId } = props;
   const savedPaintings = localStorage.getItem(savedPaintingKey)?.split(',') || [];
-  const isSaved = savedPaintings.includes(props.paintingId);
+  const isSaved = savedPaintings.includes(paintingId);
 
   const [isFavourite, setIsFavourite] = React.useState(isSaved);
 
   function onClick() {
+    setIsFavourite((prev) => !prev);
     const savedPaintings = localStorage.getItem(savedPaintingKey)?.split(',') || [];
-    if (savedPaintings.includes(props.paintingId)) {
-      localStorage.setItem(savedPaintingKey, savedPaintings.filter((p) => p !== props.paintingId).join(','));
+    if (savedPaintings.includes(paintingId)) {
+      localStorage.setItem(savedPaintingKey, savedPaintings.filter((p) => p !== paintingId).join(','));
     } else {
-      localStorage.setItem(savedPaintingKey, [...savedPaintings, props.paintingId].join(','));
+      localStorage.setItem(savedPaintingKey, [...savedPaintings, paintingId].join(','));
 
       const url = window.location.href;
       const newWindow = window.open(url, '_blank', 'noopener,noreferrer');
       if (newWindow) newWindow.opener = null;
     }
-    setIsFavourite((prev) => !prev);
   }
 
   return (
@@ -288,14 +289,14 @@ function PhotoGalleryImpl(props: PhotoGalleryProps) {
         }}
         toolbar={{
           buttons: selectedPhotoId ? [
-            <div className="custom-button mt-4 mr-4">
+            <div className="custom-button mt-4 mr-4" key="button-bar">
               <div className="left-col">
-                <SavePaintingButton key="save-painting" paintingId={selectedPhotoId} />
+                <SavePaintingButton key={`save-painting-${selectedPhotoId}`} paintingId={selectedPhotoId} />
               </div>
               <div className="right-col flex flex-col justify-center space-y-4">
-                <BuyPaintingButton key="buy-painting" painting={paintings.find((p) => p.id === selectedPhotoId)} />
-                <PaintingStoryButton key="painting-story" painting={paintings.find((p) => p.id === selectedPhotoId)} />
-                <SeeReverseButton key="see-reverse" painting={paintings.find((p) => p.id === selectedPhotoId)} />
+                <BuyPaintingButton key={`buy-painting-${selectedPhotoId}`} painting={paintings.find((p) => p.id === selectedPhotoId)} />
+                <PaintingStoryButton key={`painting-story-${selectedPhotoId}`} painting={paintings.find((p) => p.id === selectedPhotoId)} />
+                <SeeReverseButton key={`see-reverse-${selectedPhotoId}`} painting={paintings.find((p) => p.id === selectedPhotoId)} />
               </div>
             </div>,
             "close",
@@ -336,7 +337,7 @@ function PhotoGalleryImpl(props: PhotoGalleryProps) {
         plugins={[Captions]}
         on={{
           view: ({ index }) => {
-            const nextSelectedId = galleryPhotos[index]?.id;
+            const nextSelectedId = paintings[index]?.id;
             if (nextSelectedId) {
               navigate({
                 pathname: location.pathname,
