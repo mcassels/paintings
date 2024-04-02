@@ -9,21 +9,40 @@ import { HeartOutlined, HeartFilled } from '@ant-design/icons';
 
 import { Painting } from './types';
 import { usePaintings } from './usePaintings';
-import { Button, Empty, Modal, Pagination, Spin, Tag } from 'antd';
+import { Button, Empty, Image, Modal, Pagination, Spin, Tag } from 'antd';
 import GalleryFilters from './GalleryFilters';
 import Markdown from 'react-markdown';
 import { getPaintingInfos } from './utils';
 
-function SeeReverseButton(props: { setShowReverse: React.Dispatch<React.SetStateAction<boolean>>, showReverse: boolean }) {
-  const { setShowReverse, showReverse } = props;
+function SeeReverseButton(props: { painting?: Painting; }) {
+  const { painting } = props;
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  if (!painting) {
+    return null;
+  }
   return (
-    <Button
-      type="link"
-      className="w-[105px]"
-      onClick={() => setShowReverse((prev) => !prev)}
-    >
-      {showReverse ? "See the front" : "See the back"}
-    </Button>
+    <>
+      <Modal
+        title={`"${painting.title}" reverse`}
+        open={isModalOpen}
+        onCancel={() => setIsModalOpen(false)}
+        width="50%"
+        footer={[]}
+      >
+        <Image
+          src={painting.backPhotoUrl}
+          preview={false}
+        />
+      </Modal>
+      <Button
+        type="link"
+        className="w-[105px]"
+        onClick={() => setIsModalOpen(true)}
+      >
+        See the back
+      </Button>
+    </>
   );
 }
 
@@ -216,8 +235,6 @@ function PhotoGalleryImpl(props: PhotoGalleryProps) {
     };
   }).slice((pageNum - 1) * PAGE_SIZE, pageNum * PAGE_SIZE);
 
-  const [showReverse, setShowReverse] = useState<boolean>(false);
-
   return (
     <div>
       <div>
@@ -278,7 +295,7 @@ function PhotoGalleryImpl(props: PhotoGalleryProps) {
               <div className="right-col flex flex-col justify-center space-y-4">
                 <BuyPaintingButton key="buy-painting" painting={paintings.find((p) => p.id === selectedPhotoId)} />
                 <PaintingStoryButton key="painting-story" painting={paintings.find((p) => p.id === selectedPhotoId)} />
-                <SeeReverseButton key="see-reverse" showReverse={showReverse} setShowReverse={setShowReverse} />
+                <SeeReverseButton key="see-reverse" painting={paintings.find((p) => p.id === selectedPhotoId)} />
               </div>
             </div>,
             "close",
@@ -290,11 +307,10 @@ function PhotoGalleryImpl(props: PhotoGalleryProps) {
           const nextParams = new URLSearchParams(params);
           nextParams.delete('selected');
           navigate({ pathname: location.pathname, search: nextParams.toString()})
-          setShowReverse(false);
         }}
         index={selectedPhotoIdx}
         slides={paintings.map((painting) => {
-          const photoUrl = showReverse ? painting.backPhotoUrl : painting.frontPhotoUrl;
+          const photoUrl = painting.frontPhotoUrl;
 
           // The lightbox photos must take up a document.documentElement.clientHeight - 32 x document.documentElement.clientHeight - 32
           // square space, so that there is enough room for the title and toolbar, etc.
@@ -313,7 +329,7 @@ function PhotoGalleryImpl(props: PhotoGalleryProps) {
             height,
             caption: painting.title,
             id: painting.id,
-            title: `${showReverse ? '(VERSO) ' : ''}${painting.title}`,
+            title: painting.title,
             description: getPaintingDescription(painting),
           }
         })}
@@ -329,7 +345,6 @@ function PhotoGalleryImpl(props: PhotoGalleryProps) {
                   selected: nextSelectedId.toString(),
                 }).toString()
               });
-              setShowReverse(false);
             }
           }
         }}
