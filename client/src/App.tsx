@@ -48,13 +48,9 @@ function Layout() {
     <div className="box wrapper">
       <div className="App-header header bg-[#193259]">
         <div>Gordaneer Painting Adoption Project</div>
-        {
-          !areAdoptionsOpen() && (
-            <div className="text-base pt-2">
-              Adoptions open April 10th!
-            </div>
-          )
-        }
+        <div className="text-sm pt-1">
+          {areAdoptionsOpen() ? 'Adoptions close May 9th' : 'Adoptions open April 10th!'}
+        </div>
       </div>
       <div className="box sidebar">
         <Menu
