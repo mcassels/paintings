@@ -2,6 +2,7 @@ import React from 'react';
 import { useFAQs } from './useFAQs';
 import Markdown from 'react-markdown';
 import { Collapse, CollapseProps, Spin } from 'antd';
+import BrowsePaintingsButton from './BrowsePaintingsButton';
 
 export default function FAQs() {
   const faqs = useFAQs();
@@ -25,8 +26,14 @@ export default function FAQs() {
 
   return (
     <div className="w-[650px] pb-8">
-      <div className="text-lg font-bold pb-10">Frequently Asked Questions</div>
+      <div className="flex justify-between">
+        <div className="text-lg font-bold pb-10">Frequently Asked Questions</div>
+        <BrowsePaintingsButton />
+      </div>
       <Collapse items={items} />
+      <div className="pt-8 pb-4">
+        <BrowsePaintingsButton />
+      </div>
     </div>
   )
 }
