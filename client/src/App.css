@@ -111,64 +111,6 @@ html,
   font-size: 10px;
 }
 
-.available-checked {
-  color: #389e0d;
-  background: #f6ffed;
-  border-color: #b7eb8f;
-}
-.available-checked:hover {
-  color: #237804;
-  background: #b7eb8f;
-  border-color: #237804;
-}
-
-.available:hover {
-  color: #237804 !important;
-}
-
-.adopted-checked {
-  color: #cf1322;
-  background: #fff1f0;
-  border-color: #ffa39e;
-}
-.adopted-checked:hover {
-  color: #610b00;
-  background: #fff2f0;
-  border-color: #cf1322;
-}
-.adopted {
-  color: #cf1322;
-}
-
-.pending-checked {
-  color: #d46b08;
-  background: #fff7e6;
-  border-color: #ffd591;
-}
-.pending-checked:hover {
-  color: #612c00;
-  background: #fffbe6;
-  border-color: #d46b08;
-}
-.pending {
-  color: #d46b08;
-}
-
-.ribbon-holder {
-  overflow: hidden;
-  position: relative
-}
-.ribbon {
-  position: absolute;
-  background: yellow;
-  color: black;
-  transform: rotate(-45deg);
-  text-align: center;
-  top: 32px;
-  left: -32px;
-  width: 145px;
-}
-
 .yarl__toolbar {
   /* align-items: center; */
   display: grid !important;

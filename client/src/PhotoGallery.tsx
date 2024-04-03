@@ -146,15 +146,12 @@ function getPaintingDescription(p: Painting): string {
   return `${parts.map((p) => p.replaceAll('\n', '')).join('\n')}`;
 }
 
+// TODO: could probably make the code in here more generic
 function filterPaintings(
   searchParams: URLSearchParams,
   paintings: Painting[],
 ): Painting[] {
   const decades = searchParams.getAll('decade').filter((d) => d !== '');
-  const minDamageLevelParam = searchParams.get('damage_min');
-  const maxDamageLevelParam = searchParams.get('damage_max');
-  const minDamageLevel = minDamageLevelParam ? parseInt(minDamageLevelParam) : 1;
-  const maxDamageLevel = maxDamageLevelParam ? parseInt(maxDamageLevelParam) : 5;
   const colors = searchParams.getAll('color').filter((d) => d !== '');
   const subjects = searchParams.getAll('subject').filter((d) => d !== '');
   const statuses = searchParams.getAll('status').filter((d) => d !== '') as ('available'|'pending'|'adopted')[];
@@ -166,16 +163,13 @@ function filterPaintings(
   }
 
   // If no filters are set, return all paintings
-  if (decades.length === 0 && (minDamageLevel === 1 && maxDamageLevel === 5) && colors.length === 0 && statuses.length === 0 && !favourited && subjects.length === 0) {
+  if (decades.length === 0 && colors.length === 0 && statuses.length === 0 && !favourited && subjects.length === 0) {
     return paintings;
   }
-  // The filters for each of decade, damage, color, and status are ANDed together
+  // The filters for each of decade, damage, color, subject, and status are ANDed together
   // FOR EACH FILTER THAT IS SET.
   // The options within each filter are ORed together.
   return paintings.filter((p: Painting) => {
-    if (p.damageLevel < minDamageLevel || p.damageLevel > maxDamageLevel) {
-      return false;
-    }
     if (damageLevels.length > 0 && !damageLevels.includes(p.damageLevel.toString())) {
       return false;
     }
@@ -185,7 +179,6 @@ function filterPaintings(
     if (colors.length > 0 && !colors.some((c) => p.tags.predominantColors.includes(c))) {
       return false;
     }
-    debugger;
     if (subjects.length > 0 && !subjects.some((s) => p.tags.subjectMatter.includes(s))) {
       return false;
     }
