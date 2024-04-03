@@ -156,7 +156,9 @@ function filterPaintings(
   const minDamageLevel = minDamageLevelParam ? parseInt(minDamageLevelParam) : 1;
   const maxDamageLevel = maxDamageLevelParam ? parseInt(maxDamageLevelParam) : 5;
   const colors = searchParams.getAll('color').filter((d) => d !== '');
+  const subjects = searchParams.getAll('subject').filter((d) => d !== '');
   const statuses = searchParams.getAll('status').filter((d) => d !== '') as ('available'|'pending'|'adopted')[];
+  const damageLevels = searchParams.getAll('damage_level').filter((d) => d !== '');
 
   let favourited: string[]|null = null;
   if (searchParams.get('favourites') === 'true') {
@@ -174,10 +176,16 @@ function filterPaintings(
     if (p.damageLevel < minDamageLevel || p.damageLevel > maxDamageLevel) {
       return false;
     }
+    if (damageLevels.length > 0 && !damageLevels.includes(p.damageLevel.toString())) {
+      return false;
+    }
     if (decades.length > 0 && !decades.includes(p.tags.decade)) {
       return false;
     }
     if (colors.length > 0 && !colors.some((c) => p.tags.predominantColors.includes(c))) {
+      return false;
+    }
+    if (subjects.length > 0 && !subjects.some((s) => p.tags.subjectMatter.includes(s))) {
       return false;
     }
     if (statuses.length > 0 && !statuses.includes(p.tags.status)) {

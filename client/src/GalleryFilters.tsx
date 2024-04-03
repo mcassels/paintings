@@ -1,6 +1,6 @@
 import React from "react";
 import { Divider, Select, Slider, SliderSingleProps, Tag } from "antd";
-import { Painting, PaintingStatus } from "./types";
+import { Painting, PaintingStatus, PaintingTags } from "./types";
 import { useLocation, useNavigate } from "react-router";
 import { HeartFilled, HeartOutlined } from "@ant-design/icons";
 
@@ -20,6 +20,53 @@ const statusStylesAndColors: { [K in PaintingStatus]: { color: string, style: st
 };
 const statuses: PaintingStatus[] = ['available', 'pending', 'adopted'];
 
+interface MultiSelectFilterProps {
+  paintings: Painting[];
+  paramKey: string;
+  tagKey: keyof PaintingTags;
+  title: string;
+}
+
+function MultiSelectFilter(props: MultiSelectFilterProps) {
+  const {
+    paintings,
+    paramKey,
+    tagKey,
+    title,
+  } = props;
+
+  const location = useLocation();
+  const navigate = useNavigate();
+  const params = new URLSearchParams(location.search);
+
+  function handleChange(values: string[]) {
+    const searchParams = new URLSearchParams(location.search);
+    searchParams.delete(paramKey);
+    values.forEach((value) => {
+      searchParams.append(paramKey, value);
+    });
+    // Always reset to first page when filters change
+    searchParams.set('page', '1');
+    navigate({
+      search: searchParams.toString(),
+    });
+  }
+
+  return (
+    <Select
+      title={title}
+      mode="multiple"
+      allowClear
+      // TODO: fix this translate hack later
+      style={{ width: '220px', fontSize: '12px', transform: 'translateY(-6px)'}}
+      placeholder={title}
+      defaultValue={params.getAll(paramKey)}
+      onChange={(values) => handleChange(values)}
+      options={Array.from(new Set(paintings.flatMap((p) => p.tags[tagKey]))).sort().map((value) => { return { value, label: value }; })}
+    />
+  );
+}
+
 
 interface GalleryFiltersProps {
   paintings: Painting[];
@@ -31,19 +78,6 @@ export default function GalleryFilters(props: GalleryFiltersProps) {
   const navigate = useNavigate();
   const location = useLocation();
   const params = new URLSearchParams(location.search);
-
-  function handleChange(key: string, values: string[]) {
-    const searchParams = new URLSearchParams(location.search);
-    searchParams.delete(key);
-    values.forEach((value) => {
-      searchParams.append(key, value);
-    });
-    // Always reset to first page when filters change
-    searchParams.set('page', '1');
-    navigate({
-      search: searchParams.toString(),
-    });
-  }
 
   const marks: SliderSingleProps['marks'] = {};
   for (let i = 1; i <= 5; i++) {
@@ -76,7 +110,6 @@ export default function GalleryFilters(props: GalleryFiltersProps) {
                   }
                   // Always reset to first page when filters change
                   searchParams.set('page', '1');
-                  console.log(searchParams.toString());
                   navigate({
                     search: searchParams.toString()
                   });
@@ -111,7 +144,6 @@ export default function GalleryFilters(props: GalleryFiltersProps) {
                 searchParams.set('damage_max', max.toString());
                 // Always reset to first page when filters change
                 searchParams.set('page', '1');
-                console.log(searchParams.toString());
                 navigate({
                   search: searchParams.toString()
                 });
@@ -121,16 +153,20 @@ export default function GalleryFilters(props: GalleryFiltersProps) {
           <div className="mr-2">
             <Divider type="vertical" style={{ height: '1.4rem', border: '0.5px solid black' }}/>
           </div>
-          <Select
+          <MultiSelectFilter
+            paintings={paintings}
+            paramKey="color"
+            tagKey="predominantColors"
             title="Predominant colours"
-            mode="multiple"
-            allowClear
-            // TODO: fix this translate hack later
-            style={{ width: '220px', fontSize: '12px', transform: 'translateY(-6px)'}}
-            placeholder="Predominant colours"
-            defaultValue={params.getAll('color')}
-            onChange={(values) => handleChange('color', values)}
-            options={Array.from(new Set(paintings.flatMap((p) => p.tags.predominantColors))).sort().map((value) => { return { value, label: value }; })}
+          />
+          <div className="mr-2">
+            <Divider type="vertical" style={{ height: '1.4rem', border: '0.5px solid black' }}/>
+          </div>
+          <MultiSelectFilter
+            paintings={paintings}
+            paramKey="subject"
+            tagKey="subjectMatter"
+            title="Subject matter"
           />
           <div className="mr-2">
             <Divider type="vertical" style={{ height: '1.4rem', border: '0.5px solid black' }}/>
@@ -161,7 +197,6 @@ export default function GalleryFilters(props: GalleryFiltersProps) {
                       });
                       // Always reset to first page when filters change
                       searchParams.set('page', '1');
-                      console.log(searchParams.toString());
                       navigate({
                         search: searchParams.toString()
                       });
@@ -193,7 +228,6 @@ export default function GalleryFilters(props: GalleryFiltersProps) {
               }
               // Always reset to first page when filters change
               searchParams.set('page', '1');
-              console.log(searchParams.toString());
               navigate({
                 search: searchParams.toString()
               });

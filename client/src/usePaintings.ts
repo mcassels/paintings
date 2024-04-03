@@ -15,6 +15,7 @@ function getTags(painting: Omit<Painting, 'tags'>): PaintingTags {
     damageLevel: painting.damageLevel,
     predominantColors: painting.predominantColors,
     status: painting.status,
+    subjectMatter: painting.subjectMatter,
   };
 }
 
@@ -66,6 +67,13 @@ async function fetchPaintings(): Promise<Painting[]> {
       } else if (fields.red_dot) {
         status = 'adopted';
       }
+
+      const damageLevel = fields.damage_level && Math.ceil(fields.damage_level);
+      if (!damageLevel || damageLevel > 5) {
+        console.error('Skipping painting with unexpected damage level', fields);
+        continue;
+      }
+
       // TODO: later, once these are act
       const painting: Omit<Painting, 'tags'> = {
         id: fields.id.toUpperCase(),
@@ -74,7 +82,7 @@ async function fetchPaintings(): Promise<Painting[]> {
         backPhotoUrl: fields.back_photo_url,
         year: fields.year,
         yearGuess: fields.year_guess,
-        damageLevel: Math.ceil(fields.damage_level),
+        damageLevel,
         medium: fields.medium,
         height: fields.height,
         width: fields.width,

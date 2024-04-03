@@ -5,6 +5,7 @@ export interface PaintingTags {
   damageLevel: number;
   predominantColors: string[];
   status: PaintingStatus;
+  subjectMatter: string[];
 }
 export interface Painting {
   id: string;
