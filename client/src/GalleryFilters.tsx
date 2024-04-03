@@ -13,12 +13,12 @@ const statusStylesAndColors: { [K in PaintingStatus]: { color: string, style: st
     color: '#faad14',
     style: 'ant-tag-gold'
   },
-  sold: {
+  adopted: {
     color: '#cf1322',
     style: 'ant-tag-red'
   },
 };
-const statuses: PaintingStatus[] = ['available', 'pending', 'sold'];
+const statuses: PaintingStatus[] = ['available', 'pending', 'adopted'];
 
 
 interface GalleryFiltersProps {
@@ -40,7 +40,6 @@ export default function GalleryFilters(props: GalleryFiltersProps) {
     });
     // Always reset to first page when filters change
     searchParams.set('page', '1');
-    console.log(searchParams.toString());
     navigate({
       search: searchParams.toString(),
     });

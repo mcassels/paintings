@@ -77,8 +77,8 @@ export default function SelectAPainting() {
       className="w-[650px]"
     >
       <Image
+        width={400}
         alt={painting.title}
-        preview={false}
         src={painting.frontPhotoUrl}
       />
     </Card>

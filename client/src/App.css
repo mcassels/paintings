@@ -126,17 +126,17 @@ html,
   color: #237804 !important;
 }
 
-.sold-checked {
+.adopted-checked {
   color: #cf1322;
   background: #fff1f0;
   border-color: #ffa39e;
 }
-.sold-checked:hover {
+.adopted-checked:hover {
   color: #610b00;
   background: #fff2f0;
   border-color: #cf1322;
 }
-.sold {
+.adopted {
   color: #cf1322;
 }
 

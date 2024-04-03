@@ -55,9 +55,9 @@ function BuyPaintingButton(props: { painting: Painting|undefined }) {
       <Tag className="w-[125px] h-fit flex justify-center" color="gold"><div>Pending</div></Tag>
     );
   }
-  if (props.painting.tags.status === 'sold') {
+  if (props.painting.tags.status === 'adopted') {
     return (
-      <Tag className="w-[125px] h-fit flex justify-center" color="red"><div>Sold</div></Tag>
+      <Tag className="w-[125px] h-fit flex justify-center" color="red"><div>Adopted</div></Tag>
     );
   }
   return (
@@ -156,7 +156,7 @@ function filterPaintings(
   const minDamageLevel = minDamageLevelParam ? parseInt(minDamageLevelParam) : 1;
   const maxDamageLevel = maxDamageLevelParam ? parseInt(maxDamageLevelParam) : 5;
   const colors = searchParams.getAll('color').filter((d) => d !== '');
-  const statuses = searchParams.getAll('status').filter((d) => d !== '') as ('available'|'pending'|'sold')[];
+  const statuses = searchParams.getAll('status').filter((d) => d !== '') as ('available'|'pending'|'adopted')[];
 
   let favourited: string[]|null = null;
   if (searchParams.get('favourites') === 'true') {
@@ -306,7 +306,6 @@ function PhotoGalleryImpl(props: PhotoGalleryProps) {
         close={() => {
           const nextParams = new URLSearchParams(location.search);
           nextParams.delete('selected');
-          console.log(`313 ${nextParams.toString()}`);
           navigate({ pathname: location.pathname, search: nextParams.toString()})
         }}
         index={selectedPhotoIdx}

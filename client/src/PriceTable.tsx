@@ -72,7 +72,7 @@ export default function PriceTable(props: PriceTableProps) {
 
   return (
     <Table
-      rowClassName={(record, _) => record.damageLevel === selectedDamageLevel ? 'bg-sky-100' : ''}
+      rowClassName={(record, _) => record.damageLevel === selectedDamageLevel ? 'font-bold' : ''}
       dataSource={dataSource}
       columns={columns}
       pagination={false}

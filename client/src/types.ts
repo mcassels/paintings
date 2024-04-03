@@ -1,4 +1,4 @@
-export type PaintingStatus = 'available'|'pending'|'sold';
+export type PaintingStatus = 'available'|'pending'|'adopted';
 
 export interface PaintingTags {
   decade: string;

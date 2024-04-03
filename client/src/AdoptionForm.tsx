@@ -5,6 +5,7 @@ import { Form, Input, Button, Spin, Divider, Cascader, Checkbox, Radio, Space } 
 import { useEffect, useState } from "react";
 import { areAdoptionsOpen, getPriceFromDamageLevel } from './utils';
 import PriceTable from './PriceTable';
+import { NavLink } from 'react-router-dom';
 
 enum PriceOption {
   Personal = 'Personal',
@@ -30,9 +31,9 @@ function getPickupOptionSubtitle(cascaderOptions: string[]|undefined): string|nu
   const pickupOption = getPickupOptionFromCascaderValue(cascaderOptions)
   switch (pickupOption) {
     case PickupOption.InPersonMay17:
-      return "I will pick up the work in person in Victoria on Friday May 17, 11am-2pm";
+      return "I will pick up the work in person in Victoria on Friday May 17, 11am-2pm. The pickup address will be sent in a confirmation email.";
     case PickupOption.InPersonJune1:
-      return "I will pick up the work in person in Victoria on Saturday June 1, noon-3pm";
+      return "I will pick up the work in person in Victoria on Saturday June 1, noon-3pm. The pickup address will be sent in a confirmation email.";
     case PickupOption.AlternateDate:
       return "I am unable to pick up the work in person on either of the set days. Please contact me once you have decided on an alternate pickup date.";
     case PickupOption.ShipCanada:
@@ -135,7 +136,7 @@ export default function AdoptionForm() {
       if (res.status < 200 || res.status >= 300) {
         onFormSubmitError();
       } else {
-        window.alert("Your adoption has been submitted!");
+        window.alert("Thank you! Your adoption is being processed.");
         navigate("/after-adoption")
       }
     } catch (e) {
@@ -196,7 +197,7 @@ export default function AdoptionForm() {
           <Input />
         </Form.Item>
         <div id="donation" className="w-[650px]">
-          <Divider className="border-slate-400" orientation="left">Donation</Divider>
+          <Divider className="border-slate-400" orientation="left">Adoption fee</Divider>
         </div>
         {
           painting ? (
@@ -205,7 +206,7 @@ export default function AdoptionForm() {
                 <div className="flex flex-col w-1/2">
                   <div className="w-[500px] flex space-x-2 text-base">
                     <div className="font-bold">
-                      Adoption amount:
+                      Adoption fee:
                     </div>
                     <div>
                       {`$${getPriceFromDamageLevel(painting.damageLevel)} CAD`}
@@ -217,8 +218,17 @@ export default function AdoptionForm() {
                     </div>
                   </div>
                 </div>
-                <div className="text-sm">
-                  Refer to table below showing adoption amounts based on damage level.
+                <div className="flex justify-between">
+                  <div className="text-sm flex flex-col justify-center">
+                    <div>
+                      The adoption fee is based on the painting's damage level.
+                    </div>
+                  </div>
+                  <Button type="link">
+                    <NavLink to="/pricing">
+                      More info
+                    </NavLink>
+                  </Button>
                 </div>
               </div>
               {
@@ -263,8 +273,17 @@ export default function AdoptionForm() {
               }
             </div>
           ) : (
-            <div className="text-sm">
-              Adoption amount is based on the painting's damage level:
+            <div className="flex justify-between">
+              <div className="text-sm flex flex-col justify-center">
+                <div>
+                  The adoption fee is based on the painting's damage level.
+                </div>
+              </div>
+              <Button type="link">
+                <NavLink to="/pricing">
+                  More info
+                </NavLink>
+              </Button>
             </div>
           )
         }

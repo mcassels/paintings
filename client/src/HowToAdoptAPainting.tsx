@@ -46,7 +46,7 @@ export default function HowToAdoptAPainting() {
               {
                 key: 'donation',
                 href: '#donation',
-                title: 'Donation',
+                title: 'Adoption fee',
               },
               {
                 key: 'pickup',

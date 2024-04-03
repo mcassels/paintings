@@ -64,7 +64,7 @@ async function fetchPaintings(): Promise<Painting[]> {
       if (fields.adoption_pending) {
         status = 'pending';
       } else if (fields.red_dot) {
-        status = 'sold';
+        status = 'adopted';
       }
       // TODO: later, once these are act
       const painting: Omit<Painting, 'tags'> = {
