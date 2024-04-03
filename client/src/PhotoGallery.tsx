@@ -166,7 +166,7 @@ function filterPaintings(
   }
 
   // If no filters are set, return all paintings
-  if (decades.length === 0 && (minDamageLevel === 1 && maxDamageLevel === 5) && colors.length === 0 && statuses.length === 0 && !favourited) {
+  if (decades.length === 0 && (minDamageLevel === 1 && maxDamageLevel === 5) && colors.length === 0 && statuses.length === 0 && !favourited && subjects.length === 0) {
     return paintings;
   }
   // The filters for each of decade, damage, color, and status are ANDed together
@@ -185,6 +185,7 @@ function filterPaintings(
     if (colors.length > 0 && !colors.some((c) => p.tags.predominantColors.includes(c))) {
       return false;
     }
+    debugger;
     if (subjects.length > 0 && !subjects.some((s) => p.tags.subjectMatter.includes(s))) {
       return false;
     }
