@@ -13,7 +13,7 @@ enum PriceOption {
 
 enum PickupOption {
   InPersonMay17 = 'InPersonMay17',
-  InPersonMay18 = 'InPersonMay18',
+  InPersonJune1 = 'InPersonJune1',
   AlternateDate = 'AlternateDate',
   ShipCanada = 'ShipCanada',
   ShipInternational = 'ShipInternational',
@@ -30,9 +30,9 @@ function getPickupOptionSubtitle(cascaderOptions: string[]|undefined): string|nu
   const pickupOption = getPickupOptionFromCascaderValue(cascaderOptions)
   switch (pickupOption) {
     case PickupOption.InPersonMay17:
-      return "I will pick up the work in person in Victoria on May 17, 1pm-3pm";
-    case PickupOption.InPersonMay18:
-      return "I will pick up the work in person in Victoria on May 18, noon-3pm";
+      return "I will pick up the work in person in Victoria on Friday May 17, 11am-2pm";
+    case PickupOption.InPersonJune1:
+      return "I will pick up the work in person in Victoria on Saturday June 1, noon-3pm";
     case PickupOption.AlternateDate:
       return "I am unable to pick up the work in person on either of the set days. Please contact me once you have decided on an alternate pickup date.";
     case PickupOption.ShipCanada:
@@ -290,11 +290,11 @@ export default function AdoptionForm() {
                 children: [
                   {
                     value: PickupOption.InPersonMay17,
-                    label: 'May 17, 1pm-3pm',
+                    label: 'Friday May 17, 11am-2pm',
                   },
                   {
-                    value: PickupOption.InPersonMay18,
-                    label: 'May 18, noon-3pm',
+                    value: PickupOption.InPersonJune1,
+                    label: 'Saturday June 1, noon-3pm',
                   },
                   {
                     value: PickupOption.AlternateDate,
@@ -354,8 +354,8 @@ export default function AdoptionForm() {
           ]}
         >
           <Checkbox>
-            <div className="w-[650px] ml-4">
-              I acknowledge that the artwork I am adopting has some degree of damage and am aware that this damage may or may not include mold spores. I agree that I will not hold the Gordaneer estate or family responsible for any negative impact that may result. 
+            <div className="w-[650px] ml-4 font-bold">
+              I acknowledge that the artwork I am adopting has some degree of damage and am aware that this damage may or may not include mold spores. I agree that I am accepting the artwork “as is” and will not hold the Gordaneer estate or family responsible for any negative impact that may result. 
             </div>
           </Checkbox>
         </Form.Item>
