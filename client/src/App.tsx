@@ -53,7 +53,7 @@ function Layout() {
         <Header className="bg-[#193259] text-white text-center justify-center flex flex-col text-3xl p-[8px] h-fit mb-6">
           <div className="pt-2">Gordaneer Painting Adoption Project</div>
           <div className="text-sm pt-1">
-            {areAdoptionsOpen() ? 'Adoptions close May 9th' : 'Adoptions open April 10th!'}
+            {areAdoptionsOpen() ? 'Adoptions close May 9th' : 'Adoptions open soon!'}
           </div>
         </Header>
         <div className="box wrapper">

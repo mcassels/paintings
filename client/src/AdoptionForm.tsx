@@ -399,7 +399,7 @@ export default function AdoptionForm() {
                   Submit
                 </Button>
                 <div className="text-red-500 align-middle">
-                  Adoptions open April 10th!
+                  Adoptions open soon!
                 </div>
               </div>
             )
