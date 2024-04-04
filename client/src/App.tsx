@@ -78,7 +78,7 @@ function Layout() {
           </div>
         </div>
       </div>
-      <Footer className="shrink-0 p-4 flex justify-center">
+      <Footer className="shrink-0 p-3 mt-4 flex justify-center">
         © 2024&nbsp;<a href="https://github.com/mcassels/morgan" target="_blank" rel="noreferrer">Morgan Brooks</a>
       </Footer>
     </div>
