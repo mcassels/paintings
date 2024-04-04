@@ -238,14 +238,14 @@ function PhotoGalleryImpl(props: PhotoGalleryProps) {
   }).slice((pageNum - 1) * PAGE_SIZE, pageNum * PAGE_SIZE);
 
   return (
-    <div>
-      <div>
+    <div className="mr-2">
+      <div className="mb-4">
         <GalleryFilters paintings={allPaintings}/>
       </div>
-      <div style={{ maxHeight: "calc(100vh - 220px)", minHeight:"calc(100vh - 220px)", overflow: "scroll" }}>
+      <div>
         {
           galleryPhotos.length === 0 ? (
-            <div style={{ minHeight:"calc(100vh - 200px)" }} className="flex justify-center items-center">
+            <div className="flex justify-center align-middle pt-[20vh] pb-[30vh]">
               <Empty
                 image={Empty.PRESENTED_IMAGE_SIMPLE}
                 description="No paintings match your filters."
@@ -265,6 +265,8 @@ function PhotoGalleryImpl(props: PhotoGalleryProps) {
                   });
                 }
               }}
+              direction="row"
+              targetRowHeight={300}
             />
           )
         }
@@ -352,12 +354,12 @@ function PhotoGalleryImpl(props: PhotoGalleryProps) {
       />
       <div className="pt-4 min-w-[calc(100vw-200px)]">
         <div className="flex justify-center">
-            <Pagination
-              defaultCurrent={pageNum}
-              total={paintings.length}
-              showSizeChanger={false}
-              defaultPageSize={PAGE_SIZE}
-              onChange={(page) => setPageNum(page)}
+          <Pagination
+            defaultCurrent={pageNum}
+            total={paintings.length}
+            showSizeChanger={false}
+            defaultPageSize={PAGE_SIZE}
+            onChange={(page) => setPageNum(page)}
           />
         </div>
       </div>

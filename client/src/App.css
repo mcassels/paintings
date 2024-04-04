@@ -13,6 +13,10 @@ html,
   font-family: theme('fontFamily.sans', ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"); /* 4 */
 }
 
+body {
+  margin: 0;
+}
+
 .App {
   max-height: 100vh;
 }
@@ -39,61 +43,20 @@ html,
   grid-area: content;
 }
 
-.header {
-  grid-area: header;
-  margin-bottom: 10px;
+.footer {
+  grid-area: footer;
 }
-
 
 .wrapper {
   display: grid;
   grid-gap: 10px;
   grid-template-areas:
-              "header header header"
-              "sidebar content content";
+              "sidebar content content"
+              "footer footer footer";
 }
 
 .box {
   border-radius: 5px;
-}
-
-.inputcol {
-  text-align: left;
-}
-
-.labelcol {
-  text-align: right;
-}
-
-.form-wrapper {
-  display: grid;
-  grid-gap: 10px;
-  grid-template-areas:
-              "labelcol inputcol";
-  grid-template-columns: 150px 300px;
-}
-
-.radio-button-wrapper {
-  display: grid;
-  grid-gap: 10px;
-  grid-template-areas:
-              "labelcol inputcol";
-  grid-template-columns: 50px 650px;
-}
-
-.form-wrapper {
-  display: grid;
-  grid-gap: 10px;
-  grid-template-areas:
-              "labelcol inputcol";
-  grid-template-columns: 150px 300px;
-}
-
-.art-conservators-wrapper {
-  display: grid;
-  grid-gap: 10px;
-  grid-template-areas:
-              "name bio website";
 }
 
 .ant-carousel .slick-dots li button{

@@ -84,12 +84,14 @@ export default function GalleryFilters(props: GalleryFiltersProps) {
         </div>
       </div>
       <div className="flex space-x-2 flex-wrap">
-        <MultiSelectFilter
-          paintings={paintings}
-          paramKey="decade"
-          tagKey="decade"
-          title="Decade"
-        />
+        <div className="ml-2">
+          <MultiSelectFilter
+            paintings={paintings}
+            paramKey="decade"
+            tagKey="decade"
+            title="Decade"
+          />
+        </div>
         <MultiSelectFilter
           paintings={paintings}
           paramKey="color"

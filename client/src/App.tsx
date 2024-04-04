@@ -14,6 +14,7 @@ import { areAdoptionsOpen } from './utils';
 import Pricing from './Pricing';
 import { CARE_AND_CONSERVATION_KEY } from './constants';
 import TextPage from './TextPage';
+import { Footer, Header } from 'antd/es/layout/layout';
 
 
 const queryClient = new QueryClient();
@@ -46,33 +47,38 @@ function Layout() {
   const location = useLocation();
   const selectedKey = location.pathname.split('/')[1];
   return (
-    <div className="box wrapper">
-      <div className="App-header header bg-[#193259]">
-        <div>Gordaneer Painting Adoption Project</div>
+    <div className="min-h-svh">
+      <div>
+      <Header className="bg-[#193259] text-white text-center justify-center flex flex-col text-3xl p-[8px] h-fit mb-6">
+        <div className="pt-2">Gordaneer Painting Adoption Project</div>
         <div className="text-sm pt-1">
           {areAdoptionsOpen() ? 'Adoptions close May 9th' : 'Adoptions open April 10th!'}
         </div>
+      </Header>
+      <div className="box wrapper">
+        <div className="box sidebar">
+          <Menu
+            style={{ width: 'fit-content' }}
+            defaultSelectedKeys={[selectedKey]}
+            selectedKeys={[selectedKey]}
+          >
+            <Menu.Item key="home" title="Home"><NavLink to="/home">Home</NavLink></Menu.Item>
+            <Menu.Item key="gallery" title="Gallery"><NavLink to="/gallery">Gallery</NavLink></Menu.Item>
+            <Menu.Item key="about" title="Biography"><NavLink to="/about">Biography</NavLink></Menu.Item>
+            <Menu.Item key="why-adopt" title="About this Project"><NavLink to="/why-adopt">About this Project</NavLink></Menu.Item>
+            <Menu.Item key="pricing" title="Pricing"><NavLink to="/pricing">Pricing</NavLink></Menu.Item>
+            <Menu.Item key="adopt" title="Adopt a Painting"><NavLink to="/adopt">Adopt a Painting</NavLink></Menu.Item>
+            <Menu.Item key="after-adoption" title="After Adoption"><NavLink to="/after-adoption">After Adoption</NavLink></Menu.Item>
+            <Menu.Item key="art-conservators" title="Care & Conservation"><NavLink to="/art-conservators">Care & Conservation</NavLink></Menu.Item>
+            <Menu.Item key="faqs" title="FAQs"><NavLink to="/faqs">FAQs</NavLink></Menu.Item>
+          </Menu>
+        </div>
+        <div className="box content">
+          <Outlet />
+        </div>
       </div>
-      <div className="box sidebar">
-        <Menu
-          style={{ width: 'fit-content' }}
-          defaultSelectedKeys={[selectedKey]}
-          selectedKeys={[selectedKey]}
-        >
-          <Menu.Item key="home" title="Home"><NavLink to="/home">Home</NavLink></Menu.Item>
-          <Menu.Item key="gallery" title="Gallery"><NavLink to="/gallery">Gallery</NavLink></Menu.Item>
-          <Menu.Item key="about" title="Biography"><NavLink to="/about">Biography</NavLink></Menu.Item>
-          <Menu.Item key="why-adopt" title="About this Project"><NavLink to="/why-adopt">About this Project</NavLink></Menu.Item>
-          <Menu.Item key="pricing" title="Pricing"><NavLink to="/pricing">Pricing</NavLink></Menu.Item>
-          <Menu.Item key="adopt" title="Adopt a Painting"><NavLink to="/adopt">Adopt a Painting</NavLink></Menu.Item>
-          <Menu.Item key="after-adoption" title="After Adoption"><NavLink to="/after-adoption">After Adoption</NavLink></Menu.Item>
-          <Menu.Item key="art-conservators" title="Care & Conservation"><NavLink to="/art-conservators">Care & Conservation</NavLink></Menu.Item>
-          <Menu.Item key="faqs" title="FAQs"><NavLink to="/faqs">FAQs</NavLink></Menu.Item>
-        </Menu>
       </div>
-      <div className="box content">
-        <Outlet />
-      </div>
+      {/* <Footer className="absolute bottom-0 w-full">footer</Footer> */}
     </div>
   );
 }
