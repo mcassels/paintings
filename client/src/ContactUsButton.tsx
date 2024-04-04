@@ -20,7 +20,10 @@ export default function ContactUsButton() {
   useEffect(() => {
     form
       .validateFields({ validateOnly: true })
-      .then(() => setSubmittable(true))
+      .then((vals) => {
+        // Not sure why this is passing validation when they are all unset...
+        setSubmittable(!!(vals.name && vals.email && vals.message));
+      })
       .catch(() => setSubmittable(false));
   }, [form, values]);
 
@@ -77,6 +80,7 @@ export default function ContactUsButton() {
           onFinish={onSubmit}
           labelCol={{ span: 6 }}
           wrapperCol={{ span: 16 }}
+          initialValues={{}}
         >
           <Form.Item
             name="name"
