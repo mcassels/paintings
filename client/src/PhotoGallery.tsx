@@ -163,7 +163,7 @@ function filterPaintings(
   }
 
   // If no filters are set, return all paintings
-  if (decades.length === 0 && colors.length === 0 && statuses.length === 0 && !favourited && subjects.length === 0) {
+  if (decades.length === 0 && colors.length === 0 && statuses.length === 0 && !favourited && subjects.length === 0 && damageLevels.length === 0) {
     return paintings;
   }
   // The filters for each of decade, damage, color, subject, and status are ANDed together

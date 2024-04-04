@@ -128,7 +128,7 @@ export default function GalleryFilters(props: GalleryFiltersProps) {
               });
             }}
           >
-            <div className="flex space-x-1">
+            <div className="flex space-x-1 hover:font-bold">
               {params.get('favourites') === 'true' ? <HeartFilled className="text-xxs" /> : <HeartOutlined className="text-xxs" /> }
               <div>My Favourites</div>
             </div>
