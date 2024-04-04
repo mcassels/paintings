@@ -8,11 +8,12 @@ import HowToAdoptAPainting from './HowToAdoptAPainting';
 import FAQs from './FAQs';
 import WhyAdopt from './WhyAdopt';
 import AfterAdoption from './AfterAdoption';
-import ArtConservators from './ArtConservators';
 import LandingPage from './LandingPage';
 import Biography from './Biography';
 import { areAdoptionsOpen } from './utils';
 import Pricing from './Pricing';
+import { CARE_AND_CONSERVATION_KEY } from './constants';
+import TextPage from './TextPage';
 
 
 const queryClient = new QueryClient();
@@ -32,7 +33,7 @@ function AppInner() {
               <Route path="adopt" element={<HowToAdoptAPainting />} />
               <Route path="faqs" element={<FAQs />} />
               <Route path="after-adoption" element={<AfterAdoption />} />
-              <Route path="art-conservators" element={<ArtConservators />} />
+              <Route path="art-conservators" element={<TextPage textKey={CARE_AND_CONSERVATION_KEY} />} />
               <Route path="*" element={<Navigate replace to="/home" />} />
             </Route>
           </Routes>

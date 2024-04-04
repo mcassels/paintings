@@ -9,6 +9,7 @@ interface MultiSelectFilterProps {
   paramKey: string;
   tagKey: keyof PaintingTags;
   title: string;
+  valueOrder?: any[];
 }
 
 function MultiSelectFilter(props: MultiSelectFilterProps) {
@@ -17,6 +18,7 @@ function MultiSelectFilter(props: MultiSelectFilterProps) {
     paramKey,
     tagKey,
     title,
+    valueOrder,
   } = props;
 
   const location = useLocation();
@@ -45,7 +47,14 @@ function MultiSelectFilter(props: MultiSelectFilterProps) {
       placeholder={title}
       defaultValue={params.getAll(paramKey)}
       onChange={(values) => handleChange(values)}
-      options={Array.from(new Set(paintings.flatMap((p) => p.tags[tagKey]))).sort().map((value) => { return { value, label: value }; })}
+      options={Array.from(new Set(paintings.flatMap((p) => p.tags[tagKey])))
+        .sort((a: any, b: any) => {
+          if (valueOrder) {
+            return valueOrder.indexOf(a) - valueOrder.indexOf(b);
+          }
+          return a - b;
+        })
+        .map((value) => { return { value, label: value }; })}
     />
   );
 }
@@ -103,7 +112,8 @@ export default function GalleryFilters(props: GalleryFiltersProps) {
           paintings={paintings}
           paramKey="status"
           tagKey="status"
-          title="Status"
+          title="Availability"
+          valueOrder={['available', 'pending', 'adopted']}
         />
         <div className="flex flex-col justify-center">
           <Tag.CheckableTag
