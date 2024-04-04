@@ -14,7 +14,8 @@ import { areAdoptionsOpen } from './utils';
 import Pricing from './Pricing';
 import { CARE_AND_CONSERVATION_KEY } from './constants';
 import TextPage from './TextPage';
-import { Footer, Header } from 'antd/es/layout/layout';
+import { Header } from 'antd/es/layout/layout';
+import AppFooter from './AppFooter';
 
 
 const queryClient = new QueryClient();
@@ -78,9 +79,7 @@ function Layout() {
           </div>
         </div>
       </div>
-      <Footer className="shrink-0 p-3 mt-4 flex justify-center">
-        © 2024&nbsp;<a href="https://github.com/mcassels/morgan" target="_blank" rel="noreferrer">Morgan Brooks</a>
-      </Footer>
+      <AppFooter />
     </div>
   );
 }

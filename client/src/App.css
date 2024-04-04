@@ -112,3 +112,7 @@ html, body {
 .ant-modal-root .ant-modal-wrap {
   z-index: 10001;
 }
+
+.contact-message textarea {
+  min-height: 200px;
+}
