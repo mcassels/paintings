@@ -3,6 +3,7 @@ import { useFAQs } from './useFAQs';
 import Markdown from 'react-markdown';
 import { Collapse, CollapseProps, Spin } from 'antd';
 import BrowsePaintingsButton from './BrowsePaintingsButton';
+import ContactUsButton from './ContactUsButton';
 
 export default function FAQs() {
   const faqs = useFAQs();
@@ -31,7 +32,15 @@ export default function FAQs() {
         <BrowsePaintingsButton />
       </div>
       <Collapse items={items} />
-      <div className="pt-8 pb-4">
+      <div className="flex text-sm pt-4">
+        <div className="flex flex-col justify-center">
+          <div>
+            Question not answered here?
+          </div>
+        </div>
+        <ContactUsButton />
+      </div>
+      <div className="pt-4 pb-4">
         <BrowsePaintingsButton />
       </div>
     </div>
