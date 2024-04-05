@@ -83,6 +83,7 @@ function PaintingStoryButton(props: { painting: Painting|undefined }) {
         title={`Story of "${painting.title}"`}
         open={isModalOpen}
         onOk={() => setIsModalOpen(false)}
+        onCancel={() => setIsModalOpen(false)}
         footer={[
           <Button key="submit" type="primary" onClick={() => setIsModalOpen(false)}>
             Done
