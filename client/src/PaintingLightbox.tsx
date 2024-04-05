@@ -177,7 +177,7 @@ export default function PaintingLightbox(props: PaintingLightboxProps) {
         }
         return (
           <div>
-            <div id="lightbox-painting-header" className="mb-[30px] top-0 sticky flex flex-wrap space-x-4 lightbox-painting-header">
+            <div id="lightbox-painting-header" className="top-0 sticky flex flex-wrap space-x-4 lightbox-painting-header">
               <div className="flex flex-col">
                 <div className="text-white text-2xl font-bold flex flex-col justify-center">
                   <div>
