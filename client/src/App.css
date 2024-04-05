@@ -123,3 +123,9 @@ html, body {
 .favourite-button:hover {
   color: rgb(244 114 182) !important;
 }
+
+@media screen and (max-width: 600px) {
+  .lightbox-painting-header {
+    flex-direction: column
+  }
+}

@@ -75,7 +75,7 @@ function PaintingStoryButton(props: { painting: Painting|undefined }) {
     return null;
   }
   return (
-    <>
+    <div className="w-fit">
       <Button type="primary" ghost onClick={() => setIsModalOpen(true)}>
         Read story
       </Button>
@@ -91,7 +91,7 @@ function PaintingStoryButton(props: { painting: Painting|undefined }) {
       >
         <Markdown>{painting.story}</Markdown>
       </Modal>
-    </>
+    </div>
   );
 }
 
@@ -164,11 +164,18 @@ export default function PaintingLightbox(props: PaintingLightboxProps) {
         const infos = getPaintingInfos(painting);
         const header = document.getElementById('lightbox-painting-header');
         const headerHeight = (header ? header.clientHeight : 32) + 30;
-        const maxHeight = document.documentElement.clientHeight - headerHeight;
-        const width = maxHeight * (painting.width / painting.height);
+        let height = document.documentElement.clientHeight - headerHeight;
+        let width = height * (painting.width / painting.height);
+
+        // This case is usually for mobile where screen height is greater than screen width
+        const screenWidth = document.documentElement.clientWidth;
+        if (width > screenWidth) {
+          width = screenWidth;
+          height = width * (painting.height / painting.width);
+        }
         return (
           <div>
-            <div id="lightbox-painting-header" className="mb-[30px] top-0 sticky flex flex-wrap space-x-4">
+            <div id="lightbox-painting-header" className="mb-[30px] top-0 sticky flex flex-wrap space-x-4 lightbox-painting-header">
               <div className="text-white text-2xl font-bold flex flex-col justify-center">
                 <div>
                   {painting.title}
@@ -205,7 +212,7 @@ export default function PaintingLightbox(props: PaintingLightboxProps) {
               <Image
                 src={slide.src}
                 title={painting.title}
-                height={maxHeight}
+                height={height}
                 width={width}
                 preview={false}
               />
