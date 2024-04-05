@@ -1,6 +1,6 @@
 import { Painting } from "./types";
 
-export function getPaintingInfos(p: Painting): string[] {
+export function getPaintingInfos(p: Painting, excludeDamageLevel?: boolean): string[] {
   let year = p.year ? p.year.toString() : undefined;
   if (!year) {
     const estimated = p.yearGuess ? ` (estimated ${p.yearGuess})` : '';
@@ -20,7 +20,9 @@ export function getPaintingInfos(p: Painting): string[] {
   if (p.conditionNotes) {
     parts.push(p.conditionNotes);
   }
-  parts.push(`Damage level ${p.damageLevel}`);
+  if (!excludeDamageLevel) {
+    parts.push(`Damage level ${p.damageLevel}`);
+  }
   return parts;
 }
 

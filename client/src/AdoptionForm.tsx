@@ -4,8 +4,9 @@ import { useLocation, useNavigate } from "react-router";
 import { Form, Input, Button, Spin, Divider, Cascader, Checkbox, Radio, Space } from 'antd';
 import { useEffect, useState } from "react";
 import { areAdoptionsOpen, getPriceFromDamageLevel } from './utils';
-import PriceTable from './PriceTable';
 import { NavLink } from 'react-router-dom';
+import DamageLevelInfoButton from './DamageLevelInfoButton';
+import DamageInformation from './DamageInformation';
 
 enum PriceOption {
   Personal = 'Personal',
@@ -202,7 +203,7 @@ export default function AdoptionForm() {
         {
           painting ? (
             <div className="flex flex-col space-y-2">
-              <div className="flex justify-center">
+              <div className="flex flex-col">
                 <div className="flex flex-col w-1/2">
                   <div className="w-[500px] flex space-x-2 text-base">
                     <div className="font-bold">
@@ -212,23 +213,10 @@ export default function AdoptionForm() {
                       {`$${getPriceFromDamageLevel(painting.damageLevel)} CAD`}
                     </div>
                   </div>
-                  <div className="w-[500px] flex space-x-2 text-base">
-                    <div>
-                      {`(Damage level ${painting.damageLevel})`}
-                    </div>
-                  </div>
+                  <DamageLevelInfoButton buttonText={`Damage level ${painting.damageLevel}`} selectedDamageLevel={painting.damageLevel}/>
                 </div>
-                <div className="flex justify-between">
-                  <div className="text-sm flex flex-col justify-center">
-                    <div>
-                      The adoption fee is based on the painting's damage level.
-                    </div>
-                  </div>
-                  <Button type="link">
-                    <NavLink to="/pricing">
-                      More info
-                    </NavLink>
-                  </Button>
+                <div className="italic">
+                  <DamageInformation damageLevel={painting.damageLevel}/>
                 </div>
               </div>
               {
@@ -287,9 +275,6 @@ export default function AdoptionForm() {
             </div>
           )
         }
-        <div className="py-4">
-          <PriceTable selectedDamageLevel={painting?.damageLevel}/>
-        </div>
         <div id="pickup" className="w-[650px]">
           <Divider className="border-slate-400" orientation="left">Pickup / shipping</Divider>
         </div>

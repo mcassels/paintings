@@ -10,7 +10,7 @@ interface PaintingInformationProps {
 export default function PaintingInformation({ painting }: PaintingInformationProps) {
   const infos = getPaintingInfos(painting);
   return (
-    <div className="text-sm flex space-x-1 font-normal flex-wrap text-white">
+    <div className="text-sm flex space-x-1 font-normal flex-wrap">
       {
         infos.map((info, i) => {
           return (

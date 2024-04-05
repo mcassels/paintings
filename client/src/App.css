@@ -128,4 +128,20 @@ html, body {
   .lightbox-painting-header {
     flex-direction: column
   }
+  .lightbox-painting-description {
+    flex-direction: column;
+  }
+  .lightbox-painting-description-divider {
+    display: none;
+  }
+  .lightbox-painting-description-item {
+    margin: 0 !important;
+  }
+  .damage-level-modal {
+    width: 100vw;
+  }
+}
+
+.damage-level-modal {
+  min-width: max(50vw, 800px);
 }
