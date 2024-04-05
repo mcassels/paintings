@@ -90,6 +90,9 @@ html, body {
 .yarl__button {
   display: flex;
 }
+.yarl__slide {
+  flex-direction: column;
+}
 
 .custom-button {
   display: grid;
@@ -115,4 +118,8 @@ html, body {
 
 .contact-message textarea {
   min-height: 200px;
+}
+
+.favourite-button:hover {
+  color: rgb(244 114 182) !important;
 }

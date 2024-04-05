@@ -1,150 +1,15 @@
-import React, { useState } from 'react';
-import { NavLink, useLocation, useNavigate } from 'react-router-dom';
+import React from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Gallery from 'react-photo-gallery'
-import Lightbox from "yet-another-react-lightbox";
-import Captions from "yet-another-react-lightbox/plugins/captions";
 import "yet-another-react-lightbox/styles.css";
 import "yet-another-react-lightbox/plugins/captions.css";
-import { HeartOutlined, HeartFilled } from '@ant-design/icons';
 
 import { Painting } from './types';
 import { usePaintings } from './usePaintings';
-import { Button, Empty, Image, Modal, Pagination, Spin, Tag } from 'antd';
+import { Empty, Pagination, Spin } from 'antd';
 import GalleryFilters from './GalleryFilters';
-import Markdown from 'react-markdown';
-import { getPaintingInfos } from './utils';
-
-function SeeReverseButton(props: { painting?: Painting; }) {
-  const { painting } = props;
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  if (!painting) {
-    return null;
-  }
-  return (
-    <>
-      <Modal
-        title={`"${painting.title}" reverse`}
-        open={isModalOpen}
-        onCancel={() => setIsModalOpen(false)}
-        footer={[]}
-      >
-        <Image
-          src={painting.backPhotoUrl}
-          preview={false}
-          loading='lazy'
-        />
-      </Modal>
-      <Button
-        type="link"
-        className="w-[105px]"
-        onClick={() => setIsModalOpen(true)}
-      >
-        See the back
-      </Button>
-    </>
-  );
-}
-
-function BuyPaintingButton(props: { painting: Painting|undefined }) {
-  if (!props.painting) {
-    return null;
-  }
-  if (props.painting.tags.status === 'pending') {
-    return (
-      <Tag className="w-[125px] h-fit flex justify-center" color="gold"><div>Pending</div></Tag>
-    );
-  }
-  if (props.painting.tags.status === 'adopted') {
-    return (
-      <Tag className="w-[125px] h-fit flex justify-center" color="red"><div>Adopted</div></Tag>
-    );
-  }
-  return (
-    <Button className="flex justify-center" type="primary">
-      <NavLink to={`/adopt?painting=${props.painting.id}`}>
-        Adopt me!
-      </NavLink>
-    </Button>
-  );
-}
-
-function PaintingStoryButton(props: { painting: Painting|undefined }) {
-  const { painting } = props;
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  if (!painting || !painting.story) {
-    return null;
-  }
-  return (
-    <>
-      <Button type="primary" ghost onClick={() => setIsModalOpen(true)}>
-        Read story
-      </Button>
-      <Modal
-        title={`Story of "${painting.title}"`}
-        open={isModalOpen}
-        onOk={() => setIsModalOpen(false)}
-        footer={[
-          <Button key="submit" type="primary" onClick={() => setIsModalOpen(false)}>
-            Done
-          </Button>,
-        ]}
-      >
-        <Markdown>{painting.story}</Markdown>
-      </Modal>
-    </>
-  );
-}
-
-const savedPaintingKey = 'GORDANEER_SAVED_PAINTINGS';
-
-function SavePaintingButton(props: { paintingId: string }) {
-  const { paintingId } = props;
-  const savedPaintings = localStorage.getItem(savedPaintingKey)?.split(',') || [];
-  const isSaved = savedPaintings.includes(paintingId);
-
-  const [isFavourite, setIsFavourite] = React.useState(isSaved);
-
-  function onClick() {
-    setIsFavourite((prev) => !prev);
-    const savedPaintings = localStorage.getItem(savedPaintingKey)?.split(',') || [];
-    if (savedPaintings.includes(paintingId)) {
-      localStorage.setItem(savedPaintingKey, savedPaintings.filter((p) => p !== paintingId).join(','));
-    } else {
-      localStorage.setItem(savedPaintingKey, [...savedPaintings, paintingId].join(','));
-
-      const url = window.location.href;
-      const newWindow = window.open(url, '_blank', 'noopener,noreferrer');
-      if (newWindow) newWindow.opener = null;
-    }
-  }
-
-  return (
-    <Button
-      className="mr-2"
-      onClick={onClick}
-      type="link"
-      style={{
-        color: '#f5206e',
-        fontWeight: isFavourite ? "bold" : "normal",
-        width: '125px',
-      }}
-      icon={isFavourite ? <HeartFilled /> : <HeartOutlined />}
-    >
-      {isFavourite ? "favourited" : "favourite"}
-    </Button>
-  );
-}
-
-function getPaintingDescription(p: Painting): string {
-  const parts = [p.title, ...getPaintingInfos(p)];
-  // TODO: for some reason, this shows an ellipses at the end of only the third line.
-  // Possibly may need to do this properly as a component and not just text, by adding a plugin?
-  // See https://yet-another-react-lightbox.com/advanced#Modules
-  // For now, I'm right-aligning the text, which makes the ellipses disappear.
-  return `${parts.map((p) => p.replaceAll('\n', '')).join('\n')}`;
-}
+import PaintingLightbox from './PaintingLightbox';
+import { SAVED_PAINTING_KEY } from './constants';
 
 // TODO: could probably make the code in here more generic
 function filterPaintings(
@@ -159,7 +24,7 @@ function filterPaintings(
 
   let favourited: string[]|null = null;
   if (searchParams.get('favourites') === 'true') {
-    favourited = localStorage.getItem(savedPaintingKey)?.split(',') || [];
+    favourited = localStorage.getItem(SAVED_PAINTING_KEY)?.split(',') || [];
   }
 
   // If no filters are set, return all paintings
@@ -206,8 +71,6 @@ function PhotoGalleryImpl(props: PhotoGalleryProps) {
   const params = new URLSearchParams(location.search);
 
   const pageNumFromParams = params.get('page');
-  // Do not let user go to a page greater than the last page
-  // TODO: redirect invalid or unset page numbers such that the url updates?
   const pageNum = Math.min(pageNumFromParams ? parseInt(pageNumFromParams) : 1, Math.ceil(allPaintings.length / PAGE_SIZE));
 
   function setPageNum(pageNum: number) {
@@ -218,27 +81,21 @@ function PhotoGalleryImpl(props: PhotoGalleryProps) {
     });
   }
 
-  const paintings = filterPaintings(params, allPaintings);
-
-  // Track the painting id and not index in the header, so that the URL can be shared
-  // even when the order of the paintings changes.
-  const selectedPhotoId = params.get('selected');
-  const selectedPhotoIdx = selectedPhotoId ? paintings.findIndex((p) => p.id === selectedPhotoId) : undefined;
-
-  const galleryPhotos = paintings.map((p) => {
+  const filteredPaintings = filterPaintings(params, allPaintings);
+  const galleryPhotos = filteredPaintings.map((p) => {
     return {
       id: p.id,
       src: p.frontPhotoUrl,
       width: p.width, // These are inches not pixels, but the ratio should be the same... will this work? lol
       height: p.height,
-      caption: p.title,
       title: p.title,
-      description: getPaintingDescription(p),
+      alt: p.title,
     };
   }).slice((pageNum - 1) * PAGE_SIZE, pageNum * PAGE_SIZE);
 
   return (
     <div className="mr-2">
+      <PaintingLightbox paintings={allPaintings} />
       <div className="mb-4">
         <GalleryFilters paintings={allPaintings}/>
       </div>
@@ -271,92 +128,11 @@ function PhotoGalleryImpl(props: PhotoGalleryProps) {
           )
         }
       </div>
-      <Lightbox
-        styles={{
-          captionsTitleContainer: {
-            backgroundColor: 'transparent',
-            display: 'flex',
-            justifyContent: 'center',
-          },
-          captionsDescriptionContainer: { backgroundColor: 'transparent' },
-          captionsDescription: {
-            paddingLeft: '40px',
-            paddingBottom: '100px',
-            height: '200px',
-            width: '300px',
-            textAlign: 'right',
-          },
-        }}
-        carousel={{
-          padding: '60px',
-        }}
-        toolbar={{
-          buttons: selectedPhotoId ? [
-            <div className="custom-button mt-4 mr-4" key="button-bar">
-              <div className="left-col">
-                <SavePaintingButton key={`save-painting-${selectedPhotoId}`} paintingId={selectedPhotoId} />
-              </div>
-              <div className="right-col flex flex-col justify-center space-y-4">
-                <BuyPaintingButton key={`buy-painting-${selectedPhotoId}`} painting={paintings.find((p) => p.id === selectedPhotoId)} />
-                <PaintingStoryButton key={`painting-story-${selectedPhotoId}`} painting={paintings.find((p) => p.id === selectedPhotoId)} />
-                <SeeReverseButton key={`see-reverse-${selectedPhotoId}`} painting={paintings.find((p) => p.id === selectedPhotoId)} />
-              </div>
-            </div>,
-            "close",
-          ] : [],
-
-        }}
-        open={selectedPhotoIdx !== undefined}
-        close={() => {
-          const nextParams = new URLSearchParams(location.search);
-          nextParams.delete('selected');
-          navigate({ pathname: location.pathname, search: nextParams.toString()})
-        }}
-        index={selectedPhotoIdx}
-        slides={paintings.map((painting) => {
-          const photoUrl = painting.frontPhotoUrl;
-
-          // The lightbox photos must take up a document.documentElement.clientHeight - 32 x document.documentElement.clientHeight - 32
-          // square space, so that there is enough room for the title and toolbar, etc.
-          const maxHeight = document.documentElement.clientHeight - 32;
-          const maxWidthNoOverlap = document.documentElement.clientWidth - 400;
-
-          let height = maxHeight;
-          let width = maxHeight * (painting.width / painting.height);
-          if (width > maxWidthNoOverlap) {
-            width = maxWidthNoOverlap;
-            height = width * (painting.height / painting.width);
-          }
-          return {
-            src: photoUrl,
-            width,
-            height,
-            caption: painting.title,
-            id: painting.id,
-            title: painting.title,
-            description: getPaintingDescription(painting),
-          }
-        })}
-        plugins={[Captions]}
-        on={{
-          view: ({ index }) => {
-            const nextSelectedId = paintings[index]?.id;
-            if (nextSelectedId) {
-              const nextParams = new URLSearchParams(location.search);
-              nextParams.set('selected', nextSelectedId);
-              navigate({
-                pathname: location.pathname,
-                search: nextParams.toString()
-              });
-            }
-          }
-        }}
-      />
       <div className="pt-4 min-w-[calc(100vw-200px)]">
         <div className="flex justify-center">
           <Pagination
             defaultCurrent={pageNum}
-            total={paintings.length}
+            total={filteredPaintings.length}
             showSizeChanger={false}
             defaultPageSize={PAGE_SIZE}
             onChange={(page) => setPageNum(page)}

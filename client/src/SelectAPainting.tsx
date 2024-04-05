@@ -1,9 +1,9 @@
 import React from 'react';
 import { useLocation } from 'react-router';
 import { usePaintings } from './usePaintings';
-import { Card, Spin, Image, Divider, Button } from 'antd';
-import { getPaintingInfos } from './utils';
+import { Card, Spin, Image, Button } from 'antd';
 import { NavLink } from 'react-router-dom';
+import PaintingInformation from './PaintingInformation';
 
 export default function SelectAPainting() {
   const location = useLocation();
@@ -42,29 +42,12 @@ export default function SelectAPainting() {
     return <div className="loading">Painting not found</div>;
   }
 
-  const infos = getPaintingInfos(painting);
-
   return (
     <Card
       title={
         <div className="py-3">
             <div className="text-lg font-bold pb-3">{painting.title}</div>
-            <div className="text-sm flex space-x-1 font-normal">
-              {
-                infos.map((info, i) => {
-                  return (
-                    <div key={info} className="flex">
-                      {i > 0 && (
-                        <div className="mr-2">
-                          <Divider type="vertical" style={{ height: '1rem', border: '0.5px solid #a7a7a7' }}/>
-                        </div>
-                      )}
-                      {info}
-                    </div>
-                  );
-                })
-              }
-          </div>
+            <PaintingInformation painting={painting} />
         </div>
       }
       extra={
