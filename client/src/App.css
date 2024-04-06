@@ -79,12 +79,6 @@ html, body {
   font-size: 10px;
 }
 
-/* .yarl__toolbar {
-  display: grid !important;
-  grid-gap: 10px;
-  grid-template-areas:
-              "custom-button yarl__button";
-} */
 .yarl__button {
   display: flex;
 }
@@ -160,6 +154,9 @@ html, body {
   .yarl__slide_image {
     max-height: 100% !important;
     max-width: 100% !important;
+  }
+  .yarl__toolbar {
+    flex-direction: column;
   }
 }
 
