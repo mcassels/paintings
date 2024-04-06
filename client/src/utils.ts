@@ -12,16 +12,16 @@ export function getPaintingInfos(p: Painting, excludeDamageLevel?: boolean): str
     parts.push(p.medium);
   }
   if (p.isFramed) {
-    parts.push('Framed');
+    parts.push('framed');
   }
   if (p.isFramed === false) { // undefined means we don't know if it's framed or not
-    parts.push('Unframed');
+    parts.push('unframed');
   }
   if (p.conditionNotes) {
     parts.push(p.conditionNotes);
   }
   if (!excludeDamageLevel) {
-    parts.push(`Damage level ${p.damageLevel}`);
+    parts.push(`damage level ${p.damageLevel}`);
   }
   return parts;
 }

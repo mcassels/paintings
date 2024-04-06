@@ -38,7 +38,6 @@ function SeeReverseButton(props: { painting?: Painting; }) {
       </Modal>
       <Button
         type="link"
-        className="w-[105px]"
         onClick={() => setIsModalOpen(true)}
       >
         <RetweetOutlined />
@@ -124,17 +123,11 @@ function SavePaintingButton(props: { paintingId: string }) {
 
   return (
     <Button
-      className="mr-2 favourite-button"
       onClick={onClick}
       type="link"
-      style={{
-        color: '#f5206e',
-        fontWeight: isFavourite ? "bold" : "normal",
-        width: '125px',
-      }}
       icon={isFavourite ? <HeartFilled /> : <HeartOutlined />}
     >
-      {isFavourite ? "favourited" : "favourite"}
+      {isFavourite ? "Favourited" : "Favourite"}
     </Button>
   );
 }
@@ -266,79 +259,60 @@ export default function PaintingLightbox(props: PaintingLightboxProps) {
         return (
           <div className="absolute top-0">
             <div className="flex justify-center">
-            <div id="lightbox-painting-header" className="flex flex-wrap space-x-4 lightbox-painting-header pt-4">
-              <div className="flex flex-col">
-                <div className="text-white text-2xl font-bold flex flex-col justify-center">
-                  <div>
-                    {painting.title}
+              <div id="lightbox-painting-header" className="flex flex-wrap space-x-4 lightbox-painting-header pt-4">
+                <div className="flex flex-col">
+                  <div className="text-white text-2xl font-bold flex flex-col justify-center">
+                    <div>
+                      {painting.title}
+                    </div>
                   </div>
-                </div>
-                <div className="flex flex-wrap space-x-4 lightbox-painting-description">
-                  {
-                    infos.map((info, i) => {
-                        return (
-                          <div key={info} className="flex text-white text-sm lightbox-painting-description-item">
-                            {i > 0 && (
-                              <div className="mr-2 flex flex-col justify-center lightbox-painting-description-divider">
-                                <Divider type="vertical" style={{ height: '1rem', border: '0.5px solid #a7a7a7' }}/>
-                              </div>
-                            )}
-                            <div className="flex flex-col justify-center">
-                              <div>
-                                {info}
+                  <div className="flex flex-wrap space-x-4 lightbox-painting-description">
+                    {
+                      infos.map((info, i) => {
+                          return (
+                            <div key={info} className="flex text-white text-sm lightbox-painting-description-item">
+                              {i > 0 && (
+                                <div className="mr-2 flex flex-col justify-center lightbox-painting-description-divider">
+                                  <Divider type="vertical" style={{ height: '1rem', border: '0.5px solid #a7a7a7' }}/>
+                                </div>
+                              )}
+                              <div className="flex flex-col justify-center">
+                                <div>
+                                  {info}
+                                </div>
                               </div>
                             </div>
-                          </div>
-                        );
-                      })
-                  }
-                  <div className="mr-2 flex flex-col justify-center lightbox-painting-description-divider">
-                    <Divider type="vertical" style={{ height: '1rem', border: '0.5px solid #a7a7a7' }}/>
-                  </div>
-                  <div className="flex space-x-2 lightbox-painting-description-item text-white text-sm">
-                    <div className="flex flex-col justify-center">
-                      <div>
-                        {`Damage level ${painting.damageLevel}`}
-                      </div>
+                          );
+                        })
+                    }
+                    <div className="mr-2 flex flex-col justify-center lightbox-painting-description-divider">
+                      <Divider type="vertical" style={{ height: '1rem', border: '0.5px solid #a7a7a7' }}/>
                     </div>
-                    <div className="damage-level-info-button">
-                      <DamageLevelInfoButton
-                        selectedDamageLevel={painting.damageLevel}
-                      >
-                        <InfoCircleOutlined />
-                      </DamageLevelInfoButton>
+                    <div className="flex space-x-2 lightbox-painting-description-item text-white text-sm">
+                      <div className="flex flex-col justify-center">
+                        <div>
+                          {`damage level ${painting.damageLevel}`}
+                        </div>
+                      </div>
+                      <div className="damage-level-info-button">
+                        <DamageLevelInfoButton
+                          selectedDamageLevel={painting.damageLevel}
+                        >
+                          <InfoCircleOutlined />
+                        </DamageLevelInfoButton>
+                      </div>
                     </div>
                   </div>
                 </div>
+                <div className="flex painting-lightbox-buttons">
+                  <SavePaintingButton key={`save-painting-${selectedPhotoId}`} paintingId={selectedPhotoId} />
+                  <PaintingStoryButton key={`painting-story-${selectedPhotoId}`} painting={paintings.find((p) => p.id === selectedPhotoId)} />
+                  <SeeReverseButton key={`see-reverse-${selectedPhotoId}`} painting={paintings.find((p) => p.id === selectedPhotoId)} />
+                  <ShareButton key={`share-${selectedPhotoId}`} painting={paintings.find((p) => p.id === selectedPhotoId)} />
+                  <BuyPaintingButton key={`buy-painting-${selectedPhotoId}`} painting={paintings.find((p) => p.id === selectedPhotoId)} />
+                </div>
               </div>
-              <div>
-                
-              </div>
-
-              <SavePaintingButton key={`save-painting-${selectedPhotoId}`} paintingId={selectedPhotoId} />
-              <PaintingStoryButton key={`painting-story-${selectedPhotoId}`} painting={paintings.find((p) => p.id === selectedPhotoId)} />
-              <SeeReverseButton key={`see-reverse-${selectedPhotoId}`} painting={paintings.find((p) => p.id === selectedPhotoId)} />
-              <ShareButton key={`share-${selectedPhotoId}`} painting={paintings.find((p) => p.id === selectedPhotoId)} />
-              <BuyPaintingButton key={`buy-painting-${selectedPhotoId}`} painting={paintings.find((p) => p.id === selectedPhotoId)} />
-              {/* <button type="button" onClick={() => zoomRef.current?.zoomIn()}>
-                Zoom In
-              </button>
-
-              <button type="button" onClick={() => zoomRef.current?.zoomOut()}>
-                Zoom Out
-              </button> */}
             </div>
-            </div>
-            {/* <div className="flex justify-center">
-              <Image
-                src={slide.src}
-                alt={painting.title}
-                title={painting.title}
-                height={height}
-                width={width}
-                preview={false}
-              />
-            </div> */}
             {children}
           </div>
         );

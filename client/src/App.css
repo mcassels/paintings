@@ -136,9 +136,9 @@ html, body {
 }
 
 @media screen and (max-width: 600px) {
-  .lightbox-painting-header {
+  /* .lightbox-painting-header {
     flex-direction: column
-  }
+  } */
   .lightbox-painting-description {
     flex-direction: column;
   }
@@ -166,6 +166,9 @@ html, body {
   }
   .yarl__button:nth-child(2) {
     display: none;
+  }
+  .painting-lightbox-buttons {
+    flex-direction: column;
   }
 }
 
