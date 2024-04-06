@@ -115,6 +115,9 @@ html, body {
 .ant-modal-root .ant-modal-wrap {
   z-index: 10001;
 }
+.ant-popover {
+  z-index: 10300;
+}
 
 .contact-message textarea {
   min-height: 200px;
