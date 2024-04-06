@@ -213,7 +213,7 @@ export default function AdoptionForm() {
                       {`$${getPriceFromDamageLevel(painting.damageLevel)} CAD`}
                     </div>
                   </div>
-                  <DamageLevelInfoButton buttonText={`Damage level ${painting.damageLevel}`} selectedDamageLevel={painting.damageLevel}/>
+                  <DamageLevelInfoButton selectedDamageLevel={painting.damageLevel}>{`Damage level ${painting.damageLevel}`}</DamageLevelInfoButton>
                 </div>
                 <div className="italic">
                   <DamageInformation damageLevel={painting.damageLevel}/>

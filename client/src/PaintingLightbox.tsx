@@ -3,7 +3,7 @@ import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import Lightbox from "yet-another-react-lightbox";
 import "yet-another-react-lightbox/styles.css";
 import "yet-another-react-lightbox/plugins/captions.css";
-import { HeartOutlined, HeartFilled, ShareAltOutlined, CopyOutlined } from '@ant-design/icons';
+import { HeartOutlined, HeartFilled, ShareAltOutlined, CopyOutlined, ReadOutlined, RetweetOutlined, InfoCircleOutlined } from '@ant-design/icons';
 import { FacebookShareButton, FacebookIcon, WhatsappShareButton, WhatsappIcon, EmailShareButton, EmailIcon, FacebookMessengerShareButton, FacebookMessengerIcon, XIcon, TwitterShareButton } from 'react-share';
 
 import { Painting } from './types';
@@ -40,6 +40,7 @@ function SeeReverseButton(props: { painting?: Painting; }) {
         className="w-[105px]"
         onClick={() => setIsModalOpen(true)}
       >
+        <RetweetOutlined />
         See the back
       </Button>
     </>
@@ -78,8 +79,9 @@ function PaintingStoryButton(props: { painting: Painting|undefined }) {
   }
   return (
     <div className="w-fit">
-      <Button type="primary" ghost onClick={() => setIsModalOpen(true)}>
-        Read story
+      <Button type="link" onClick={() => setIsModalOpen(true)}>
+        <ReadOutlined />
+        Story
       </Button>
       <Modal
         title={`Story of "${painting.title}"`}
@@ -287,11 +289,19 @@ export default function PaintingLightbox(props: PaintingLightboxProps) {
                   <div className="mr-2 flex flex-col justify-center lightbox-painting-description-divider">
                     <Divider type="vertical" style={{ height: '1rem', border: '0.5px solid #a7a7a7' }}/>
                   </div>
-                  <div className="flex flex-col justify-center lightbox-painting-description-item">
-                    <DamageLevelInfoButton
-                      buttonText={`Damage level ${painting.damageLevel}`}
-                      selectedDamageLevel={painting.damageLevel}
-                    />
+                  <div className="flex space-x-2 lightbox-painting-description-item text-white text-sm">
+                    <div className="flex flex-col justify-center">
+                      <div>
+                        {`Damage level ${painting.damageLevel}`}
+                      </div>
+                    </div>
+                    <div className="damage-level-info-button">
+                      <DamageLevelInfoButton
+                        selectedDamageLevel={painting.damageLevel}
+                      >
+                        <InfoCircleOutlined />
+                      </DamageLevelInfoButton>
+                    </div>
                   </div>
                 </div>
               </div>

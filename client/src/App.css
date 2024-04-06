@@ -127,6 +127,16 @@ html, body {
   color: rgb(244 114 182) !important;
 }
 
+.damage-level-info-button .ant-btn-link {
+  color: white !important;
+}
+.damage-level-info-button:hover .ant-btn-link {
+  color: white !important;
+}
+.damage-level-info-button .ant-btn-link:not(:disabled):not(.ant-btn-disabled):hover {
+  color: lightgray !important;
+}
+
 @media screen and (max-width: 600px) {
   .lightbox-painting-header {
     flex-direction: column

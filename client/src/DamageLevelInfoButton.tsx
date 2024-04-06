@@ -4,12 +4,12 @@ import PriceTable from './PriceTable';
 import { NavLink } from 'react-router-dom';
 
 interface DamageLevelInfoButtonProps {
-  buttonText: string;
+  children: React.ReactNode;
   selectedDamageLevel?: number;
 }
 
 export default function DamageLevelInfoButton(props: DamageLevelInfoButtonProps) {
-  const { buttonText, selectedDamageLevel } = props;
+  const { children, selectedDamageLevel } = props;
   const [isModalOpen, setIsModalOpen] = React.useState(false);
   return (
     <div>
@@ -39,7 +39,9 @@ export default function DamageLevelInfoButton(props: DamageLevelInfoButtonProps)
         </div>
         <PriceTable selectedDamageLevel={selectedDamageLevel} />
       </Modal>
-      <Button type="link" className="p-0" onClick={() => setIsModalOpen(true)}>{buttonText}</Button>
+      <Button type="link" className="p-0" onClick={() => setIsModalOpen(true)}>
+        {children}
+      </Button>
     </div>
   );
 }
