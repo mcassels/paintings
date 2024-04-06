@@ -73,8 +73,9 @@ async function fetchPaintings(): Promise<Painting[]> {
         console.error('Skipping painting with unexpected damage level', fields);
         continue;
       }
+      const framedStr = fields.framed?.toLowerCase();
+      const isFramed = framedStr === 'yes' || framedStr === 'y';
 
-      // TODO: later, once these are act
       const painting: Omit<Painting, 'tags'> = {
         id: fields.id.toUpperCase(),
         title: fields.title,
@@ -89,7 +90,7 @@ async function fetchPaintings(): Promise<Painting[]> {
         predominantColors: fields.predominant_color || [],
         subjectMatter: fields.subject_matter || [],
         conditionNotes: fields.condition_notes,
-        isFramed: fields.is_framed,
+        isFramed,
         status,
         story: fields.story,
       };
