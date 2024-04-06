@@ -157,6 +157,10 @@ html, body {
   .damage-level-modal {
     width: 100vw;
   }
+  .yarl__slide_image {
+    max-height: 100% !important;
+    max-width: 100% !important;
+  }
 }
 
 .damage-level-modal {
