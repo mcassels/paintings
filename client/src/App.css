@@ -136,9 +136,6 @@ html, body {
 }
 
 @media screen and (max-width: 600px) {
-  /* .lightbox-painting-header {
-    flex-direction: column
-  } */
   .lightbox-painting-description {
     flex-direction: column;
   }
