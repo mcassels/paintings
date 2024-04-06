@@ -79,14 +79,12 @@ html, body {
   font-size: 10px;
 }
 
-.yarl__toolbar {
-  /* align-items: center; */
+/* .yarl__toolbar {
   display: grid !important;
   grid-gap: 10px;
   grid-template-areas:
               "custom-button yarl__button";
-  /* grid-template-columns: 1fr 1fr; */
-}
+} */
 .yarl__button {
   display: flex;
 }
@@ -117,6 +115,12 @@ html, body {
 }
 .ant-popover {
   z-index: 10300;
+}
+.ant-image-preview-mask {
+  z-index: 10000;
+}
+.ant-image-preview-operations-wrapper {
+  z-index: 10081;
 }
 
 .contact-message textarea {

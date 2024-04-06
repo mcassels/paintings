@@ -62,6 +62,7 @@ export default function SelectAPainting() {
       <Image
         width={400}
         alt={painting.title}
+        title={painting.title}
         src={painting.frontPhotoUrl}
       />
     </Card>
