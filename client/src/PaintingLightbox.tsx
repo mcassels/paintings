@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
-import Lightbox from "yet-another-react-lightbox";
+import Lightbox, { ZoomRef } from "yet-another-react-lightbox";
 import "yet-another-react-lightbox/styles.css";
 import "yet-another-react-lightbox/plugins/captions.css";
 import { HeartOutlined, HeartFilled, ShareAltOutlined, CopyOutlined, ReadOutlined, RetweetOutlined, InfoCircleOutlined } from '@ant-design/icons';
 import { FacebookShareButton, FacebookIcon, WhatsappShareButton, WhatsappIcon, EmailShareButton, EmailIcon, FacebookMessengerShareButton, FacebookMessengerIcon, XIcon, TwitterShareButton } from 'react-share';
+import Zoom from "yet-another-react-lightbox/plugins/zoom";
 
 import { Painting } from './types';
 import { Button, Divider, Image, Modal, Popover, Tag } from 'antd';
@@ -229,6 +230,7 @@ export default function PaintingLightbox(props: PaintingLightboxProps) {
   const navigate = useNavigate();
   const location = useLocation();
   const params = new URLSearchParams(location.search);
+  const zoomRef: React.MutableRefObject<ZoomRef|null> = React.useRef(null);
 
   // Track the painting id and not index in the query params, so that the URL can be shared
   // even when the order of the paintings changes.
@@ -240,8 +242,11 @@ export default function PaintingLightbox(props: PaintingLightboxProps) {
 
   return (
     <Lightbox
+      plugins={[Zoom]}
+      zoom={{ ref: zoomRef }}
       render={{
-      slideContainer: ({ slide }) => {
+      // slideHeader: ({ slide }) => {
+      slideContainer: ({ slide, children }) => {
         const painting = paintings.find((p) => p.id === (slide as any).id); // We put the id on the slide object; so it's there even though it doesn't typecheck
         if (!painting) {
           return null;
@@ -259,8 +264,9 @@ export default function PaintingLightbox(props: PaintingLightboxProps) {
           height = width * (painting.height / painting.width);
         }
         return (
-          <div>
-            <div id="lightbox-painting-header" className="top-0 sticky flex flex-wrap space-x-4 lightbox-painting-header">
+          <div className="absolute top-0">
+            <div className="flex justify-center">
+            <div id="lightbox-painting-header" className="flex flex-wrap space-x-4 lightbox-painting-header pt-4">
               <div className="flex flex-col">
                 <div className="text-white text-2xl font-bold flex flex-col justify-center">
                   <div>
@@ -314,16 +320,26 @@ export default function PaintingLightbox(props: PaintingLightboxProps) {
               <SeeReverseButton key={`see-reverse-${selectedPhotoId}`} painting={paintings.find((p) => p.id === selectedPhotoId)} />
               <ShareButton key={`share-${selectedPhotoId}`} painting={paintings.find((p) => p.id === selectedPhotoId)} />
               <BuyPaintingButton key={`buy-painting-${selectedPhotoId}`} painting={paintings.find((p) => p.id === selectedPhotoId)} />
+              {/* <button type="button" onClick={() => zoomRef.current?.zoomIn()}>
+                Zoom In
+              </button>
+
+              <button type="button" onClick={() => zoomRef.current?.zoomOut()}>
+                Zoom Out
+              </button> */}
             </div>
-            <div className="flex justify-center">
+            </div>
+            {/* <div className="flex justify-center">
               <Image
                 src={slide.src}
+                alt={painting.title}
                 title={painting.title}
                 height={height}
                 width={width}
                 preview={false}
               />
-            </div>
+            </div> */}
+            {children}
           </div>
         );
       }
@@ -357,7 +373,6 @@ export default function PaintingLightbox(props: PaintingLightboxProps) {
           id: painting.id,
         }
       })}
-      // plugins={[Captions]}
       on={{
         view: ({ index }) => {
           const nextSelectedId = paintings[index]?.id;

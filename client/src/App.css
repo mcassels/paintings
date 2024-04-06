@@ -79,14 +79,6 @@ html, body {
   font-size: 10px;
 }
 
-.yarl__toolbar {
-  /* align-items: center; */
-  display: grid !important;
-  grid-gap: 10px;
-  grid-template-areas:
-              "custom-button yarl__button";
-  /* grid-template-columns: 1fr 1fr; */
-}
 .yarl__button {
   display: flex;
 }
@@ -117,6 +109,12 @@ html, body {
 }
 .ant-popover {
   z-index: 10300;
+}
+.ant-image-preview-mask {
+  z-index: 10000;
+}
+.ant-image-preview-operations-wrapper {
+  z-index: 10081;
 }
 
 .contact-message textarea {
@@ -152,6 +150,22 @@ html, body {
   }
   .damage-level-modal {
     width: 100vw;
+  }
+  .yarl__slide_image {
+    max-height: 100% !important;
+    max-width: 100% !important;
+  }
+  .yarl__toolbar {
+    flex-direction: column;
+  }
+  /*
+  hide the zoom buttons on mobile cause you can pinch-zoom and they get in the way
+  */
+  .yarl__button:nth-child(1) {
+    display: none;
+  }
+  .yarl__button:nth-child(2) {
+    display: none;
   }
 }
 
