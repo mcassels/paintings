@@ -43,12 +43,12 @@ export interface TextContent {
 }
 export type TextContentResponse = TextContent|'error'|'loading';
 
-export interface ArtConservator {
-  name: string;
-  bio: string; // This contains markdown
+export interface BiographyLink {
+  description: string;
+  url: string;
 }
 
-export type ArtConservatorResponse = ArtConservator[]|'error'|'loading';
+export type BiographyLinksResponse = BiographyLink[]|'error'|'loading';
 
 export interface DamageLevel {
   level: number;

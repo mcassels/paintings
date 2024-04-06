@@ -2,11 +2,38 @@ import React from 'react';
 import TextPage from './TextPage';
 import { JIM_BIO_KEY } from './constants';
 import ImageCard from './ImageCard';
+import { useBiographyLinks } from './useBiographyLinks';
+import { List, Spin } from 'antd';
 
 export default function Biography() {
+  const bioLinks = useBiographyLinks();
   return (
     <div className="flex space-x-14 pb-4">
-      <TextPage textKey={JIM_BIO_KEY} />
+      <div className="flex flex-col space-y-8">
+        <TextPage textKey={JIM_BIO_KEY} />
+        {
+          bioLinks === 'loading' ? (
+            <Spin />
+          ) : bioLinks === 'error' ? (
+            <div>Failed to load links</div>
+          ) : (
+            <div>
+
+            <List
+              size="small"
+              header={<div className="font-bold">Links</div>}
+              bordered
+            >
+              {bioLinks.map(({ description, url }) => (
+                <List.Item key={url}>
+                  <a href={url} target  = "_blank" rel="noreferrer">{description}</a>
+                </List.Item>
+              ))}
+            </List>
+            </div>
+          )
+        }
+      </div>
       <div className="space-y-4">
         <ImageCard
           imageKey="jim-self-portrait"
