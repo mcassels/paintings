@@ -329,9 +329,12 @@ export default function PaintingLightbox(props: PaintingLightboxProps) {
       slides={paintings.map((painting) => {
         const photoUrl = painting.frontPhotoUrl;
 
-        // The lightbox photos must take up a document.documentElement.clientHeight - 32 x document.documentElement.clientHeight - 32
-        // square space, so that there is enough room for the title and toolbar, etc.
-        const maxHeight = document.documentElement.clientHeight - 32;
+        let maxHeight = document.documentElement.clientHeight - 32;
+        // TODO: revisit this and try to get the entire painting to show on mobile
+        if (document.documentElement.clientWidth > 600) {
+          maxHeight = document.documentElement.clientHeight - 90; // height of the header on desktop
+        }
+        // TODO: this ends up negative on mobile!!
         const maxWidthNoOverlap = document.documentElement.clientWidth - 400;
 
         let height = maxHeight;
