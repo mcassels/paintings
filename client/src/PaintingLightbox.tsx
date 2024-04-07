@@ -230,7 +230,7 @@ export default function PaintingLightbox(props: PaintingLightboxProps) {
   // even when the order of the paintings changes.
   const selectedPhotoId = params.get('selected');
   const selectedPhotoIdx = selectedPhotoId ? paintings.findIndex((p) => p.id === selectedPhotoId) : undefined;
-  if (!selectedPhotoId || !selectedPhotoIdx) {
+  if (!selectedPhotoId || selectedPhotoIdx === -1) {
     return null;
   }
 

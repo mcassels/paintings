@@ -34,8 +34,7 @@ export default function ContactUsButton() {
 
   async function onSubmit(data: ContactUsFormInputs) {
     const serviceId = process.env.REACT_APP_EMAILJS_SERVICE_ID;
-    // TODO: create new template and get new templateId
-    const templateId = process.env.REACT_APP_EMAILJS_TEMPLATE_ID;
+    const templateId = process.env.REACT_APP_EMAILJS_CONTACT_US_TEMPLATE_ID;
     const publicKey = process.env.REACT_APP_EMAILJS_PUBLIC_KEY;
 
     // Keys must correspond to template fields set up in emailjs template

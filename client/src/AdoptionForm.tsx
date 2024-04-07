@@ -28,6 +28,23 @@ function getPickupOptionFromCascaderValue(cascaderValue: string[]|undefined): Pi
   return cascaderValue[1] as PickupOption;
 }
 
+function getPickupDetails(cascaderOptions: string[]|undefined): string|null {
+  const pickupOption = getPickupOptionFromCascaderValue(cascaderOptions)
+  switch (pickupOption) {
+    case PickupOption.InPersonMay17:
+      return "You have chosen to pick up your painting and receipt on Friday May 17, 11am-2pm. The pickup address will be sent in a confirmation email once we have confirmed you e-transfer. Please add it to your calendar now!";
+    case PickupOption.InPersonJune1:
+      return "You have chosen to pick up your painting and receipt on Saturday June 1, noon-3pm. The pickup address will be sent in a confirmation email once we have confirmed you e-transfer. Please add it to your calendar now!";
+    case PickupOption.AlternateDate:
+      return "We will be in touch to arrange a pickup date.";
+    case PickupOption.ShipCanada:
+      return "We will be in touch to arrange transport to your location.";
+    case PickupOption.ShipInternational:
+      return "We will be in touch to arrange transport to your location.";
+  }
+  return null;
+}
+
 function getPickupOptionSubtitle(cascaderOptions: string[]|undefined): string|null {
   const pickupOption = getPickupOptionFromCascaderValue(cascaderOptions)
   switch (pickupOption) {
@@ -104,7 +121,7 @@ export default function AdoptionForm() {
       return;
     }
     const serviceId = process.env.REACT_APP_EMAILJS_SERVICE_ID;
-    const templateId = process.env.REACT_APP_EMAILJS_TEMPLATE_ID;
+    const templateId = process.env.REACT_APP_EMAILJS_ADOPTION_NOTIFICATION_TEMPLATE_ID;
     const publicKey = process.env.REACT_APP_EMAILJS_PUBLIC_KEY;
 
     const pickupOption = getPickupOptionSubtitle(pickupValue as any);
@@ -117,15 +134,18 @@ export default function AdoptionForm() {
     // Keys must correspond to template fields set up in emailjs template
     const emailTemplate = {
       name: data.name,
+      year: painting.year,
       address: data.address,
       phone: data.phone,
       email: data.email,
       bpid: painting.id,
-      price: price,
+      price,
       pickup_option: pickupOption,
       painting_name: painting.title,
+      pickup_details: getPickupDetails(pickupValue as any),
       is_business: data.priceOption === PriceOption.Business,
     };
+
     if (!serviceId || !templateId) {
       onFormSubmitError();
       return;
