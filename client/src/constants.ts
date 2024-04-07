@@ -9,3 +9,7 @@ export const CARE_AND_CONSERVATION_KEY: TextContentId = 'care_and_conservation';
 
 // For local storage
 export const SAVED_PAINTING_KEY = 'GORDANEER_SAVED_PAINTINGS';
+
+// Airtable
+export const AIRTABLE_BASE = 'app2HxNPQejnLR2g0';
+export const AIRTABLE_PAINTINGS_TABLE = 'tblY6WWDZPflob9MC';

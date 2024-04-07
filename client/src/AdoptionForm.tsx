@@ -7,6 +7,32 @@ import { areAdoptionsOpen, getPriceFromDamageLevel } from './utils';
 import { NavLink } from 'react-router-dom';
 import DamageLevelInfoButton from './DamageLevelInfoButton';
 import DamageInformation from './DamageInformation';
+import { AIRTABLE_BASE, AIRTABLE_PAINTINGS_TABLE } from './constants';
+
+export async function markPaintingAsPending(recordId: string) {
+  const endpoint = `https://api.airtable.com/v0/${AIRTABLE_BASE}/${AIRTABLE_PAINTINGS_TABLE}/${recordId}`;
+  try {
+    await fetch(
+      endpoint,
+      {
+        method: 'PATCH',
+        body: JSON.stringify({
+          fields: {
+            adoption_pending: true,
+          },
+        }),
+        headers: {
+          Authorization: `Bearer ${process.env.REACT_APP_AIRTABLE_TOKEN}`,
+          'Content-Type': 'application/json',
+        }
+      }
+    );
+  } catch (e) {
+    // Not a fatal error because we will still get the adoption form submission
+    // and the adoption can be marked Pending manually
+    console.error(e);
+  }
+}
 
 enum PriceOption {
   Personal = 'Personal',
@@ -158,6 +184,7 @@ export default function AdoptionForm() {
         onFormSubmitError();
       } else {
         window.alert("Thank you! Your adoption is being processed.");
+        markPaintingAsPending(painting.airtableId)
         navigate("/after-adoption")
       }
     } catch (e) {

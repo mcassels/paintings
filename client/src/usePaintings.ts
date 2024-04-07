@@ -1,10 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import { Painting, PaintingsResponse, PaintingStatus, PaintingTags } from "./types";
+import { AIRTABLE_BASE, AIRTABLE_PAINTINGS_TABLE } from "./constants";
 
 // used url encoder here https://codepen.io/airtable/full/MeXqOg
 // With query:
 // AND({hidden} != TRUE(), {damage_level} > 0)
-const paintingsTableUrl = "https://api.airtable.com/v0/app2HxNPQejnLR2g0/tblY6WWDZPflob9MC?filterByFormula=AND(%7Bhidden%7D+!%3D+TRUE()%2C+%7Bdamage_level%7D+%3E+0)";
+const paintingsTableUrl = `https://api.airtable.com/v0/${AIRTABLE_BASE}/${AIRTABLE_PAINTINGS_TABLE}?filterByFormula=AND(%7Bhidden%7D+!%3D+TRUE()%2C+%7Bdamage_level%7D+%3E+0)`;
 
 function getTags(painting: Omit<Painting, 'tags'>): PaintingTags {
   // We have previously filtered out paintings without a year or yearGuess
@@ -78,6 +79,7 @@ async function fetchPaintings(): Promise<Painting[]> {
 
       const painting: Omit<Painting, 'tags'> = {
         id: fields.id.toUpperCase(),
+        airtableId: record.id,
         title: fields.title,
         frontPhotoUrl: fields.front_photo_url,
         backPhotoUrl: fields.back_photo_url,
