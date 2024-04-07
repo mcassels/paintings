@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { Painting, PaintingsResponse, PaintingStatus, PaintingTags } from "./types";
-import { AIRTABLE_BASE, AIRTABLE_PAINTINGS_TABLE } from "./constants";
+import { AIRTABLE_BASE, AIRTABLE_PAINTINGS_TABLE, PAINTING_ORDER_KEY } from "./constants";
 
 // used url encoder here https://codepen.io/airtable/full/MeXqOg
 // With query:
@@ -105,12 +105,27 @@ async function fetchPaintings(): Promise<Painting[]> {
       continue;
     }
   }
-  // return paintings.sort((a, b) => {
-  //   return Number(a.id.slice(2, undefined)) - Number((b.id.slice(2, undefined)));
-  // });
-  return paintings.sort(() => {
-    // Random number between -1 and 1
-    return (Math.random() * 2) - 1;
+
+  // The order of the paintings is random for each browser visiting the site,
+  // but once you've visited the site once, we show the same order for the same browser.
+  // That way it's easier to find and remember the paintings you like.
+  const cachedPaintingOrder = localStorage.getItem(PAINTING_ORDER_KEY);
+  const idOrdering = cachedPaintingOrder ? JSON.parse(cachedPaintingOrder) : undefined;
+
+  // If the cached order hasn't been set, or is invalid, or the list of paintings has changed, re-randomize and save the order
+  if (!idOrdering || !Array.isArray(idOrdering) || idOrdering.length !== paintings.length) {
+    const randomOrder = paintings.sort(() => {
+      // Random number between -1 and 1
+      return (Math.random() * 2) - 1;
+    });
+    const idOrdering = randomOrder.map((p) => p.id);
+    localStorage.setItem(PAINTING_ORDER_KEY, JSON.stringify(idOrdering));
+    return randomOrder;
+  }
+
+  // An ordering has already been saved, so we sort the paintings based on that ordering
+  return paintings.sort((a, b) => {
+    return idOrdering.indexOf(a.id) - idOrdering.indexOf(b.id);
   });
 }
 
