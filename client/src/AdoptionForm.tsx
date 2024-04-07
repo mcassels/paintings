@@ -142,10 +142,12 @@ export default function AdoptionForm() {
   const painting = paintings.find((p) => p.id === paintingId);
 
   async function onSubmit(data: ContactFormInputs) {
+    window.gtag('event', 'submit_adoption', { paintingId });
     if (!painting) {
       onFormSubmitError();
       return;
     }
+
     const serviceId = process.env.REACT_APP_EMAILJS_SERVICE_ID;
     const templateId = process.env.REACT_APP_EMAILJS_ADOPTION_NOTIFICATION_TEMPLATE_ID;
     const publicKey = process.env.REACT_APP_EMAILJS_PUBLIC_KEY;

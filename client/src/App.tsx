@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Menu } from 'antd';
 import './App.css';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -51,6 +51,13 @@ function AppInner() {
 function Layout() {
   const location = useLocation();
   const selectedKey = location.pathname.split('/')[1];
+
+  useEffect(() => {
+    if (location.search.length === 0) {
+      window.gtag('event', 'view_page', { page: selectedKey });
+    }
+  }, [selectedKey, location.search.length]);
+
   return (
     <div className="min-h-svh flex flex-col items-stretch">
       <div className="grow">

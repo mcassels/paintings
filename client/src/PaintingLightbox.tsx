@@ -6,7 +6,6 @@ import "yet-another-react-lightbox/plugins/captions.css";
 import { HeartOutlined, HeartFilled, ShareAltOutlined, CopyOutlined, ReadOutlined, RetweetOutlined, InfoCircleOutlined } from '@ant-design/icons';
 import { FacebookShareButton, FacebookIcon, WhatsappShareButton, WhatsappIcon, EmailShareButton, EmailIcon, FacebookMessengerShareButton, FacebookMessengerIcon, XIcon, TwitterShareButton } from 'react-share';
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
-import ReactGA from 'react-ga4';
 
 import { Painting } from './types';
 import { Button, Divider, Image, Modal, Popover, Tag } from 'antd';
@@ -16,14 +15,11 @@ import { SAVED_PAINTING_KEY } from './constants';
 import DamageLevelInfoButton from './DamageLevelInfoButton';
 
 function reportPaintingButtonClick(
+  eventName: string,
   paintingId: string,
-  buttonName: string,
+  params?: { [key: string]: string },
 ) {
-  ReactGA.event({
-    category: paintingId,
-    action: buttonName,
-  });
-  window.gtag('event', 'test_event');
+  window.gtag('event', eventName, { paintingId, ...params });
 }
 
 
@@ -52,7 +48,7 @@ function SeeReverseButton(props: { painting?: Painting; }) {
         type="link"
         onClick={() => {
           setIsModalOpen(true)
-          reportPaintingButtonClick(painting.id, 'see_painting_back');
+          reportPaintingButtonClick('see_painting_back', painting.id);
         }}
       >
         <RetweetOutlined />
@@ -78,7 +74,7 @@ function BuyPaintingButton(props: { painting: Painting|undefined }) {
     );
   }
   return (
-    <Button className="flex justify-center flex-col max-w-fit" type="primary" onClick={() => reportPaintingButtonClick(painting.id, 'click_adopt_me')}>
+    <Button className="flex justify-center flex-col max-w-fit" type="primary" onClick={() => reportPaintingButtonClick('click_adopt_me', painting.id)}>
       <NavLink to={`/adopt?painting=${painting.id}`}>
         Adopt me!
       </NavLink>
@@ -95,7 +91,10 @@ function PaintingStoryButton(props: { painting: Painting|undefined }) {
   }
   return (
     <div className="w-fit">
-      <Button type="link" onClick={() => setIsModalOpen(true)}>
+      <Button type="link" onClick={() => {
+        setIsModalOpen(true);
+        reportPaintingButtonClick('read_story', painting.id);
+      }}>
         <ReadOutlined />
         Story
       </Button>
@@ -124,6 +123,9 @@ function SavePaintingButton(props: { paintingId: string }) {
   const [isFavourite, setIsFavourite] = React.useState(isSaved);
 
   function onClick() {
+    if (!isFavourite) {
+      reportPaintingButtonClick('favourite_painting', paintingId);
+    }
     setIsFavourite((prev) => !prev);
     const savedPaintings = localStorage.getItem(SAVED_PAINTING_KEY)?.split(',') || [];
     if (savedPaintings.includes(paintingId)) {
@@ -153,8 +155,9 @@ function ShareButton(props: { painting: Painting|undefined }) {
   const { painting } = props;
   const [open, setOpen] = useState(false);
 
-  const hide = () => {
+  const afterShare = (shareDest: string) => {
     setOpen(false);
+    reportPaintingButtonClick(`share`, painting?.id || '', { share_type: shareDest });
   };
 
   const handleOpenChange = (newOpen: boolean) => {
@@ -164,37 +167,37 @@ function ShareButton(props: { painting: Painting|undefined }) {
   if (!painting) {
     return null;
   }
-  const shareUrl = window.location.href; // TODO: should this be something else?
+  const shareUrl = window.location.href;
   const title = painting.title;
 
   const popoverContent = (
     <div className="flex flex-col Demo__some-network">
       <FacebookShareButton url={shareUrl} className="Demo__some-network__share-button">
-        <FacebookIcon size={32} onClick={hide}/>
+        <FacebookIcon size={32} onClick={() => afterShare('facebook')}/>
       </FacebookShareButton>
       <TwitterShareButton
         url={shareUrl}
         title={title}
-        onClick={hide}
+        onClick={() => afterShare('twitter')}
         className="Demo__some-network__share-button"
       >
         <XIcon size={32} round />
       </TwitterShareButton>
       <FacebookMessengerShareButton
         url={shareUrl}
-        onClick={hide}
+        onClick={() => afterShare('messenger')}
         appId="521270401588372"
         className="Demo__some-network__share-button"
       >
         <FacebookMessengerIcon size={32} round />
       </FacebookMessengerShareButton>
       <WhatsappShareButton url={shareUrl} className="Demo__some-network__share-button">
-        <WhatsappIcon size={32} onClick={hide} />
+        <WhatsappIcon size={32} onClick={() => afterShare('whatsapp')} />
       </WhatsappShareButton>
       <EmailShareButton
         url={shareUrl}
         subject={title}
-        onClick={hide}
+        onClick={() => afterShare('email')}
         body="body"
         className="Demo__some-network__share-button"
       >
@@ -205,7 +208,7 @@ function ShareButton(props: { painting: Painting|undefined }) {
         className="flex justify-center"
         onClick={() => {
           navigator.clipboard.writeText(shareUrl);
-          hide();
+          afterShare('copy_link');
         }}
       >
         <CopyOutlined className="text-[20px]"/>

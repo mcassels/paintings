@@ -26,6 +26,8 @@ function MultiSelectFilter(props: MultiSelectFilterProps) {
   const params = new URLSearchParams(location.search);
 
   function handleChange(values: string[]) {
+    window.gtag('event', 'filter', { [paramKey]: values.join(',') });
+
     const searchParams = new URLSearchParams(location.search);
     searchParams.delete(paramKey);
     values.forEach((value) => {
