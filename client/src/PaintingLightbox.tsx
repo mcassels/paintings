@@ -6,6 +6,7 @@ import "yet-another-react-lightbox/plugins/captions.css";
 import { HeartOutlined, HeartFilled, ShareAltOutlined, CopyOutlined, ReadOutlined, RetweetOutlined, InfoCircleOutlined } from '@ant-design/icons';
 import { FacebookShareButton, FacebookIcon, WhatsappShareButton, WhatsappIcon, EmailShareButton, EmailIcon, FacebookMessengerShareButton, FacebookMessengerIcon, XIcon, TwitterShareButton } from 'react-share';
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
+import ReactGA from 'react-ga4';
 
 import { Painting } from './types';
 import { Button, Divider, Image, Modal, Popover, Tag } from 'antd';
@@ -13,6 +14,17 @@ import Markdown from 'react-markdown';
 import { getPaintingInfos } from './utils';
 import { SAVED_PAINTING_KEY } from './constants';
 import DamageLevelInfoButton from './DamageLevelInfoButton';
+
+function reportPaintingButtonClick(
+  paintingId: string,
+  buttonName: string,
+) {
+  ReactGA.event({
+    category: paintingId,
+    action: buttonName,
+  });
+  window.gtag('event', 'test_event');
+}
 
 
 function SeeReverseButton(props: { painting?: Painting; }) {
@@ -38,7 +50,10 @@ function SeeReverseButton(props: { painting?: Painting; }) {
       </Modal>
       <Button
         type="link"
-        onClick={() => setIsModalOpen(true)}
+        onClick={() => {
+          setIsModalOpen(true)
+          reportPaintingButtonClick(painting.id, 'see_painting_back');
+        }}
       >
         <RetweetOutlined />
         See the back
@@ -48,22 +63,23 @@ function SeeReverseButton(props: { painting?: Painting; }) {
 }
 
 function BuyPaintingButton(props: { painting: Painting|undefined }) {
-  if (!props.painting) {
+  const { painting } = props;
+  if (!painting) {
     return null;
   }
-  if (props.painting.tags.status === 'pending') {
+  if (painting.tags.status === 'pending') {
     return (
       <Tag className="w-fit flex flex-col justify-center font-bold ml-[15px]" color="gold"><div>Pending</div></Tag>
     );
   }
-  if (props.painting.tags.status === 'adopted') {
+  if (painting.tags.status === 'adopted') {
     return (
       <Tag className="w-fit flex flex-col justify-center font-bold ml-[15px]" color="red"><div>Adopted</div></Tag>
     );
   }
   return (
-    <Button className="flex justify-center flex-col max-w-fit" type="primary">
-      <NavLink to={`/adopt?painting=${props.painting.id}`}>
+    <Button className="flex justify-center flex-col max-w-fit" type="primary" onClick={() => reportPaintingButtonClick(painting.id, 'click_adopt_me')}>
+      <NavLink to={`/adopt?painting=${painting.id}`}>
         Adopt me!
       </NavLink>
     </Button>
