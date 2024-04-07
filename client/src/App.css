@@ -139,6 +139,13 @@ html, body {
   .lightbox-painting-description {
     flex-direction: column;
   }
+  .lightbox-painting-info {
+    max-width: calc(100vw - 200px);
+  }
+  .lightbox-painting-header-container {
+    justify-content: start;
+    margin-left: 10px;
+  }
   .lightbox-painting-description-divider {
     display: none;
   }
@@ -154,6 +161,7 @@ html, body {
   }
   .yarl__toolbar {
     flex-direction: column;
+    left: calc(100vw - 60px) !important;
   }
   /*
   hide the zoom buttons on mobile cause you can pinch-zoom and they get in the way
@@ -164,6 +172,7 @@ html, body {
   .yarl__button:nth-child(2) {
     display: none;
   }
+
   .painting-lightbox-buttons {
     flex-direction: column;
   }

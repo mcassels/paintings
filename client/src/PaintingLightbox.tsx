@@ -53,12 +53,12 @@ function BuyPaintingButton(props: { painting: Painting|undefined }) {
   }
   if (props.painting.tags.status === 'pending') {
     return (
-      <Tag className="w-[125px] h-fit flex justify-center" color="gold"><div>Pending</div></Tag>
+      <Tag className="w-fit flex flex-col justify-center font-bold ml-[15px]" color="gold"><div>Pending</div></Tag>
     );
   }
   if (props.painting.tags.status === 'adopted') {
     return (
-      <Tag className="w-[125px] h-fit flex justify-center" color="red"><div>Adopted</div></Tag>
+      <Tag className="w-fit flex flex-col justify-center font-bold ml-[15px]" color="red"><div>Adopted</div></Tag>
     );
   }
   return (
@@ -124,6 +124,7 @@ function SavePaintingButton(props: { paintingId: string }) {
   return (
     <Button
       onClick={onClick}
+      className="w-fit"
       type="link"
       icon={isFavourite ? <HeartFilled /> : <HeartOutlined />}
     >
@@ -258,9 +259,9 @@ export default function PaintingLightbox(props: PaintingLightboxProps) {
         }
         return (
           <div className="absolute top-0">
-            <div className="flex justify-center">
+            <div className="flex justify-center mb-2 lightbox-painting-header-container">
               <div id="lightbox-painting-header" className="flex flex-wrap space-x-4 lightbox-painting-header pt-4">
-                <div className="flex flex-col">
+                <div className="flex flex-col lightbox-painting-info">
                   <div className="text-white text-2xl font-bold flex flex-col justify-center">
                     <div>
                       {painting.title}
@@ -304,7 +305,7 @@ export default function PaintingLightbox(props: PaintingLightboxProps) {
                     </div>
                   </div>
                 </div>
-                <div className="flex painting-lightbox-buttons">
+                <div className="flex painting-lightbox-buttons h-fit">
                   <SavePaintingButton key={`save-painting-${selectedPhotoId}`} paintingId={selectedPhotoId} />
                   <PaintingStoryButton key={`painting-story-${selectedPhotoId}`} painting={paintings.find((p) => p.id === selectedPhotoId)} />
                   <SeeReverseButton key={`see-reverse-${selectedPhotoId}`} painting={paintings.find((p) => p.id === selectedPhotoId)} />
