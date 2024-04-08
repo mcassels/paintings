@@ -11,7 +11,7 @@ import { Painting } from './types';
 import { Button, Divider, Image, Modal, Popover, Tag } from 'antd';
 import Markdown from 'react-markdown';
 import { getPaintingInfos } from './utils';
-import { SAVED_PAINTING_KEY } from './constants';
+import { AIRTABLE_BASE, AIRTABLE_PAINTINGS_TABLE, SAVED_PAINTING_KEY } from './constants';
 import DamageLevelInfoButton from './DamageLevelInfoButton';
 
 function reportPaintingButtonClick(
@@ -20,6 +20,41 @@ function reportPaintingButtonClick(
   params?: { [key: string]: string },
 ) {
   window.gtag('event', eventName, { paintingId, ...params });
+}
+
+async function incrementFavouriteCount(recordId: string) {
+  // airtable's API does not seem to support incrementing a field
+  // so we need to fetch the record, increment the field, and then PATCH it back
+  const endpoint = `https://api.airtable.com/v0/${AIRTABLE_BASE}/${AIRTABLE_PAINTINGS_TABLE}/${recordId}`;
+  try {
+    const res = await fetch(
+      endpoint,
+      { headers: { Authorization: `Bearer ${process.env.REACT_APP_AIRTABLE_TOKEN}` } },
+    );
+    const data = await res.json();
+    if (!data || !data.fields) {
+      return;
+    }
+    const prev = data.fields.favourite_count || 0;
+    await fetch(
+      endpoint,
+      {
+        method: 'PATCH',
+        body: JSON.stringify({
+          fields: {
+            favourite_count: prev + 1,
+          },
+        }),
+        headers: {
+          Authorization: `Bearer ${process.env.REACT_APP_AIRTABLE_TOKEN}`,
+          'Content-Type': 'application/json',
+        }
+      }
+    );
+  } catch (e) {
+    // Not a fatal error because this doesn't prevent them from marking it as a favourite
+    console.error(e);
+  }
 }
 
 
@@ -115,17 +150,25 @@ function PaintingStoryButton(props: { painting: Painting|undefined }) {
   );
 }
 
-function SavePaintingButton(props: { paintingId: string }) {
-  const { paintingId } = props;
+function SavePaintingButton(props: { paintingId: string, airtableId?: string }) {
+  const { paintingId, airtableId } = props;
+
   const savedPaintings = localStorage.getItem(SAVED_PAINTING_KEY)?.split(',') || [];
   const isSaved = savedPaintings.includes(paintingId);
 
   const [isFavourite, setIsFavourite] = React.useState(isSaved);
 
   function onClick() {
+    // If it wasn't previously a favourite, then this painting is getting favourited
+    // This block is for functions we use for tracking which paintings are favourited,
+    // it's not necessary for the app to function
     if (!isFavourite) {
       reportPaintingButtonClick('favourite_painting', paintingId);
+      if (airtableId) {
+        incrementFavouriteCount(airtableId);
+      }
     }
+
     setIsFavourite((prev) => !prev);
     const savedPaintings = localStorage.getItem(SAVED_PAINTING_KEY)?.split(',') || [];
     if (savedPaintings.includes(paintingId)) {
@@ -325,7 +368,7 @@ export default function PaintingLightbox(props: PaintingLightboxProps) {
                   </div>
                 </div>
                 <div className="flex painting-lightbox-buttons h-fit">
-                  <SavePaintingButton key={`save-painting-${selectedPhotoId}`} paintingId={selectedPhotoId} />
+                  <SavePaintingButton key={`save-painting-${selectedPhotoId}`} paintingId={selectedPhotoId} airtableId={paintings.find((p) => p.id === selectedPhotoId)?.airtableId} />
                   <PaintingStoryButton key={`painting-story-${selectedPhotoId}`} painting={paintings.find((p) => p.id === selectedPhotoId)} />
                   <SeeReverseButton key={`see-reverse-${selectedPhotoId}`} painting={paintings.find((p) => p.id === selectedPhotoId)} />
                   <ShareButton key={`share-${selectedPhotoId}`} painting={paintings.find((p) => p.id === selectedPhotoId)} />
