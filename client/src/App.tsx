@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Menu } from 'antd';
+import { ConfigProvider, Menu } from 'antd';
 import './App.css';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import ReactGA from 'react-ga4';
@@ -18,6 +18,7 @@ import { CARE_AND_CONSERVATION_KEY } from './constants';
 import TextPage from './TextPage';
 import { Header } from 'antd/es/layout/layout';
 import AppFooter from './AppFooter';
+import { MenuOutlined } from '@ant-design/icons';
 
 
 const queryClient = new QueryClient();
@@ -58,21 +59,40 @@ function Layout() {
     }
   }, [selectedKey, location.search.length]);
 
+  // Menu needs different layout for mobile
+  // This is the same check that the css file uses to determine mobile
+  const isSizeForMobile = window.matchMedia('only screen and (max-width: 600px)').matches;
+  // However, if you are on a computer and you resize the window to be smaller than 600px, we do not want
+  // to show the mobile layout, so we need to check if the window is actually a mobile device
+  const isMobileDevice = /Mobi/i.test(window.navigator.userAgent)
+  const isMobile = isSizeForMobile && isMobileDevice;
+
+  const headerElem = (
+    <Header className="bg-[#193259] text-white text-center justify-center flex flex-col text-3xl p-[8px] h-fit mb-6">
+      <div className="pt-2">Gordaneer Painting Adoption Project</div>
+      <div className="text-sm pt-1">
+        {areAdoptionsOpen() ? 'Adoptions close May 9th' : 'Adoptions open soon!'}
+      </div>
+    </Header>
+  );
+
+  const menuStyle = isMobile ? 
+    { minWidth: '30px', flex: 'auto', marginBottom: '1.5rem', backgroundColor: '#193259' } : { width: 'fit-content' }
+
   return (
     <div className="min-h-svh flex flex-col items-stretch">
       <div className="grow">
-        <Header className="bg-[#193259] text-white text-center justify-center flex flex-col text-3xl p-[8px] h-fit mb-6">
-          <div className="pt-2">Gordaneer Painting Adoption Project</div>
-          <div className="text-sm pt-1">
-            {areAdoptionsOpen() ? 'Adoptions close May 9th' : 'Adoptions open soon!'}
-          </div>
-        </Header>
+        {
+          !isMobile && headerElem
+        }
         <div className="box wrapper">
           <div className="box sidebar">
             <Menu
-              style={{ width: 'fit-content' }}
+              mode={isMobile ? 'horizontal' : 'vertical'}
+              style={menuStyle}
               defaultSelectedKeys={[selectedKey]}
               selectedKeys={[selectedKey]}
+              overflowedIndicator={isMobile ? <MenuOutlined /> : null}
             >
               <Menu.Item key="home" title="Home"><NavLink to="/home">Home</NavLink></Menu.Item>
               <Menu.Item key="gallery" title="Gallery"><NavLink to="/gallery">Gallery</NavLink></Menu.Item>
@@ -84,6 +104,7 @@ function Layout() {
               <Menu.Item key="art-conservators" title="Care & Conservation"><NavLink to="/art-conservators">Care & Conservation</NavLink></Menu.Item>
               <Menu.Item key="faqs" title="FAQs"><NavLink to="/faqs">FAQs</NavLink></Menu.Item>
             </Menu>
+            {isMobile && headerElem}
           </div>
           <div className="box content">
             <Outlet />
@@ -98,7 +119,17 @@ function Layout() {
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <AppInner />
+      <ConfigProvider
+        theme={{
+          components: {
+            Menu: {
+              activeBarHeight: 0, // This removes the highlight bar on the menu when its horizontal on mobile
+            },
+          },
+        }}
+      >
+        <AppInner />
+      </ConfigProvider>
     </QueryClientProvider>
   );
 }

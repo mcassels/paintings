@@ -176,6 +176,26 @@ html, body {
   .painting-lightbox-buttons {
     flex-direction: column;
   }
+
+  /*
+  The following are for styling the hamburger menu that is used for the sidebar
+  on mobile
+  */
+  .wrapper {
+    display: unset;
+  }
+  .sidebar {
+    display: flex;
+  }
+  .sidebar .ant-menu-light .ant-menu-submenu-selected >.ant-menu-submenu-title, .ant-menu-light>.ant-menu .ant-menu-submenu-selected >.ant-menu-submenu-title {
+    color: white;
+  }
+  .sidebar .ant-menu .ant-menu-submenu-title .anticon {
+    font-size: 30px;
+  }
+  .sidebar .ant-menu-horizontal .ant-menu-submenu {
+    padding-top: 10px;
+  }
 }
 
 .damage-level-modal {
