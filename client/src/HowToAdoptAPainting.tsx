@@ -6,9 +6,9 @@ import SelectAPainting from "./SelectAPainting";
 
 export default function HowToAdoptAPainting() {
   return (
-    <div>
-      <Row className="space-x-8">
-        <Col>
+    <div className="flex justify-center">
+      <div className="space-x-8 flex justify-center">
+        <div style={{ width: 'min(650px, 50%)'}}>
           <div id="how-to">
             <TextPage textKey={HOW_TO_ADOPT_KEY} />
           </div>
@@ -24,8 +24,8 @@ export default function HowToAdoptAPainting() {
           <div>
             <AdoptionForm />
           </div>
-        </Col>
-        <Col>
+        </div>
+        <div style={{ width: 'min(650px, 50%)'}}>
           <Anchor
             items={[
               {
@@ -60,8 +60,8 @@ export default function HowToAdoptAPainting() {
               },
             ]}
           />
-        </Col>
-      </Row>
+        </div>
+      </div>
     </div>
   );
 }
