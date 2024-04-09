@@ -63,10 +63,11 @@ async function fetchPaintings(): Promise<Painting[]> {
         continue;
       }
       let status: PaintingStatus = 'available';
-      if (fields.adoption_pending) {
-        status = 'pending';
-      } else if (fields.red_dot) {
+      // If a painting is both red_dot and adoption_pending, red_dot takes precedence
+      if (fields.red_dot) {
         status = 'adopted';
+      } else if (fields.adoption_pending) {
+        status = 'pending';
       }
 
       const damageLevel = fields.damage_level && Math.ceil(fields.damage_level);

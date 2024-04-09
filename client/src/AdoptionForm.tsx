@@ -58,9 +58,9 @@ function getPickupDetails(cascaderOptions: string[]|undefined): string|null {
   const pickupOption = getPickupOptionFromCascaderValue(cascaderOptions)
   switch (pickupOption) {
     case PickupOption.InPersonMay17:
-      return "You have chosen to pick up your painting and receipt on Friday May 17, 11am-2pm. The pickup address will be sent in a confirmation email once we have confirmed you e-transfer. Please add it to your calendar now!";
+      return "You have chosen to pick up your painting and receipt on Friday May 17, 11am-2pm. The pickup address will be sent in a confirmation email once we have confirmed your e-transfer or Paypal. Please add it to your calendar now!";
     case PickupOption.InPersonJune1:
-      return "You have chosen to pick up your painting and receipt on Saturday June 1, noon-3pm. The pickup address will be sent in a confirmation email once we have confirmed you e-transfer. Please add it to your calendar now!";
+      return "You have chosen to pick up your painting and receipt on Saturday June 1, noon-3pm. The pickup address will be sent in a confirmation email once we have confirmed your e-transfer or Paypal. Please add it to your calendar now!";
     case PickupOption.AlternateDate:
       return "We will be in touch to arrange a pickup date.";
     case PickupOption.ShipCanada:
@@ -81,9 +81,9 @@ function getPickupOptionSubtitle(cascaderOptions: string[]|undefined): string|nu
     case PickupOption.AlternateDate:
       return "I am unable to pick up the work in person on either of the set days. Please contact me once you have decided on an alternate pickup date.";
     case PickupOption.ShipCanada:
-      return "I am unable to pick up the work in person and would like to have it shipped within Canada. I have included the $20 processing fee in my e-transfer. Please contact me to arrange COD for the shipping cost.";
+      return "I am unable to pick up the work in person and would like to have it shipped within Canada. I will include the $20 processing fee in my e-transfer or Paypal. Please contact me to arrange COD for the shipping cost.";
     case PickupOption.ShipInternational:
-      return "I am unable to pick up the work in person and would like to have it shipped internationally. I will e-transfer any applicable fees once they are determined.";
+      return "I am unable to pick up the work in person and would like to have it shipped internationally. I will e-transfer or Paypal any applicable shipping fees once they are determined.";
   }
   return null;
 }
@@ -172,6 +172,7 @@ export default function AdoptionForm() {
       painting_name: painting.title,
       pickup_details: getPickupDetails(pickupValue as any),
       is_business: data.priceOption === PriceOption.Business,
+      painting_link: `https://jamesgordaneer.com/gallery?selected=${painting.id}`
     };
 
     if (!serviceId || !templateId) {
@@ -282,30 +283,17 @@ export default function AdoptionForm() {
                     >
                       <Radio.Group value={PriceOption.Personal}>
                         <Space direction="vertical">
-                          <Radio value={PriceOption.Personal}>I have sent an e-transfer of $100</Radio>
-                          <Radio value={PriceOption.Business}>I have sent an e-transfer of $200 because I plan to display this work at my place of business and will deduct 100% of the cost of this work on my business taxes next year.</Radio>
+                          <Radio value={PriceOption.Personal}>I will send an e-transfer or Paypal of $100</Radio>
+                          <Radio value={PriceOption.Business}>I will send an e-transfer or Paypal of $200 because I plan to display this work at my place of business and will deduct 100% of the cost of this work on my business taxes next year.</Radio>
                         </Space>
                       </Radio.Group>
                     </Form.Item>
-                    <div><p>Please send e-transfers to <a href="mailto:gordaneer@gmail.com">gordaneer@gmail.com</a>.</p></div>
+                    <div><p>Watch for a confirmation email with e-transfer and Paypal details.</p></div>
                   </div>
                 ) : (
-                  <Form.Item
-                    name="etransferSent"
-                    valuePropName="checked"
-                    rules={[
-                      {
-                        validator: (_, value) =>
-                          value ? Promise.resolve() : Promise.reject(new Error('Please send an etransfer in order to adopt the painting')),
-                      },
-                    ]}
-                  >
-                    <Checkbox>
-                      <div className="ml-4" style={{ width: "min(650px, 100%)" }}>
-                      <p>{`I have sent an e-transfer of $${getPriceFromDamageLevel(painting.damageLevel)} to `}<a href="mailto:gordaneer@gmail.com">gordaneer@gmail.com</a>.</p> 
-                      </div>
-                    </Checkbox>
-                  </Form.Item>
+                  <div className="ml-4" style={{ width: "min(650px, 100%)" }}>
+                    <p>Watch for a confirmation email with e-transfer and Paypal details.</p> 
+                  </div>
                 )
               }
             </div>

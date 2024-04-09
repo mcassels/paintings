@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { ConfigProvider, Menu } from 'antd';
 import './App.css';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import ReactGA from 'react-ga4';
 
 import PhotoGallery from './PhotoGallery';
 import { NavLink, Navigate, Outlet, Route, Routes, useLocation } from 'react-router-dom';
@@ -24,8 +23,6 @@ import { MenuOutlined } from '@ant-design/icons';
 const queryClient = new QueryClient();
 
 function AppInner() {
-  ReactGA.initialize("G-L1MXESLN6H");
-
   return (
     <div>
       <div className="App">
