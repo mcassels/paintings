@@ -129,7 +129,7 @@ export default function AdoptionForm() {
   const paintings = usePaintings();
   if (paintings === 'loading') {
     return (
-      <div className="w-[650px] h-[500px] flex items-center justify-center">
+      <div className="h-[500px] flex items-center justify-center" style={{ width: "min(650px, 100%)" }}>
         <Spin />
       </div>
     );
@@ -198,7 +198,7 @@ export default function AdoptionForm() {
   return (
     <div className="pt-8">
       <Form
-        style={{ maxWidth: 600 }}
+        style={{ maxWidth: "min(600px, 100%)" }}
         form={form}
         onFinish={onSubmit}
         labelCol={{ span: 8 }}
@@ -246,7 +246,7 @@ export default function AdoptionForm() {
         >
           <Input />
         </Form.Item>
-        <div id="donation" className="w-[650px]">
+        <div id="donation" style={{ width: "min(650px, 100%)" }}>
           <Divider className="border-slate-400" orientation="left">Adoption fee</Divider>
         </div>
         {
@@ -254,7 +254,7 @@ export default function AdoptionForm() {
             <div className="flex flex-col space-y-2">
               <div className="flex flex-col">
                 <div className="flex flex-col w-1/2">
-                  <div className="w-[500px] flex space-x-2 text-base">
+                  <div className="flex space-x-2 text-base" style={{ width: "min(500px, 80%)" }}>
                     <div className="font-bold">
                       Adoption fee:
                     </div>
@@ -273,7 +273,7 @@ export default function AdoptionForm() {
                   <div className="pt-4">
                     <Form.Item
                       name="priceOption"
-                      className="w-[700px]"
+                      style={{ width: "min(700px, 100%)" }}
                       rules={
                         [
                           { required: true, message: 'Selection is required' },
@@ -301,7 +301,7 @@ export default function AdoptionForm() {
                     ]}
                   >
                     <Checkbox>
-                      <div className="w-[650px] ml-4">
+                      <div className="ml-4" style={{ width: "min(650px, 100%)" }}>
                       <p>{`I have sent an e-transfer of $${getPriceFromDamageLevel(painting.damageLevel)} to `}<a href="mailto:gordaneer@gmail.com">gordaneer@gmail.com</a>.</p> 
                       </div>
                     </Checkbox>
@@ -324,7 +324,7 @@ export default function AdoptionForm() {
             </div>
           )
         }
-        <div id="pickup" className="w-[650px]">
+        <div id="pickup" style={{ width: "min(650px, 100%)" }}>
           <Divider className="border-slate-400" orientation="left">Pickup / shipping</Divider>
         </div>
         <Form.Item
@@ -373,7 +373,7 @@ export default function AdoptionForm() {
           />
         </Form.Item>
         <div className="flex justify-center pb-4">
-          <div className="w-[500px]">
+          <div style={{ width: "min(500px, 100%)" }}>
             {getPickupOptionSubtitle(pickupValue as any)}
           </div>
         </div>
@@ -393,7 +393,7 @@ export default function AdoptionForm() {
             </Form.Item>
           )
         }
-        <div id="acknowledgement" className="w-[650px]">
+        <div id="acknowledgement" style={{ width: "min(650px, 100%)" }}>
           <Divider className="border-slate-400" orientation="left">Acknowledgement</Divider>
         </div>
         <Form.Item
@@ -407,12 +407,12 @@ export default function AdoptionForm() {
           ]}
         >
           <Checkbox>
-            <div className="w-[650px] ml-4 font-bold">
+            <div className="ml-4 font-bold" style={{ width: "min(650px, 80vw)" }}>
               I acknowledge that the artwork I am adopting has some degree of damage and am aware that this damage may or may not include mold spores. I agree that I am accepting the artwork “as is” and will not hold the Gordaneer estate or family responsible for any negative impact that may result. 
             </div>
           </Checkbox>
         </Form.Item>
-        <Form.Item className="pt-4" wrapperCol={{ offset: 6, span: 16 }}>
+        <Form.Item className="pt-4 flex justify-center">
           {
             areAdoptionsOpen() ? (
               <div>

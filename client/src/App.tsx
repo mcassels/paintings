@@ -12,7 +12,7 @@ import WhyAdopt from './WhyAdopt';
 import AfterAdoption from './AfterAdoption';
 import LandingPage from './LandingPage';
 import Biography from './Biography';
-import { areAdoptionsOpen } from './utils';
+import { areAdoptionsOpen, getIsMobile } from './utils';
 import Pricing from './Pricing';
 import { CARE_AND_CONSERVATION_KEY } from './constants';
 import TextPage from './TextPage';
@@ -59,14 +59,6 @@ function Layout() {
     }
   }, [selectedKey, location.search.length]);
 
-  // Menu needs different layout for mobile
-  // This is the same check that the css file uses to determine mobile
-  const isSizeForMobile = window.matchMedia('only screen and (max-width: 600px)').matches;
-  // However, if you are on a computer and you resize the window to be smaller than 600px, we do not want
-  // to show the mobile layout, so we need to check if the window is actually a mobile device
-  const isMobileDevice = /Mobi/i.test(window.navigator.userAgent)
-  const isMobile = isSizeForMobile && isMobileDevice;
-
   const headerElem = (
     <Header className="bg-[#193259] text-white text-center justify-center flex flex-col text-3xl p-[8px] h-fit mb-6">
       <div className="pt-2">Gordaneer Painting Adoption Project</div>
@@ -75,6 +67,9 @@ function Layout() {
       </div>
     </Header>
   );
+
+  // Menu needs different layout for mobile
+  const isMobile = getIsMobile();
 
   const menuStyle = isMobile ? 
     { minWidth: '30px', flex: 'auto', marginBottom: '1.5rem', backgroundColor: '#193259' } : { width: 'fit-content' }

@@ -15,7 +15,7 @@ export default function SelectAPainting() {
   if (!paintingId) {
     return (
       <Card
-        className="w-[650px] flex flex-col justify-center w-400"
+        className="flex flex-col justify-center"
       >
         <div>
           <Button type="primary">
@@ -29,7 +29,7 @@ export default function SelectAPainting() {
   }
   if (paintings === 'loading') {
     return (
-      <div className="w-[650px] h-[500px] flex items-center justify-center">
+      <div className="h-[500px] flex items-center justify-center" style={{ width: "min(650px, 100%)" }}>
         <Spin />
       </div>
     );
@@ -46,7 +46,7 @@ export default function SelectAPainting() {
     <Card
       title={
         <div className="py-3">
-            <div className="text-lg font-bold pb-3">{painting.title}</div>
+            <div className="text-lg font-bold pb-3 text-pretty">{painting.title}</div>
             <PaintingInformation painting={painting} />
         </div>
       }
@@ -57,10 +57,10 @@ export default function SelectAPainting() {
           </NavLink>
         </Button>
       }
-      className="w-[650px]"
+      style={{ width: "min(650px, 100%)" }}
     >
       <Image
-        width={400}
+        width="min(400px, 100%)"
         alt={painting.title}
         title={painting.title}
         src={painting.frontPhotoUrl}
