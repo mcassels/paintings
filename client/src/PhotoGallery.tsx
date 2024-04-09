@@ -95,7 +95,7 @@ function PhotoGalleryImpl(props: PhotoGalleryProps) {
 
   return (
     <div className="mr-2">
-      <PaintingLightbox paintings={allPaintings} />
+      <PaintingLightbox paintings={filteredPaintings} />
       <div className="mb-4">
         <GalleryFilters paintings={allPaintings}/>
       </div>
