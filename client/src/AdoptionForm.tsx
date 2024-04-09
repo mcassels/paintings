@@ -421,7 +421,7 @@ export default function AdoptionForm() {
                 </Button>
                 {
                   !painting && (
-                    <div className="text-sm mt-4 text-slate-500">
+                    <div className="text-sm mt-4 text-slate-500 w-fit text-nowrap">
                       Please <a href="#painting-selection">select a painting</a> to adopt.
                     </div>
                   )
