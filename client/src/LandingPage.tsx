@@ -63,15 +63,17 @@ function FeaturedPaintingDisplay() {
 
 export default function LandingPage() {
   return (
-    <div>
-      <div className="pb-2 w-[500px]">
-        <h1 className="text-lg">A fundraiser for Victoria Visual Arts Legacy Society</h1>
-        <p>
-          Supporting the James Gordaneer Legacy Award, given annually to a Camosun College Visual Arts student.
-        </p>
-      </div>
-      <div className="pt-2">
-        <BrowsePaintingsButton />
+    <div className="w-[min(480px, 100vw)] text-pretty">
+      <div className="px-[10px]">
+        <div className="pb-2">
+          <h1 className="text-lg">A fundraiser for Victoria Visual Arts Legacy Society</h1>
+          <p className="max-w-[calc(100vw - 40px)]">
+            Supporting the James Gordaneer Legacy Award, given annually to a Camosun College Visual Arts student.
+          </p>
+        </div>
+        <div className="pt-2">
+          <BrowsePaintingsButton />
+        </div>
       </div>
       <FeaturedPaintingDisplay />
     </div>
