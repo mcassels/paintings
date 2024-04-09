@@ -28,15 +28,15 @@ export default function WhyAdopt() {
         />
         <Card key="morgan-laptop" className="w-[400px]">
           <Image
-            alt="Morgan helped with on-site cataloging"
-            title="Morgan helped with on-site cataloging"
+            alt="Morgan helped with on-site cataloging."
+            title="Morgan helped with on-site cataloging."
             preview={false}
             src={`https://james-gordaneer-paintings.s3.ca-central-1.amazonaws.com/website_images/morgan-laptop.jpg`}
           />
           <div className="pt-2 text-xs">
             <div className="flex flex-col justify-center">
               <div>
-                <a href="https://mcassels.github.io/morgan/" target="_blank" rel="noreferrer">Morgan Brooks</a>&nbsp; helped with on-site cataloging
+                <a href="https://mcassels.github.io/morgan/" target="_blank" rel="noreferrer">Morgan Brooks</a>&nbsp;helped with on-site cataloging.
               </div>
             </div>
           </div>
