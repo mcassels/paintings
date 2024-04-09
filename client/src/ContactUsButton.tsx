@@ -71,7 +71,7 @@ export default function ContactUsButton() {
         open={isModalOpen}
         onCancel={() => setIsModalOpen(false)}
         footer={null}
-        width="50vw"
+        width="min(800px, 100%)"
       >
         <Form
           className="m-10"
