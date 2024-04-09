@@ -64,7 +64,7 @@ function FeaturedPaintingDisplay() {
 export default function LandingPage() {
   return (
     <div className="w-[min(480px, 100vw)] text-pretty">
-      <div className="px-[10px]">
+      <div className="px-[10px] max-w-[min(500px, 100%)]">
         <div className="pb-2">
           <h1 className="text-lg">A fundraiser for Victoria Visual Arts Legacy Society</h1>
           <p className="max-w-[calc(100vw - 40px)]">
