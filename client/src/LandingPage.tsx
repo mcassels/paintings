@@ -12,30 +12,39 @@ function FeaturedPaintingDisplay() {
 
   if (paintings === "error" || paintings.length === 0) {
     return (
-      <div className="w-[650px] h-[500px] flex items-center justify-center">
+      <div className="h-[500px] flex items-center justify-center" style={{ width: "min(650px, 100%)" }}>
         <Skeleton.Image />
       </div>
     );
   }
   if (paintings === "loading") {
     return (
-      <div className="w-[650px] h-[500px] flex items-center justify-center">
+      <div className="h-[500px] flex items-center justify-center" style={{ width: "min(650px, 100%)" }}>
         <Spin />
       </div>
     );
   }
 
-  const height = 550;
+  const maxHeight = 550;
   return (
     <Carousel
-      className="max-w-[650px] h-[610px]"
+      style={{ width: "min(650px, 100%)" }}
       autoplay
     >
       {paintings.slice(0, 3).map((painting) => {
-        const width = (painting.width / painting.height) * height;
+        const maxWidth = Math.min(document.body.clientWidth, 650);
+
+        // First try the width for the max height
+        let height = maxHeight;
+        let width = (painting.width / painting.height) * maxHeight;
+        if (width > maxWidth) {
+          // If the width is too big, use the max width
+          width = maxWidth;
+          height = (painting.height / painting.width) * maxWidth;
+        }
         return (
           <div key={painting.id}>
-            <div className="my-[30px] w-[650px] flex justify-center">
+            <div className="my-[30px] flex justify-center">
               <Image
                 className="cursor-pointer"
                 width={width}
@@ -63,8 +72,8 @@ function FeaturedPaintingDisplay() {
 
 export default function LandingPage() {
   return (
-    <div className="w-[min(480px, 100vw)] text-pretty">
-      <div className="px-[10px] max-w-[min(500px, 100%)]">
+    <div className="text-pretty" style={{ width: "min(650px, 100vw)" }}>
+      <div className="px-[10px]">
         <div className="pb-2">
           <h1 className="text-lg">A fundraiser for Victoria Visual Arts Legacy Society</h1>
           <p className="max-w-[calc(100vw - 40px)]">
