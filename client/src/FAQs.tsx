@@ -26,22 +26,24 @@ export default function FAQs() {
   }));
 
   return (
-    <div className="w-[650px] pb-8">
-      <div className="flex justify-between">
-        <div className="text-lg font-bold pb-10">Frequently Asked Questions</div>
-        <BrowsePaintingsButton />
-      </div>
-      <Collapse items={items} />
-      <div className="flex text-sm pt-4">
-        <div className="flex flex-col justify-center">
-          <div>
-            Question not answered here?
-          </div>
+    <div className="pb-8" style={{ width: "min(650px, 100%)"}}>
+      <div className="m-2">
+        <div className="flex justify-between">
+          <div className="text-lg font-bold pb-10">Frequently Asked Questions</div>
+          <BrowsePaintingsButton />
         </div>
-        <ContactUsButton />
-      </div>
-      <div className="pt-4 pb-4">
-        <BrowsePaintingsButton />
+        <Collapse items={items} />
+        <div className="flex text-sm pt-4">
+          <div className="flex flex-col justify-center">
+            <div>
+              Question not answered here?
+            </div>
+          </div>
+          <ContactUsButton />
+        </div>
+        <div className="pt-4 pb-4">
+          <BrowsePaintingsButton />
+        </div>
       </div>
     </div>
   )

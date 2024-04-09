@@ -5,9 +5,9 @@ import { Card } from 'antd';
 
 export default function Pricing() {
   return (
-    <div>
+    <div className="flex justify-center flex-wrap">
       <TextPage textKey="pricing" />
-      <Card className="w-[700px] my-4">
+      <Card className="my-4" style={{ maxWidth: "min(700px, 100%)" }}>
         <PriceTable />
       </Card>
     </div>

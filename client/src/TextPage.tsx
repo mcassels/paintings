@@ -20,11 +20,13 @@ export default function TextPage(props: TextPageProps) {
     return <div className="loading">Error loading bio</div>;
   }
   return (
-    <div className="text-left">
-      <div className="text-lg font-bold pb-2">{content.title}</div>
-      <div className="flex-row justify-center">
-        <div className="w-[650px]">
-          <Markdown>{content.body}</Markdown>
+    <div className="text-left mx-2 flex justify-center">
+      <div style={{ width: "min(100%, 650px)"}}>
+        <div className="text-lg font-bold pb-2">{content.title}</div>
+        <div className="flex-row justify-center">
+          <div>
+            <Markdown>{content.body}</Markdown>
+          </div>
         </div>
       </div>
     </div>

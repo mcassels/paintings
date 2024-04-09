@@ -9,7 +9,7 @@ interface ImageCardProps {
 export default function ImageCard(props: ImageCardProps) {
   const { imageKey, caption } = props;
   return (
-    <Card key={imageKey} className="w-[400px]">
+    <Card key={imageKey} style={{ width: "min(95%, 400px)"}}>
       <Image
         title={caption}
         alt={caption}
