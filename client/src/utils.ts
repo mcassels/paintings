@@ -27,11 +27,10 @@ export function getPaintingInfos(p: Painting, excludeDamageLevel?: boolean): str
 }
 
 export function areAdoptionsOpen(): boolean {
-  if (process.env.REACT_APP_ADOPTIONS_ARE_OPEN === 'true') {
-    return true;
+  if (process.env.REACT_APP_ADOPTIONS_ARE_OPEN === 'false') {
+    return false;
   }
-  const aprilTenthTenAmPacific = new Date('2024-04-10T10:00:00-07:00');
-  return Date.now() >= aprilTenthTenAmPacific.getTime();
+  return true;
 }
 
 export function getPriceFromDamageLevel(damageLevel: number): number {
