@@ -393,9 +393,10 @@ export default function PaintingLightbox(props: PaintingLightboxProps) {
 
         let maxHeight = document.documentElement.clientHeight - 32;
         // TODO: revisit this and try to get the entire painting to show on mobile
-        if (document.documentElement.clientWidth > 600) {
+        if (document.documentElement.clientWidth > 768) {
           maxHeight = document.documentElement.clientHeight - 90; // height of the header on desktop
         }
+
         // TODO: this ends up negative on mobile!!
         const maxWidthNoOverlap = document.documentElement.clientWidth - 400;
 
@@ -405,6 +406,7 @@ export default function PaintingLightbox(props: PaintingLightboxProps) {
           width = maxWidthNoOverlap;
           height = width * (painting.height / painting.width);
         }
+
         return {
           src: photoUrl,
           width,

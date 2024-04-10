@@ -94,7 +94,7 @@ function PhotoGalleryImpl(props: PhotoGalleryProps) {
   }).slice((pageNum - 1) * PAGE_SIZE, pageNum * PAGE_SIZE);
 
   return (
-    <div className="mr-2">
+    <div>
       <PaintingLightbox paintings={filteredPaintings} />
       <div className="mb-4">
         <GalleryFilters paintings={allPaintings}/>

@@ -69,7 +69,7 @@ function Layout() {
   const isMobile = getIsMobile();
 
   const menuStyle = isMobile ? 
-    { minWidth: '30px', flex: 'auto', marginBottom: '1.5rem', backgroundColor: '#193259' } : { width: 'fit-content' }
+    { maxWidth: '60px', flex: 'auto', marginBottom: '1.5rem', backgroundColor: '#193259' } : { width: 'fit-content' }
 
   return (
     <div className="min-h-svh flex flex-col items-stretch">
@@ -96,7 +96,7 @@ function Layout() {
               <Menu.Item key="art-conservators" title="Care & Conservation"><NavLink to="/art-conservators">Care & Conservation</NavLink></Menu.Item>
               <Menu.Item key="faqs" title="FAQs"><NavLink to="/faqs">FAQs</NavLink></Menu.Item>
             </Menu>
-            {isMobile && headerElem}
+            {isMobile && <div className="w-full">{headerElem}</div>}
           </div>
           <div className="box content">
             <Outlet />

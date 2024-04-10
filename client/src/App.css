@@ -135,7 +135,7 @@ html, body {
   color: lightgray !important;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 768px) {
   .lightbox-painting-description {
     flex-direction: column;
   }
@@ -151,9 +151,6 @@ html, body {
   }
   .lightbox-painting-description-item {
     margin: 0 !important;
-  }
-  .damage-level-modal {
-    width: 100vw;
   }
   .yarl__slide_image {
     max-height: 100% !important;
@@ -177,6 +174,14 @@ html, body {
     flex-direction: column;
   }
 
+  .price-table .ant-table-container {
+    overflow-x: scroll;
+  }
+  /* damage level modal in lightbox is too wide on mobile */
+  .damage-level-modal {
+    min-width: unset;
+  }
+
   /*
   The following are for styling the hamburger menu that is used for the sidebar
   on mobile
@@ -187,9 +192,6 @@ html, body {
   .sidebar {
     display: flex;
   }
-  .sidebar .ant-menu-light .ant-menu-submenu-selected >.ant-menu-submenu-title, .ant-menu-light>.ant-menu .ant-menu-submenu-selected >.ant-menu-submenu-title {
-    color: white;
-  }
   .sidebar .ant-menu .ant-menu-submenu-title .anticon {
     font-size: 30px;
   }
@@ -198,6 +200,13 @@ html, body {
   }
 }
 
-.damage-level-modal {
-  min-width: max(50vw, 800px);
+.sidebar .ant-menu-horizontal .ant-menu-submenu-title [role=img] {
+  color: white;
+}
+
+/* Only for NOT mobile */
+@media screen and not (max-width: 768px) {
+  .damage-level-modal {
+    min-width: max(50vw, 800px);
+  }
 }

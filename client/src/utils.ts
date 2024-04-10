@@ -45,8 +45,8 @@ export function getPriceFromDamageLevel(damageLevel: number): number {
 
 export function getIsMobile(): boolean {
   // This is the same check that the css file uses to determine mobile
-  const isSizeForMobile = window.matchMedia('only screen and (max-width: 600px)').matches;
-  // However, if you are on a computer and you resize the window to be smaller than 600px, we do not want
+  const isSizeForMobile = window.matchMedia('only screen and (max-width: 768px)').matches;
+  // However, if you are on a computer and you resize the window to be smaller than 768px, we do not want
   // to show the mobile layout, so we need to check if the window is actually a mobile device
   const isMobileDevice = /Mobi/i.test(window.navigator.userAgent)
   const isMobile = isSizeForMobile && isMobileDevice;

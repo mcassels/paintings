@@ -1,5 +1,5 @@
 import React from 'react';
-import { getPriceFromDamageLevel } from './utils';
+import { getIsMobile, getPriceFromDamageLevel } from './utils';
 import { Button, Spin, Table } from 'antd';
 import { NavLink } from 'react-router-dom';
 import { useDamageLevels } from './useDamageLevelDescriptions';
@@ -21,6 +21,7 @@ export default function PriceTable(props: PriceTableProps) {
   if (content === 'error') {
     return <div className="loading">Error loading damage levels</div>;
   }
+  const isMobile = getIsMobile();
 
   const dataSource = Array.from(Array(5).keys()).map((idx) => {
     const damageLevel = idx + 1;
@@ -30,7 +31,7 @@ export default function PriceTable(props: PriceTableProps) {
     return {
       key: damageLevel,
       damageLevel,
-      damageLevelDisplay: `Level ${damageLevel}`,
+      damageLevelDisplay: isMobile ? damageLevel : `Level ${damageLevel}`,
       price: `$${price}`,
       description,
       browse: (
@@ -43,8 +44,8 @@ export default function PriceTable(props: PriceTableProps) {
         </Button>
       )
     }
-  })
-  
+  });
+
   const columns = [
     {
       title: 'Damage level',
@@ -76,6 +77,7 @@ export default function PriceTable(props: PriceTableProps) {
       dataSource={dataSource}
       columns={columns}
       pagination={false}
+      className="price-table"
     />
   )
 }
