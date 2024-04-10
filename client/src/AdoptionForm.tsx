@@ -9,7 +9,7 @@ import DamageLevelInfoButton from './DamageLevelInfoButton';
 import DamageInformation from './DamageInformation';
 import { AIRTABLE_BASE, AIRTABLE_PAINTINGS_TABLE } from './constants';
 
-export async function markPaintingAsPending(recordId: string) {
+async function updatePaintingAirtable(recordId: string, pickupOption: string|null) {
   const endpoint = `https://api.airtable.com/v0/${AIRTABLE_BASE}/${AIRTABLE_PAINTINGS_TABLE}/${recordId}`;
   try {
     await fetch(
@@ -19,6 +19,7 @@ export async function markPaintingAsPending(recordId: string) {
         body: JSON.stringify({
           fields: {
             adoption_pending: true,
+            selected_pickup_option: pickupOption || '',
           },
         }),
         headers: {
@@ -37,6 +38,11 @@ export async function markPaintingAsPending(recordId: string) {
 enum PriceOption {
   Personal = 'Personal',
   Business = 'Business',
+}
+
+enum TransferOption {
+  Etransfer = 'Etransfer',
+  Paypal = 'Paypal',
 }
 
 enum PickupOption {
@@ -96,7 +102,7 @@ interface ContactFormInputs {
   priceOption: PriceOption;
   pickupOption: PickupOption;
   acknowledgeDamage: boolean;
-  etransferSent: boolean;
+  transferOption: TransferOption;
 }
 
 
@@ -172,7 +178,8 @@ export default function AdoptionForm() {
       painting_name: painting.title,
       pickup_details: getPickupDetails(pickupValue as any),
       is_business: data.priceOption === PriceOption.Business,
-      painting_link: `https://jamesgordaneer.com/gallery?selected=${painting.id}`
+      painting_link: `https://jamesgordaneer.com/gallery?selected=${painting.id}`,
+      transfer_option: data.transferOption,
     };
 
     if (!serviceId || !templateId) {
@@ -186,8 +193,8 @@ export default function AdoptionForm() {
       if (res.status < 200 || res.status >= 300) {
         onFormSubmitError();
       } else {
+        updatePaintingAirtable(painting.airtableId, getPickupOptionFromCascaderValue(pickupValue as any));
         window.alert("Thank you! Your adoption is being processed.");
-        markPaintingAsPending(painting.airtableId)
         navigate("/after-adoption")
       }
     } catch (e) {
@@ -270,32 +277,38 @@ export default function AdoptionForm() {
                 </div>
               </div>
               {
-                getPriceFromDamageLevel(painting.damageLevel) === 100 ? (
+                getPriceFromDamageLevel(painting.damageLevel) === 100 && (
                   <div className="pt-4">
                     <Form.Item
                       name="priceOption"
                       style={{ width: "min(700px, 100%)" }}
-                      rules={
-                        [
-                          { required: true, message: 'Selection is required' },
-                        ]
-                      }
                     >
-                      <Radio.Group value={PriceOption.Personal}>
+                      <Radio.Group defaultValue={PriceOption.Personal}>
                         <Space direction="vertical">
-                          <Radio value={PriceOption.Personal}>I will send an e-transfer or Paypal of $100</Radio>
+                          <Radio value={PriceOption.Personal}>I will send an e-transfer or Paypal of $100.</Radio>
                           <Radio value={PriceOption.Business}>I will send an e-transfer or Paypal of $200 because I plan to display this work at my place of business and will deduct 100% of the cost of this work on my business taxes next year.</Radio>
                         </Space>
                       </Radio.Group>
                     </Form.Item>
-                    <div><p>Watch for a confirmation email with e-transfer and Paypal details.</p></div>
-                  </div>
-                ) : (
-                  <div className="ml-4" style={{ width: "min(650px, 100%)" }}>
-                    <p>Watch for a confirmation email with e-transfer and Paypal details.</p> 
                   </div>
                 )
               }
+              <div className="ml-4" style={{ width: "min(650px, 100%)" }}>
+                <p>Please watch for a confirmation email with e-transfer and Paypal details.</p> 
+                <div className="pt-2">
+                  <Form.Item
+                    name="transferOption"
+                    style={{ width: "min(700px, 100%)" }}
+                  >
+                    <Radio.Group defaultValue={TransferOption.Etransfer}>
+                      <Space direction="vertical">
+                        <Radio value={TransferOption.Etransfer}>I plan to pay by e-transfer.</Radio>
+                        <Radio value={TransferOption.Paypal}>I plan to pay by Paypal.</Radio>
+                      </Space>
+                    </Radio.Group>
+                  </Form.Item>
+                </div>
+              </div>
             </div>
           ) : (
             <div className="flex justify-between">
