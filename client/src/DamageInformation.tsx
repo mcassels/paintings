@@ -1,6 +1,7 @@
-import { Spin } from 'antd';
 import React from 'react';
-import { useDamageLevels } from './useDamageLevelDescriptions';
+
+import { Spin } from 'antd';
+import { useDamageLevels } from './useDamageLevels';
 
 interface DamageInformationProps {
   damageLevel: number;
@@ -8,6 +9,7 @@ interface DamageInformationProps {
 
 export default function DamageInformation(props: DamageInformationProps) {
   const { damageLevel } = props;
+
   const content = useDamageLevels();
 
   if (content === 'loading') {

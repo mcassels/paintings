@@ -7,10 +7,10 @@ import { areAdoptionsOpen, getPriceFromDamageLevel } from './utils';
 import { NavLink } from 'react-router-dom';
 import DamageLevelInfoButton from './DamageLevelInfoButton';
 import DamageInformation from './DamageInformation';
-import { AIRTABLE_BASE, AIRTABLE_PAINTINGS_TABLE } from './constants';
+import { AIRTABLE_PAINTINGS_TABLE } from './constants';
 
 async function updatePaintingAirtable(recordId: string, pickupOption: string|null) {
-  const endpoint = `https://api.airtable.com/v0/${AIRTABLE_BASE}/${AIRTABLE_PAINTINGS_TABLE}/${recordId}`;
+  const endpoint = `https://api.airtable.com/v0/${process.env.REACT_APP_AIRTABLE_BASE}/${AIRTABLE_PAINTINGS_TABLE}/${recordId}`;
   try {
     await fetch(
       endpoint,

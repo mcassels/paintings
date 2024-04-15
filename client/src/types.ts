@@ -30,12 +30,6 @@ export interface Painting {
 
 export type PaintingsResponse = Painting[]|'error'|'loading';
 
-export interface FAQ {
-  question: string;
-  answer: string;
-}
-export type FAQResponse = FAQ[]|'error'|'loading';
-
 export type TextContentId = 'jim_bio'|'why_adopt'|'how_to_adopt'|'after_adoption'|'pricing'|'care_and_conservation';
 export interface TextContent {
   id: TextContentId;
@@ -47,12 +41,16 @@ export type TextContentResponse = TextContent|'error'|'loading';
 export interface BiographyLink {
   description: string;
   url: string;
+  sort: number;
 }
-
-export type BiographyLinksResponse = BiographyLink[]|'error'|'loading';
 
 export interface DamageLevel {
   level: number;
   description: string;
 }
-export type DamageLevelResponse = DamageLevel[]|'error'|'loading';
+
+export interface FAQ {
+  question: string;
+  answer: string;
+  sort: number;
+}
