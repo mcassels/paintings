@@ -3,11 +3,17 @@ import { usePaintings } from "./usePaintings";
 import { useLocation, useNavigate } from "react-router";
 import { Form, Input, Button, Spin, Divider, Cascader, Checkbox, Radio, Space } from 'antd';
 import { useEffect, useState } from "react";
-import { areAdoptionsOpen, getPriceFromDamageLevel } from './utils';
+import { areAdoptionsOpen, getAirtableRecord, getPriceFromDamageLevel } from './utils';
 import { NavLink } from 'react-router-dom';
 import DamageLevelInfoButton from './DamageLevelInfoButton';
 import DamageInformation from './DamageInformation';
 import { AIRTABLE_PAINTINGS_TABLE } from './constants';
+
+async function getIsPaintingAvailable(recordId: string): Promise<boolean> {
+  const record = await getAirtableRecord(AIRTABLE_PAINTINGS_TABLE, recordId);
+  // If it's pending or red_dot then it is not available
+  return !record?.fields?.adoption_pending && !record?.fields?.red_dot;
+}
 
 async function updatePaintingAirtable(recordId: string, pickupOption: string|null) {
   const endpoint = `https://api.airtable.com/v0/${process.env.REACT_APP_AIRTABLE_BASE}/${AIRTABLE_PAINTINGS_TABLE}/${recordId}`;
@@ -187,6 +193,12 @@ export default function AdoptionForm() {
       return;
     }
     try {
+      const paintingIsAvailable = await getIsPaintingAvailable(painting.airtableId);
+      if (!paintingIsAvailable) {
+        window.alert("Sorry, this painting is no longer available.");
+        navigate("/gallery");
+        return;
+      }
       const res = await emailjs.send(serviceId, templateId, emailTemplate, {
         publicKey,
       });
