@@ -4,7 +4,7 @@ import Lightbox, { ZoomRef } from "yet-another-react-lightbox";
 import "yet-another-react-lightbox/styles.css";
 import "yet-another-react-lightbox/plugins/captions.css";
 import { HeartOutlined, HeartFilled, ShareAltOutlined, CopyOutlined, ReadOutlined, RetweetOutlined, InfoCircleOutlined } from '@ant-design/icons';
-import { FacebookShareButton, FacebookIcon, WhatsappShareButton, WhatsappIcon, EmailShareButton, EmailIcon, FacebookMessengerShareButton, FacebookMessengerIcon, XIcon, TwitterShareButton } from 'react-share';
+import { FacebookShareButton, FacebookIcon, WhatsappShareButton, WhatsappIcon, XIcon, TwitterShareButton, LinkedinShareButton, LinkedinIcon } from 'react-share';
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
 
 import { Painting } from './types';
@@ -191,7 +191,7 @@ function ShareButton(props: { painting: Painting|undefined }) {
   if (!painting) {
     return null;
   }
-  const shareUrl = window.location.href;
+  const shareUrl = window.location.href.replace("http://localhost:3000", "https://jamesgordaneer.com");
   const title = painting.title;
 
   const popoverContent = (
@@ -207,26 +207,12 @@ function ShareButton(props: { painting: Painting|undefined }) {
       >
         <XIcon size={32} round />
       </TwitterShareButton>
-      <FacebookMessengerShareButton
-        url={shareUrl}
-        onClick={() => afterShare('messenger')}
-        appId="521270401588372"
-        className="Demo__some-network__share-button"
-      >
-        <FacebookMessengerIcon size={32} round />
-      </FacebookMessengerShareButton>
       <WhatsappShareButton url={shareUrl} className="Demo__some-network__share-button">
         <WhatsappIcon size={32} onClick={() => afterShare('whatsapp')} />
       </WhatsappShareButton>
-      <EmailShareButton
-        url={shareUrl}
-        subject={title}
-        onClick={() => afterShare('email')}
-        body="body"
-        className="Demo__some-network__share-button"
-      >
-        <EmailIcon size={32} round />
-      </EmailShareButton>
+      <LinkedinShareButton url={shareUrl} className="Demo__some-network__share-button">
+        <LinkedinIcon size={32} round onClick={() => afterShare('linkedin')} />
+      </LinkedinShareButton>
       <Button
         type="link"
         className="flex justify-center"

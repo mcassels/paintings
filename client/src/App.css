@@ -210,3 +210,7 @@ html, body {
     min-width: max(50vw, 800px);
   }
 }
+
+.Demo__some-network__share-button:hover:not(:active) {
+  opacity: 0.75;
+}
