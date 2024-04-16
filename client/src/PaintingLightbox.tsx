@@ -10,8 +10,8 @@ import Zoom from "yet-another-react-lightbox/plugins/zoom";
 import { Painting } from './types';
 import { Button, Divider, Image, Modal, Popover, Tag } from 'antd';
 import Markdown from 'react-markdown';
-import { getPaintingInfos } from './utils';
-import { AIRTABLE_BASE, AIRTABLE_PAINTINGS_TABLE, SAVED_PAINTING_KEY } from './constants';
+import { getAirtableRecord, getPaintingInfos, updateAirtableRecord } from './utils';
+import { AIRTABLE_PAINTINGS_TABLE, SAVED_PAINTING_KEY } from './constants';
 import DamageLevelInfoButton from './DamageLevelInfoButton';
 
 function reportPaintingButtonClick(
@@ -25,32 +25,13 @@ function reportPaintingButtonClick(
 async function incrementFavouriteCount(recordId: string) {
   // airtable's API does not seem to support incrementing a field
   // so we need to fetch the record, increment the field, and then PATCH it back
-  const endpoint = `https://api.airtable.com/v0/${AIRTABLE_BASE}/${AIRTABLE_PAINTINGS_TABLE}/${recordId}`;
   try {
-    const res = await fetch(
-      endpoint,
-      { headers: { Authorization: `Bearer ${process.env.REACT_APP_AIRTABLE_TOKEN}` } },
-    );
-    const data = await res.json();
+    const data = await getAirtableRecord(AIRTABLE_PAINTINGS_TABLE, recordId);
     if (!data || !data.fields) {
       return;
     }
     const prev = data.fields.favourite_count || 0;
-    await fetch(
-      endpoint,
-      {
-        method: 'PATCH',
-        body: JSON.stringify({
-          fields: {
-            favourite_count: prev + 1,
-          },
-        }),
-        headers: {
-          Authorization: `Bearer ${process.env.REACT_APP_AIRTABLE_TOKEN}`,
-          'Content-Type': 'application/json',
-        }
-      }
-    );
+    await updateAirtableRecord(AIRTABLE_PAINTINGS_TABLE, recordId, { favourite_count: prev + 1 });
   } catch (e) {
     // Not a fatal error because this doesn't prevent them from marking it as a favourite
     console.error(e);

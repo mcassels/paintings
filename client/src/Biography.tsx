@@ -2,12 +2,31 @@ import React from 'react';
 import TextPage from './TextPage';
 import { JIM_BIO_KEY } from './constants';
 import ImageCard from './ImageCard';
-import { useBiographyLinks } from './useBiographyLinks';
 import { List, Spin } from 'antd';
 import BrowsePaintingsButton from './BrowsePaintingsButton';
+import { BiographyLink } from './types';
+import { useAirtableRecords } from './useAirtableRecords';
+
+function parseBiographyLink(airtableRecord: any): BiographyLink {
+  return {
+    description: airtableRecord.fields.description,
+    url: airtableRecord.fields.url,
+    sort: airtableRecord.fields.sort,
+  };
+}
+
+function sortAndFilterBioLinks(links: BiographyLink[]): BiographyLink[] {
+  const bioLinks = links.sort((a, b) => a.sort - b.sort);
+  return bioLinks.filter((bioLink) => bioLink.description && bioLink.url && bioLink.description.length > 0 && bioLink.url.length > 0);
+}
 
 export default function Biography() {
-  const bioLinks = useBiographyLinks();
+  const bioLinks = useAirtableRecords(
+    'biography_links',
+    parseBiographyLink,
+    sortAndFilterBioLinks,
+  );
+
   return (
     <div className="flex flex-col m-2">
       <div className="flex flex-wrap justify-center gap-x-14">

@@ -51,3 +51,45 @@ export function getIsMobile(): boolean {
   const isMobile = isSizeForMobile && isMobileDevice;
   return isMobile;
 }
+
+export async function getAirtableTableRows(tableName: string): Promise<any> {
+  const tableUrl = `https://api.airtable.com/v0/${process.env.REACT_APP_AIRTABLE_BASE}/${tableName}/`;
+  const response = await fetch(
+    tableUrl,
+    { headers: { Authorization: `Bearer ${process.env.REACT_APP_AIRTABLE_TOKEN}` }},
+  );
+
+  const data = await response.json();
+  return data;
+}
+
+export function updateAirtableRecord(
+  tableName: string,
+  recordId: string,
+  fields: { [key: string]: string|number|boolean },
+): Promise<any> {
+  return fetch(
+    `https://api.airtable.com/v0/${process.env.REACT_APP_AIRTABLE_BASE}/${tableName}/${recordId}`,
+    {
+      method: 'PATCH',
+      headers: {
+        'Authorization': `Bearer ${process.env.REACT_APP_AIRTABLE_TOKEN}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ fields }),
+    },
+  );
+}
+
+export async function getAirtableRecord(
+  tableName: string,
+  recordId: string,
+): Promise<any> {
+  const res = await fetch(
+    `https://api.airtable.com/v0/${process.env.REACT_APP_AIRTABLE_BASE}/${tableName}/${recordId}`,
+    {
+      headers: { Authorization: `Bearer ${process.env.REACT_APP_AIRTABLE_TOKEN}` },
+    },
+  );
+  return await res.json();
+}
