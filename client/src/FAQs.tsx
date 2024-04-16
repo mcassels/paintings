@@ -1,12 +1,30 @@
 import React from 'react';
-import { useFAQs } from './useFAQs';
 import Markdown from 'react-markdown';
 import { Collapse, CollapseProps, Spin } from 'antd';
 import BrowsePaintingsButton from './BrowsePaintingsButton';
 import ContactUsButton from './ContactUsButton';
+import { FAQ } from './types';
+import { useAirtableRecords } from './useAirtableRecords';
+
+function parseFAQ(airtableRecord: any): FAQ {
+  return {
+    question: airtableRecord.fields.question,
+    answer: airtableRecord.fields.answer,
+    sort: airtableRecord.fields.sort,
+  };
+}
+
+function sortAndFilterFAQs(parsedFaqs: FAQ[]): FAQ[] {
+  const faqs = parsedFaqs.sort((a, b) => a.sort - b.sort);
+  return faqs.filter((faq) => faq.question && faq.answer && faq.question.length > 0 && faq.answer.length > 0);
+}
 
 export default function FAQs() {
-  const faqs = useFAQs();
+  const faqs = useAirtableRecords(
+    'broken_painting_faqs',
+    parseFAQ,
+    sortAndFilterFAQs,
+  )
 
   if (faqs === 'loading') {
     return (

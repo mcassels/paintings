@@ -12,5 +12,4 @@ export const SAVED_PAINTING_KEY = 'GORDANEER_SAVED_PAINTINGS';
 export const PAINTING_ORDER_KEY = 'GORDANEER_PAINTING_ORDER';
 
 // Airtable
-export const AIRTABLE_BASE = 'app2HxNPQejnLR2g0';
-export const AIRTABLE_PAINTINGS_TABLE = 'tblY6WWDZPflob9MC';
+export const AIRTABLE_PAINTINGS_TABLE = 'broken_paintings';
