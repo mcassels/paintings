@@ -93,3 +93,14 @@ export async function getAirtableRecord(
   );
   return await res.json();
 }
+
+export function reportAnalytics(
+  eventName: string,
+  eventProperties: { [key: string]: string|number|boolean|null },
+): void {
+  if (process.env.NODE_ENV === 'development') {
+    console.log('Analytics event:', eventName, eventProperties);
+    return;
+  }
+  window.gtag('event', eventName, eventProperties);
+}

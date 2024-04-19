@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import Lightbox, { ZoomRef } from "yet-another-react-lightbox";
 import "yet-another-react-lightbox/styles.css";
@@ -10,7 +10,7 @@ import Zoom from "yet-another-react-lightbox/plugins/zoom";
 import { Painting } from './types';
 import { Button, Divider, Image, Modal, Popover, Tag } from 'antd';
 import Markdown from 'react-markdown';
-import { getAirtableRecord, getPaintingInfos, updateAirtableRecord } from './utils';
+import { getAirtableRecord, getPaintingInfos, reportAnalytics, updateAirtableRecord } from './utils';
 import { AIRTABLE_PAINTINGS_TABLE, SAVED_PAINTING_KEY } from './constants';
 import DamageLevelInfoButton from './DamageLevelInfoButton';
 
@@ -19,7 +19,7 @@ function reportPaintingButtonClick(
   paintingId: string,
   params?: { [key: string]: string },
 ) {
-  window.gtag('event', eventName, { paintingId, ...params });
+  reportAnalytics(eventName, { paintingId, ...params });
 }
 
 async function incrementFavouriteCount(recordId: string) {
@@ -258,6 +258,13 @@ export default function PaintingLightbox(props: PaintingLightboxProps) {
   // Track the painting id and not index in the query params, so that the URL can be shared
   // even when the order of the paintings changes.
   const selectedPhotoId = params.get('selected');
+
+  useEffect(() => {
+    if (selectedPhotoId) {
+      reportAnalytics('view_painting', { paintingId: selectedPhotoId });
+    }
+  }, [selectedPhotoId]);
+
   const selectedPhotoIdx = selectedPhotoId ? paintings.findIndex((p) => p.id === selectedPhotoId) : undefined;
   if (!selectedPhotoId || selectedPhotoIdx === -1) {
     return null;
@@ -385,14 +392,22 @@ export default function PaintingLightbox(props: PaintingLightboxProps) {
       on={{
         view: ({ index }) => {
           const nextSelectedId = paintings[index]?.id;
-          if (nextSelectedId) {
-            const nextParams = new URLSearchParams(location.search);
-            nextParams.set('selected', nextSelectedId);
-            navigate({
-              pathname: location.pathname,
-              search: nextParams.toString()
-            });
+          if (!nextSelectedId) {
+            return;
           }
+          const nextParams = new URLSearchParams(location.search);
+          if (nextParams.get('selected') === nextSelectedId) {
+            // This occurs when you first click on the painting and open the lightbox;
+            // no need to update the URL in this case.
+            return;
+          }
+          // This case is necessary when you navigate to a different painting in the lightbox
+          // using the arrows.
+          nextParams.set('selected', nextSelectedId);
+          navigate({
+            pathname: location.pathname,
+            search: nextParams.toString()
+          });
         }
       }}
     />

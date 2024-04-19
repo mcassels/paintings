@@ -3,7 +3,7 @@ import { usePaintings } from "./usePaintings";
 import { useLocation, useNavigate } from "react-router";
 import { Form, Input, Button, Spin, Divider, Cascader, Checkbox, Radio, Space } from 'antd';
 import { useEffect, useState } from "react";
-import { areAdoptionsOpen, getAirtableRecord, getPriceFromDamageLevel } from './utils';
+import { areAdoptionsOpen, getAirtableRecord, getPriceFromDamageLevel, reportAnalytics } from './utils';
 import { NavLink } from 'react-router-dom';
 import DamageLevelInfoButton from './DamageLevelInfoButton';
 import DamageInformation from './DamageInformation';
@@ -154,7 +154,7 @@ export default function AdoptionForm() {
   const painting = paintings.find((p) => p.id === paintingId);
 
   async function onSubmit(data: ContactFormInputs) {
-    window.gtag('event', 'submit_adoption', { paintingId });
+    reportAnalytics('submit_adoption', { paintingId });
     if (!painting) {
       onFormSubmitError();
       return;

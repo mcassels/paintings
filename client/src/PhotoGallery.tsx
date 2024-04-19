@@ -10,6 +10,7 @@ import { Empty, Pagination, Spin } from 'antd';
 import GalleryFilters from './GalleryFilters';
 import PaintingLightbox from './PaintingLightbox';
 import { SAVED_PAINTING_KEY } from './constants';
+import { reportAnalytics } from './utils';
 
 // TODO: could probably make the code in here more generic
 function filterPaintings(
@@ -116,6 +117,7 @@ function PhotoGalleryImpl(props: PhotoGalleryProps) {
                 if (nextSelectedId) {
                   const nextParams = new URLSearchParams(location.search);
                   nextParams.set('selected', nextSelectedId);
+                  reportAnalytics('click_painting', { painting_id: nextSelectedId });
                   navigate({
                     pathname: location.pathname,
                     search: nextParams.toString()

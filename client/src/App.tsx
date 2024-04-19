@@ -11,7 +11,7 @@ import WhyAdopt from './WhyAdopt';
 import AfterAdoption from './AfterAdoption';
 import LandingPage from './LandingPage';
 import Biography from './Biography';
-import { areAdoptionsOpen, getIsMobile } from './utils';
+import { areAdoptionsOpen, getIsMobile, reportAnalytics } from './utils';
 import Pricing from './Pricing';
 import { CARE_AND_CONSERVATION_KEY } from './constants';
 import TextPage from './TextPage';
@@ -52,7 +52,7 @@ function Layout() {
 
   useEffect(() => {
     if (location.search.length === 0) {
-      window.gtag('event', 'view_page', { page: selectedKey });
+      reportAnalytics('view_page', { page: selectedKey });
     }
   }, [selectedKey, location.search.length]);
 
