@@ -8,6 +8,7 @@ import { NavLink } from 'react-router-dom';
 import DamageLevelInfoButton from './DamageLevelInfoButton';
 import DamageInformation from './DamageInformation';
 import { AIRTABLE_PAINTINGS_TABLE } from './constants';
+import LoadingError from './LoadingError';
 
 async function getIsPaintingAvailable(recordId: string): Promise<boolean> {
   const record = await getAirtableRecord(AIRTABLE_PAINTINGS_TABLE, recordId);
@@ -147,7 +148,7 @@ export default function AdoptionForm() {
     );
   }
   if (paintings === 'error') {
-    return <div className="loading">Error loading paintings</div>;
+    return <LoadingError message="Error loading paintings" />;
   }
 
   const paintingId = searchParams.get('painting');
