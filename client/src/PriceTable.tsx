@@ -3,6 +3,7 @@ import { getPriceFromDamageLevel } from './utils';
 import { Button, Spin, Table } from 'antd';
 import { NavLink } from 'react-router-dom';
 import { useDamageLevels } from './useDamageLevels';
+import LoadingError from './LoadingError';
 
 interface PriceTableProps {
   selectedDamageLevel?: number;
@@ -19,7 +20,7 @@ export default function PriceTable(props: PriceTableProps) {
     );
   }
   if (content === 'error') {
-    return <div className="loading">Error loading damage levels</div>;
+    return <LoadingError message="Error loading damage levels" />;
   }
 
   const dataSource = Array.from(Array(5).keys()).map((idx) => {

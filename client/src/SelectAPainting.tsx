@@ -4,6 +4,7 @@ import { usePaintings } from './usePaintings';
 import { Card, Spin, Image, Button } from 'antd';
 import { NavLink } from 'react-router-dom';
 import PaintingInformation from './PaintingInformation';
+import LoadingError from './LoadingError';
 
 export default function SelectAPainting() {
   const location = useLocation();
@@ -35,7 +36,7 @@ export default function SelectAPainting() {
     );
   }
   if (paintings === 'error') {
-    return <div className="loading">Error loading paintings</div>;
+    return <LoadingError message="Error loading paintings" />;
   }
   const painting = paintings.find((p) => p.id === paintingId);
   if (!painting) {

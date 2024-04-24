@@ -11,6 +11,7 @@ import GalleryFilters from './GalleryFilters';
 import PaintingLightbox from './PaintingLightbox';
 import { SAVED_PAINTING_KEY } from './constants';
 import { reportAnalytics } from './utils';
+import LoadingError from './LoadingError';
 
 // TODO: could probably make the code in here more generic
 function filterPaintings(
@@ -156,7 +157,7 @@ export default function PhotoGallery() {
     );
   }
   if (paintings === 'error') {
-    return <div className="loading">Error loading paintings</div>;
+    return <LoadingError message="Error loading paintings" />;
   }
 
   return (

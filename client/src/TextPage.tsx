@@ -1,6 +1,7 @@
 import Markdown from 'react-markdown'
 import { useTextContent } from "./useTextContent";
 import { Spin } from "antd";
+import LoadingError from './LoadingError';
 
 interface TextPageProps {
   textKey: string;
@@ -17,7 +18,7 @@ export default function TextPage(props: TextPageProps) {
     );
   }
   if (content === 'error') {
-    return <div className="loading">Error loading bio</div>;
+    return <LoadingError message="Error loading text content" />;
   }
   return (
     <div className="text-left mx-2 flex justify-center">

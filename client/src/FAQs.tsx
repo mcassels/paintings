@@ -5,6 +5,7 @@ import BrowsePaintingsButton from './BrowsePaintingsButton';
 import ContactUsButton from './ContactUsButton';
 import { FAQ } from './types';
 import { useAirtableRecords } from './useAirtableRecords';
+import LoadingError from './LoadingError';
 
 function parseFAQ(airtableRecord: any): FAQ {
   return {
@@ -34,7 +35,7 @@ export default function FAQs() {
     );
   }
   if (faqs === 'error') {
-    return <div className="loading">Error loading FAQs</div>;
+    return <LoadingError message="Error loading FAQs" />;
   }
 
   const items: CollapseProps['items'] = faqs.map((faq) => ({

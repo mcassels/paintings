@@ -2,6 +2,7 @@ import React from 'react';
 
 import { Spin } from 'antd';
 import { useDamageLevels } from './useDamageLevels';
+import LoadingError from './LoadingError';
 
 interface DamageInformationProps {
   damageLevel: number;
@@ -20,7 +21,7 @@ export default function DamageInformation(props: DamageInformationProps) {
     );
   }
   if (content === 'error') {
-    return <div className="loading">Error loading damage levels</div>;
+    return <LoadingError message="Error loading damage levels" />;
   }
   return (
     <div>
