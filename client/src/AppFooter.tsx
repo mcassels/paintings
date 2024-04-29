@@ -23,7 +23,7 @@ export default function AppFooter() {
         </div>
         <div className="flex flex-col justify-center text-slate-600 ml-4">
           <div>
-            Site © 2024&nbsp;<a href="https://mcassels.github.io/morgan/" target="_blank" rel="noreferrer">Morgan Brooks</a>
+            Site © 2024&nbsp;<a href="https://morganbrooks.io/" target="_blank" rel="noreferrer">Morgan Brooks</a>
           </div>
         </div>
       </div>
