@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { ConfigProvider, Menu } from 'antd';
 import './App.css';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -18,6 +18,8 @@ import TextPage from './TextPage';
 import { Header } from 'antd/es/layout/layout';
 import AppFooter from './AppFooter';
 import { MenuOutlined } from '@ant-design/icons';
+import AdoptionsAreCurrentlyClosed from './AdoptionsAreCurrentlyClosed';
+import ContactUsModal from './ContactUsModal';
 
 
 const queryClient = new QueryClient();
@@ -58,21 +60,24 @@ function Layout() {
 
   const headerElem = (
     <Header className="bg-[#193259] text-white text-center justify-center flex flex-col text-3xl p-[8px] h-fit mb-6">
-      <div className="pt-2">Gordaneer Painting Adoption Project</div>
-      <div className="text-sm pt-1">
-        {areAdoptionsOpen() ? 'Adoptions close May 9th' : 'Adoptions open soon!'}
-      </div>
+      <div className="pt-2 pb-1">Gordaneer Painting Adoption Project</div>
+      {!areAdoptionsOpen() && (
+        <div className="text-sm flex justify-center">
+          <AdoptionsAreCurrentlyClosed />
+        </div>
+      )}
     </Header>
   );
 
   // Menu needs different layout for mobile
   const isMobile = getIsMobile();
 
-  const menuStyle = isMobile ? 
+  const menuStyle = isMobile ?
     { maxWidth: '60px', flex: 'auto', marginBottom: '1.5rem', backgroundColor: '#193259' } : { width: 'fit-content' }
 
   return (
     <div className="min-h-svh flex flex-col items-stretch">
+      <ContactUsModal />
       <div className="grow">
         {
           !isMobile && headerElem

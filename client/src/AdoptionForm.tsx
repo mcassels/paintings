@@ -3,7 +3,7 @@ import { usePaintings } from "./usePaintings";
 import { useLocation, useNavigate } from "react-router";
 import { Form, Input, Button, Spin, Divider, Cascader, Checkbox, Radio, Space } from 'antd';
 import { useEffect, useState } from "react";
-import { areAdoptionsOpen, getAirtableRecord, getPriceFromDamageLevel, reportAnalytics } from './utils';
+import { getAirtableRecord, getPriceFromDamageLevel, reportAnalytics } from './utils';
 import { NavLink } from 'react-router-dom';
 import DamageLevelInfoButton from './DamageLevelInfoButton';
 import DamageInformation from './DamageInformation';
@@ -307,7 +307,7 @@ export default function AdoptionForm() {
                 )
               }
               <div className="ml-4" style={{ width: "min(650px, 100%)" }}>
-                <p>Please watch for a confirmation email with e-transfer and Paypal details.</p> 
+                <p>Please watch for a confirmation email with e-transfer and Paypal details.</p>
                 <div className="pt-2">
                   <Form.Item
                     name="transferOption"
@@ -422,36 +422,23 @@ export default function AdoptionForm() {
         >
           <Checkbox>
             <div className="ml-4 font-bold" style={{ width: "min(650px, 80vw)" }}>
-              I acknowledge that the artwork I am adopting has some degree of damage and am aware that this damage may or may not include mold spores. I agree that I am accepting the artwork “as is” and will not hold the Gordaneer estate or family responsible for any negative impact that may result. 
+              I acknowledge that the artwork I am adopting has some degree of damage and am aware that this damage may or may not include mold spores. I agree that I am accepting the artwork “as is” and will not hold the Gordaneer estate or family responsible for any negative impact that may result.
             </div>
           </Checkbox>
         </Form.Item>
         <Form.Item className="pt-4 flex justify-center">
-          {
-            areAdoptionsOpen() ? (
-              <div>
-                <Button type="primary" htmlType="submit" disabled={!submittable || !painting}>
-                  Submit
-                </Button>
-                {
-                  !painting && (
-                    <div className="text-sm mt-4 text-slate-500 w-fit text-nowrap">
-                      Please <a href="#painting-selection">select a painting</a> to adopt.
-                    </div>
-                  )
-                }
-              </div>
-            ) : (
-              <div className="flex space-x-4">
-                <Button type="primary" htmlType="submit" disabled={true}>
-                  Submit
-                </Button>
-                <div className="text-red-500 align-middle">
-                  Adoptions open soon!
+          <div>
+            <Button type="primary" htmlType="submit" disabled={!submittable || !painting}>
+              Submit
+            </Button>
+            {
+              !painting && (
+                <div className="text-sm mt-4 text-slate-500 w-fit text-nowrap">
+                  Please <a href="#painting-selection">select a painting</a> to adopt.
                 </div>
-              </div>
-            )
-          }
+              )
+            }
+          </div>
         </Form.Item>
       </Form>
     </div>

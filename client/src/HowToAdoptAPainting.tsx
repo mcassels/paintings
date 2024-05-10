@@ -3,9 +3,22 @@ import AdoptionForm from "./AdoptionForm";
 import { HOW_TO_ADOPT_KEY } from "./constants";
 import TextPage from "./TextPage";
 import SelectAPainting from "./SelectAPainting";
-import { getIsMobile } from "./utils";
+import { areAdoptionsOpen, getIsMobile } from "./utils";
+import AdoptionsAreCurrentlyClosed from "./AdoptionsAreCurrentlyClosed";
 
 export default function HowToAdoptAPainting() {
+
+  if (!areAdoptionsOpen()) {
+    return (
+      <div>
+        <div className="pb-4">
+          Thank you for your interest!
+        </div>
+        <AdoptionsAreCurrentlyClosed />
+      </div>
+    );
+  }
+
   const isMobile = getIsMobile();
   return (
     <div className="flex justify-center flex-wrap">
