@@ -3,21 +3,20 @@ import AdoptionForm from "./AdoptionForm";
 import { HOW_TO_ADOPT_KEY } from "./constants";
 import TextPage from "./TextPage";
 import SelectAPainting from "./SelectAPainting";
-import { areAdoptionsOpen, getIsMobile } from "./utils";
-import AdoptionsAreCurrentlyClosed from "./AdoptionsAreCurrentlyClosed";
+import { getIsMobile } from "./utils";
 
 export default function HowToAdoptAPainting() {
 
-  if (!areAdoptionsOpen()) {
-    return (
-      <div>
-        <div className="pb-4">
-          Thank you for your interest!
-        </div>
-        <AdoptionsAreCurrentlyClosed />
-      </div>
-    );
-  }
+  // if (!areAdoptionsOpen()) {
+  //   return (
+  //     <div>
+  //       <div className="pb-4">
+  //         Thank you for your interest!
+  //       </div>
+  //       <AdoptionsAreCurrentlyClosed />
+  //     </div>
+  //   );
+  // }
 
   const isMobile = getIsMobile();
   return (
