@@ -1,11 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { Painting, PaintingsResponse, PaintingStatus, PaintingTags } from "./types";
 import { AIRTABLE_PAINTINGS_TABLE, PAINTING_ORDER_KEY } from "./constants";
+import { fetchAllTableRecords } from "./utils";
 
-// used url encoder here https://codepen.io/airtable/full/MeXqOg
-// With query:
-// AND({hidden} != TRUE(), {damage_level} > 0)
-const paintingsTableUrl = `https://api.airtable.com/v0/${process.env.REACT_APP_AIRTABLE_BASE}/${AIRTABLE_PAINTINGS_TABLE}?filterByFormula=AND(%7Bhidden%7D+!%3D+TRUE()%2C+%7Bdamage_level%7D+%3E+0)`;
 
 function getTags(painting: Omit<Painting, 'tags'>): PaintingTags {
   // We have previously filtered out paintings without a year or yearGuess
@@ -20,30 +17,12 @@ function getTags(painting: Omit<Painting, 'tags'>): PaintingTags {
   };
 }
 
-async function fetchAllTableRecords(tableUrl: string): Promise<any[]> {
-  const records: any[] = [];
-  let offset: string|undefined = undefined;
-
-  let i = 0;
-  while (true && i < 1000) { // 1000 is an arbitrary limit to prevent infinite loops
-    const response: any = await fetch(
-      `${tableUrl}${offset ? `&offset=${offset}` : ''}`,
-      { headers: { Authorization: `Bearer ${process.env.REACT_APP_AIRTABLE_TOKEN}` }},
-    );
-
-    const data: any = await response.json();
-    records.push(...data.records);
-    if (!data.offset) {
-      break;
-    }
-    offset = data.offset;
-    i++;
-  }
-  return records;
-}
-
 async function fetchPaintings(): Promise<Painting[]> {
-  const records = await fetchAllTableRecords(paintingsTableUrl);
+  // used url encoder here https://codepen.io/airtable/full/MeXqOg
+  // With query:
+  // AND({hidden} != TRUE(), {damage_level} > 0)
+  const filteredTable = `${AIRTABLE_PAINTINGS_TABLE}?filterByFormula=AND(%7Bhidden%7D+!%3D+TRUE()%2C+%7Bdamage_level%7D+%3E+0)`;
+  const records = await fetchAllTableRecords(filteredTable);
 
   const paintings: Painting[] = [];
 

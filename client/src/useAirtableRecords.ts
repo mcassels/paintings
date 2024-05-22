@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getAirtableTableRows } from "./utils";
+import { fetchAllTableRecords } from "./utils";
 
 /*
 Given the name of a table in the airtable base, and a function to transform
@@ -20,8 +20,8 @@ export function useAirtableRecords<T>(
 ): T[]|'error'|'loading' {
 
   async function fetchRecords(): Promise<T[]> {
-    const data = await getAirtableTableRows(airtableTableName);
-    const records = data.records.map(recordTransformer);
+    const data = await fetchAllTableRecords(airtableTableName);
+    const records = data.map(recordTransformer);
     return outputTransformer ? outputTransformer(records) : records;
   }
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import TextPage from './TextPage';
-import { WHY_ADOPT_KEY } from './constants';
+import { MORGAN_BROOKS_WEBSITE, WHY_ADOPT_KEY } from './constants';
 import BrowsePaintingsButton from './BrowsePaintingsButton';
 import ImageCard from './ImageCard';
 import { Card, Image } from 'antd';
@@ -34,7 +34,7 @@ export default function WhyAdopt() {
             <div className="pt-2 text-xs">
               <div className="flex flex-col justify-center">
                 <div>
-                  <a href="https://mcassels.github.io/morgan/" target="_blank" rel="noreferrer">Morgan Brooks</a>&nbsp;helped with on-site cataloging.
+                  <a href={MORGAN_BROOKS_WEBSITE} target="_blank" rel="noreferrer">Morgan Brooks</a>&nbsp;helped with on-site cataloging.
                 </div>
               </div>
             </div>
