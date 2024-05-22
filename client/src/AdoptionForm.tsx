@@ -3,7 +3,7 @@ import { usePaintings } from "./usePaintings";
 import { useLocation, useNavigate } from "react-router";
 import { Form, Input, Button, Spin, Divider, Cascader, Checkbox, Radio, Space } from 'antd';
 import { useEffect, useState } from "react";
-import { getAirtableRecord, getPriceFromDamageLevel, reportAnalytics } from './utils';
+import { getAirtableRecord, getPriceFromDamageLevel, reportAnalytics, updateAirtableRecord } from './utils';
 import { NavLink } from 'react-router-dom';
 import DamageLevelInfoButton from './DamageLevelInfoButton';
 import DamageInformation from './DamageInformation';
@@ -17,24 +17,13 @@ async function getIsPaintingAvailable(recordId: string): Promise<boolean> {
 }
 
 async function updatePaintingAirtable(recordId: string, pickupOption: string|null) {
-  const endpoint = `https://api.airtable.com/v0/${process.env.REACT_APP_AIRTABLE_BASE}/${AIRTABLE_PAINTINGS_TABLE}/${recordId}`;
+  const fields = {
+    adoption_pending: true,
+    selected_pickup_option: pickupOption || '',
+  };
+
   try {
-    await fetch(
-      endpoint,
-      {
-        method: 'PATCH',
-        body: JSON.stringify({
-          fields: {
-            adoption_pending: true,
-            selected_pickup_option: pickupOption || '',
-          },
-        }),
-        headers: {
-          Authorization: `Bearer ${process.env.REACT_APP_AIRTABLE_TOKEN}`,
-          'Content-Type': 'application/json',
-        }
-      }
-    );
+    await updateAirtableRecord(AIRTABLE_PAINTINGS_TABLE, recordId, fields);
   } catch (e) {
     // Not a fatal error because we will still get the adoption form submission
     // and the adoption can be marked Pending manually

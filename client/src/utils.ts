@@ -52,15 +52,14 @@ export function getIsMobile(): boolean {
   return isMobile;
 }
 
-export async function getAirtableTableRows(tableName: string): Promise<any> {
-  const tableUrl = `https://api.airtable.com/v0/${process.env.REACT_APP_AIRTABLE_BASE}/${tableName}/`;
-  const response = await fetch(
-    tableUrl,
-    { headers: { Authorization: `Bearer ${process.env.REACT_APP_AIRTABLE_TOKEN}` }},
-  );
-
-  const data = await response.json();
-  return data;
+// We don't need to handle the airtable pagination ourselves,
+// because the airtable-server rust server handles it for us (within list_records).
+export async function fetchAllTableRecords(
+  tableAndParams: string,
+): Promise<any[]> {
+  const url = `${process.env.REACT_APP_AIRTABLE_FETCH_URL}${tableAndParams}`;
+  const response = await fetch(url);
+  return await response.json();
 }
 
 export function updateAirtableRecord(
@@ -81,6 +80,9 @@ export function updateAirtableRecord(
   );
 }
 
+// We do not use the airtable rust server for this because we do NOT
+// want the cached value. Additionally, this is not used on first load
+// of any page so it isn't needed for google SEO.
 export async function getAirtableRecord(
   tableName: string,
   recordId: string,

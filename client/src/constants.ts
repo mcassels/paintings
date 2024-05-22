@@ -13,3 +13,5 @@ export const PAINTING_ORDER_KEY = 'GORDANEER_PAINTING_ORDER';
 
 // Airtable
 export const AIRTABLE_PAINTINGS_TABLE = 'broken_paintings';
+
+export const MORGAN_BROOKS_WEBSITE = 'https://morganbrooks.io/';

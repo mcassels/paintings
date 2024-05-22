@@ -1,17 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 import { TextContent, TextContentResponse } from "./types";
+import { fetchAllTableRecords } from "./utils";
 
 async function fetchTextContent(): Promise<TextContent[]> {
-  const faqsUrl = "https://api.airtable.com/v0/app2HxNPQejnLR2g0/tbl1AbufKKvVhlPa5";
-  const response = await fetch(
-    faqsUrl,
-    { headers: { Authorization: `Bearer ${process.env.REACT_APP_AIRTABLE_TOKEN}` }},
-  );
-
-  const data = await response.json();
+  const records = await fetchAllTableRecords("website_text_content");
 
   const textContent: TextContent[] = [];
-  for (const record of data.records) {
+  for (const record of records) {
     const fields = record.fields;
     const content: TextContent = {
       id: fields.id,
