@@ -42,6 +42,36 @@ export function getPriceFromDamageLevel(damageLevel: number): number {
   return 100;
 }
 
+export function getPaintingAltText(p: Painting): string {
+  let text = `"${p.title}" by James Gordaneer. ${p.year || p.yearGuess || 'ND'}. ${p.medium}. ${p.height} x ${p.width}. Damage level: ${p.damageLevel}.`;
+  if (p.conditionNotes) {
+    text += ` ${p.conditionNotes}.`;
+  }
+  if (p.isFramed) {
+    text += ' Framed.';
+  }
+  if (p.isFramed === false) {
+    text += ' Unframed.';
+  }
+  if (p.status === 'adopted') {
+    text += ' Adopted.';
+  } else if (p.status === 'pending') {
+    text += ' Adoption pending.';
+  } else {
+    text += ' Available.';
+  }
+  if (p.tags.predominantColors.length > 0) {
+    text += ` Predominant colors: ${p.tags.predominantColors.join(', ')}.`;
+  }
+  if (p.tags.subjectMatter.length > 0) {
+    text += ` Subjects: ${p.tags.subjectMatter.join(', ')}.`;
+  }
+  if (p.story) {
+    text += ` ${p.story}.`;
+  }
+  return text;
+}
+
 export function getIsMobile(): boolean {
   // This is the same check that the css file uses to determine mobile
   const isSizeForMobile = window.matchMedia('only screen and (max-width: 768px)').matches;
@@ -58,8 +88,18 @@ export async function fetchAllTableRecords(
   tableAndParams: string,
 ): Promise<any[]> {
   const url = `${process.env.REACT_APP_AIRTABLE_FETCH_URL}${tableAndParams}`;
-  const response = await fetch(url);
-  return await response.json();
+  const isRawAirtable = url.startsWith('https://api.airtable.com');
+
+  let init = undefined;
+  if (isRawAirtable) {
+    init = { headers: { 'Authorization': `Bearer ${process.env.REACT_APP_AIRTABLE_TOKEN}` }};
+  }
+  const response = await fetch(url, init);
+  const data = await response.json();
+  if (isRawAirtable) {
+    return data.records;
+  }
+  return data;
 }
 
 export function updateAirtableRecord(

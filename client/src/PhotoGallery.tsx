@@ -10,7 +10,7 @@ import { Empty, Pagination, Spin } from 'antd';
 import GalleryFilters from './GalleryFilters';
 import PaintingLightbox from './PaintingLightbox';
 import { SAVED_PAINTING_KEY } from './constants';
-import { reportAnalytics } from './utils';
+import { getPaintingAltText, reportAnalytics } from './utils';
 import LoadingError from './LoadingError';
 
 // TODO: could probably make the code in here more generic
@@ -85,13 +85,14 @@ function PhotoGalleryImpl(props: PhotoGalleryProps) {
 
   const filteredPaintings = filterPaintings(params, allPaintings);
   const galleryPhotos = filteredPaintings.map((p) => {
+    const altText = getPaintingAltText(p);
     return {
       id: p.id,
       src: p.frontPhotoUrl,
       width: p.width, // These are inches not pixels, but the ratio should be the same... will this work? lol
       height: p.height,
-      title: p.title,
-      alt: p.title,
+      title: altText,
+      alt: altText,
     };
   }).slice((pageNum - 1) * PAGE_SIZE, pageNum * PAGE_SIZE);
 

@@ -3,6 +3,7 @@ import { usePaintings } from "./usePaintings";
 import { Carousel, Image, Skeleton, Spin } from "antd";
 import BrowsePaintingsButton from "./BrowsePaintingsButton";
 import { useLocation, useNavigate } from "react-router";
+import { getPaintingAltText } from "./utils";
 
 function FeaturedPaintingDisplay() {
   const paintings = usePaintings();
@@ -42,6 +43,7 @@ function FeaturedPaintingDisplay() {
           width = maxWidth;
           height = (painting.height / painting.width) * maxWidth;
         }
+        const altText = getPaintingAltText(painting);
         return (
           <div key={painting.id}>
             <div className="my-[30px] flex justify-center">
@@ -51,6 +53,7 @@ function FeaturedPaintingDisplay() {
                 height={height}
                 src={painting.frontPhotoUrl}
                 preview={false}
+                title={altText}
                 onClick={() => {
                   const searchParams = new URLSearchParams(location.search);
                   searchParams.set("selected", painting.id);
@@ -59,7 +62,7 @@ function FeaturedPaintingDisplay() {
                     pathname: "/gallery",
                   });
                 }}
-                alt={painting.title}
+                alt={altText}
               />
             </div>
           </div>
