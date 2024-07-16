@@ -37,9 +37,9 @@ export default function ContactUsModal() {
   }
 
   async function onSubmit(data: ContactUsFormInputs) {
-    const serviceId = process.env.REACT_APP_EMAILJS_SERVICE_ID;
+    const serviceId = process.env.REACT_APP_EMAILJS_CONTACT_US_SERVICE_ID;
     const templateId = process.env.REACT_APP_EMAILJS_CONTACT_US_TEMPLATE_ID;
-    const publicKey = process.env.REACT_APP_EMAILJS_PUBLIC_KEY;
+    const publicKey = process.env.REACT_APP_EMAILJS_CONTACT_US_PUBLIC_KEY;
 
     // Keys must correspond to template fields set up in emailjs template
     const emailTemplate = {
