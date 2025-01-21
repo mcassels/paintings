@@ -11,6 +11,7 @@ interface LayoutMenuItem {
   key: string;
   title: string;
   route: string;
+  openInNewTab?: boolean;
 }
 
 interface LayoutProps {
@@ -59,8 +60,16 @@ function Layout(props: LayoutProps) {
               overflowedIndicator={isMobile ? <MenuOutlined /> : null}
             >
               {menuItems.map(item => {
+                const content = item.openInNewTab ? (
+                  <div className="flex gap-x-2">
+                    {item.title}
+                    <div>
+                      <i className="fa-solid fa-arrow-up-right-from-square" />
+                    </div>
+                  </div>
+                ) : item.title;
                 return (
-                  <Menu.Item key={item.key} title={item.title}><NavLink to={item.route}>{item.title}</NavLink></Menu.Item>
+                  <Menu.Item key={item.key} title={item.title}><NavLink to={item.route} target={item.openInNewTab ? '_blank' : undefined}>{content}</NavLink></Menu.Item>
                 );
               })}
             </Menu>

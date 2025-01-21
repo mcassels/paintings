@@ -40,7 +40,9 @@
   "scripts": {
     "predeploy": "yarn build",
     "deploy": "gh-pages -d build",
-    "start": "react-scripts start",
+    "tw-build": "tailwindcss -i ./src/App.css -o ./public/out.css ",
+    "tw-watch": "tailwindcss -i ./src/App.css -o ./public/out.css --watch",
+    "start": "yarn run tw-watch & react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

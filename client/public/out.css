@@ -1,0 +1,672 @@
+/*
+tailwind base was commented out because it messed up the Markdown formatting from react-markdown,
+because it removes a bunch of default styles that are needed for the markdown to render properly (links, paragraphs, etc.).
+This font-family setting was copied from tailwind base at https://unpkg.com/tailwindcss@3.4.1/src/css/preflight.css
+because sans-serif is what we want.
+*/
+
+/* @tailwind base; */
+
+.absolute {
+  position: absolute;
+}
+
+.top-0 {
+  top: 0px;
+}
+
+.m-0 {
+  margin: 0px;
+}
+
+.m-10 {
+  margin: 2.5rem;
+}
+
+.m-2 {
+  margin: 0.5rem;
+}
+
+.mx-2 {
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
+
+.my-4 {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.my-\[30px\] {
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.mb-2 {
+  margin-bottom: 0.5rem;
+}
+
+.mb-4 {
+  margin-bottom: 1rem;
+}
+
+.mb-6 {
+  margin-bottom: 1.5rem;
+}
+
+.ml-0 {
+  margin-left: 0px;
+}
+
+.ml-2 {
+  margin-left: 0.5rem;
+}
+
+.ml-4 {
+  margin-left: 1rem;
+}
+
+.ml-8 {
+  margin-left: 2rem;
+}
+
+.ml-\[15px\] {
+  margin-left: 15px;
+}
+
+.mr-2 {
+  margin-right: 0.5rem;
+}
+
+.mt-4 {
+  margin-top: 1rem;
+}
+
+.block {
+  display: block;
+}
+
+.flex {
+  display: flex;
+}
+
+.table {
+  display: table;
+}
+
+.hidden {
+  display: none;
+}
+
+.h-\[500px\] {
+  height: 500px;
+}
+
+.h-fit {
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+}
+
+.min-h-svh {
+  min-height: 100svh;
+}
+
+.w-1\/2 {
+  width: 50%;
+}
+
+.w-\[650px\] {
+  width: 650px;
+}
+
+.w-fit {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.min-w-\[calc\(100vw-200px\)\] {
+  min-width: calc(100vw - 200px);
+}
+
+.max-w-fit {
+  max-width: -webkit-fit-content;
+  max-width: -moz-fit-content;
+  max-width: fit-content;
+}
+
+.shrink-0 {
+  flex-shrink: 0;
+}
+
+.grow {
+  flex-grow: 1;
+}
+
+.transform {
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.resize {
+  resize: both;
+}
+
+.flex-row {
+  flex-direction: row;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.items-stretch {
+  align-items: stretch;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.gap-x-14 {
+  column-gap: 3.5rem;
+}
+
+.gap-x-2 {
+  column-gap: 0.5rem;
+}
+
+.gap-x-8 {
+  column-gap: 2rem;
+}
+
+.space-x-1 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-x-reverse: 0;
+  margin-right: calc(0.25rem * var(--tw-space-x-reverse));
+  margin-left: calc(0.25rem * calc(1 - var(--tw-space-x-reverse)));
+}
+
+.space-x-2 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-x-reverse: 0;
+  margin-right: calc(0.5rem * var(--tw-space-x-reverse));
+  margin-left: calc(0.5rem * calc(1 - var(--tw-space-x-reverse)));
+}
+
+.space-x-4 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-x-reverse: 0;
+  margin-right: calc(1rem * var(--tw-space-x-reverse));
+  margin-left: calc(1rem * calc(1 - var(--tw-space-x-reverse)));
+}
+
+.space-y-2 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-y-reverse: 0;
+  margin-top: calc(0.5rem * calc(1 - var(--tw-space-y-reverse)));
+  margin-bottom: calc(0.5rem * var(--tw-space-y-reverse));
+}
+
+.space-y-6 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-y-reverse: 0;
+  margin-top: calc(1.5rem * calc(1 - var(--tw-space-y-reverse)));
+  margin-bottom: calc(1.5rem * var(--tw-space-y-reverse));
+}
+
+.space-y-8 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-y-reverse: 0;
+  margin-top: calc(2rem * calc(1 - var(--tw-space-y-reverse)));
+  margin-bottom: calc(2rem * var(--tw-space-y-reverse));
+}
+
+.text-nowrap {
+  text-wrap: nowrap;
+}
+
+.text-pretty {
+  text-wrap: pretty;
+}
+
+.border {
+  border-width: 1px;
+}
+
+.border-none {
+  border-style: none;
+}
+
+.border-slate-400 {
+  --tw-border-opacity: 1;
+  border-color: rgb(148 163 184 / var(--tw-border-opacity));
+}
+
+.bg-\[\#193259\] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(25 50 89 / var(--tw-bg-opacity));
+}
+
+.bg-transparent {
+  background-color: transparent;
+}
+
+.p-0 {
+  padding: 0px;
+}
+
+.p-1 {
+  padding: 0.25rem;
+}
+
+.p-\[8px\] {
+  padding: 8px;
+}
+
+.px-\[10px\] {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.py-3 {
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+}
+
+.py-6 {
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+}
+
+.pb-1 {
+  padding-bottom: 0.25rem;
+}
+
+.pb-10 {
+  padding-bottom: 2.5rem;
+}
+
+.pb-2 {
+  padding-bottom: 0.5rem;
+}
+
+.pb-3 {
+  padding-bottom: 0.75rem;
+}
+
+.pb-4 {
+  padding-bottom: 1rem;
+}
+
+.pb-6 {
+  padding-bottom: 1.5rem;
+}
+
+.pb-8 {
+  padding-bottom: 2rem;
+}
+
+.pb-\[30vh\] {
+  padding-bottom: 30vh;
+}
+
+.pr-2 {
+  padding-right: 0.5rem;
+}
+
+.pt-2 {
+  padding-top: 0.5rem;
+}
+
+.pt-4 {
+  padding-top: 1rem;
+}
+
+.pt-6 {
+  padding-top: 1.5rem;
+}
+
+.pt-8 {
+  padding-top: 2rem;
+}
+
+.pt-\[20vh\] {
+  padding-top: 20vh;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.align-middle {
+  vertical-align: middle;
+}
+
+.text-2xl {
+  font-size: 1.5rem;
+  line-height: 2rem;
+}
+
+.text-3xl {
+  font-size: 1.875rem;
+  line-height: 2.25rem;
+}
+
+.text-\[20px\] {
+  font-size: 20px;
+}
+
+.text-base {
+  font-size: 1rem;
+  line-height: 1.5rem;
+}
+
+.text-lg {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+}
+
+.text-sm {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.text-xs {
+  font-size: 0.75rem;
+  line-height: 1rem;
+}
+
+.font-bold {
+  font-weight: 700;
+}
+
+.font-normal {
+  font-weight: 400;
+}
+
+.italic {
+  font-style: italic;
+}
+
+.text-inherit {
+  color: inherit;
+}
+
+.text-slate-500 {
+  --tw-text-opacity: 1;
+  color: rgb(100 116 139 / var(--tw-text-opacity));
+}
+
+.text-slate-600 {
+  --tw-text-opacity: 1;
+  color: rgb(71 85 105 / var(--tw-text-opacity));
+}
+
+.text-white {
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+
+.filter {
+  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
+}
+
+html,
+:host {
+  font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  /* 4 */
+}
+
+body {
+  margin: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+}
+
+.App {
+  max-height: 100vh;
+}
+
+.App-header {
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+  padding: 15px;
+  padding-bottom: 10px;
+  text-align: center;
+}
+
+.loading {
+  padding-top: 100px;
+}
+
+.sidebar {
+  grid-area: sidebar;
+}
+
+.content {
+  grid-area: content;
+}
+
+.footer {
+  grid-area: footer;
+}
+
+.wrapper {
+  display: grid;
+  grid-gap: 10px;
+  grid-template-areas:
+              "sidebar content content"
+              "footer footer footer";
+}
+
+.box {
+  border-radius: 5px;
+}
+
+.ant-carousel .slick-dots li button{
+  background-color: gray;
+}
+
+.ant-carousel .slick-dots li.slick-active button{
+  background-color: black;
+}
+
+.ant-slider-horizontal.ant-slider-with-marks {
+  margin: 0;
+}
+
+.ant-slider .ant-slider-mark {
+  font-size: 10px;
+}
+
+.yarl__button {
+  display: flex;
+}
+
+.yarl__slide {
+  flex-direction: column;
+}
+
+.custom-button {
+  display: grid;
+  grid-gap: 10px;
+  grid-template-areas:
+              "left-col right-col"
+              "right-col"
+              "right-col";
+  grid-template-columns: 125px 125px;
+}
+
+.left-col {
+  display: flex;
+  justify-content: center;
+}
+
+.ant-modal-root .ant-modal-mask {
+  z-index: 10000;
+}
+
+.ant-modal-root .ant-modal-wrap {
+  z-index: 10001;
+}
+
+.ant-popover {
+  z-index: 10300;
+}
+
+.ant-image-preview-mask {
+  z-index: 10000;
+}
+
+.ant-image-preview-operations-wrapper {
+  z-index: 10081;
+}
+
+.contact-message textarea {
+  min-height: 200px;
+}
+
+.favourite-button:hover {
+  color: rgb(244 114 182) !important;
+}
+
+.damage-level-info-button .ant-btn-link {
+  color: white !important;
+}
+
+.damage-level-info-button:hover .ant-btn-link {
+  color: white !important;
+}
+
+.damage-level-info-button .ant-btn-link:not(:disabled):not(.ant-btn-disabled):hover {
+  color: lightgray !important;
+}
+
+@media screen and (max-width: 768px) {
+  .lightbox-painting-description {
+    flex-direction: column;
+  }
+
+  .lightbox-painting-info {
+    max-width: calc(100vw - 200px);
+  }
+
+  .lightbox-painting-header-container {
+    justify-content: start;
+    margin-left: 10px;
+  }
+
+  .lightbox-painting-description-divider {
+    display: none;
+  }
+
+  .lightbox-painting-description-item {
+    margin: 0 !important;
+  }
+
+  .yarl__slide_image {
+    max-height: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .yarl__toolbar {
+    flex-direction: column;
+    left: calc(100vw - 60px) !important;
+  }
+
+  /*
+  hide the zoom buttons on mobile cause you can pinch-zoom and they get in the way
+  */
+
+  .yarl__button:nth-child(1) {
+    display: none;
+  }
+
+  .yarl__button:nth-child(2) {
+    display: none;
+  }
+
+  .painting-lightbox-buttons {
+    flex-direction: column;
+  }
+
+  .price-table .ant-table-container {
+    overflow-x: scroll;
+  }
+
+  /* damage level modal in lightbox is too wide on mobile */
+
+  .damage-level-modal {
+    min-width: unset;
+  }
+
+  /*
+  The following are for styling the hamburger menu that is used for the sidebar
+  on mobile
+  */
+
+  .wrapper {
+    display: unset;
+  }
+
+  .sidebar {
+    display: flex;
+  }
+
+  .sidebar .ant-menu .ant-menu-submenu-title .anticon {
+    font-size: 30px;
+  }
+
+  .sidebar .ant-menu-horizontal .ant-menu-submenu {
+    padding-top: 10px;
+  }
+}
+
+.sidebar .ant-menu-horizontal .ant-menu-submenu-title [role=img] {
+  color: white;
+}
+
+/* Only for NOT mobile */
+
+@media screen and not (max-width: 768px) {
+  .damage-level-modal {
+    min-width: max(50vw, 800px);
+  }
+}
+
+.Demo__some-network__share-button:hover:not(:active) {
+  opacity: 0.75;
+}
+
+.hover\:font-bold:hover {
+  font-weight: 700;
+}
+
+.hover\:text-\[\#1677ff\]:hover {
+  --tw-text-opacity: 1;
+  color: rgb(22 119 255 / var(--tw-text-opacity));
+}

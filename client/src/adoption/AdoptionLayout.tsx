@@ -1,8 +1,12 @@
 import { areAdoptionsOpen } from '../utils';
 import AdoptionsAreCurrentlyClosed from './components/AdoptionsAreCurrentlyClosed';
 import Layout from '../components/Layout';
+import { useEffect } from 'react';
 
 function AdoptionLayout() {
+  useEffect(() => {
+    document.title = 'James Gordaneer Painting Adoption Project';
+  }, []);
   const headerContent = (
     <>
       <div className="pt-2 pb-1">Gordaneer Painting Adoption Project</div>
@@ -23,7 +27,7 @@ function AdoptionLayout() {
     { key: 'after-adoption', title: 'After Adoption', route: 'after-adoption' },
     { key: 'art-conservators', title: 'Care & Conservation', route: 'art-conservators' },
     { key: 'faqs', title: 'FAQs', route: 'faqs' },
-    { key: 'catalog', title: 'Catalogue Site', route: '/catalog' },
+    { key: 'catalog', title: 'Catalogue Site', route: '/catalog', openInNewTab: true },
   ];
 
   return (
