@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { fetchAllTableRecords } from "./utils";
+import { fetchAllTableRecords } from "../utils";
 
 /*
 Given the name of a table in the airtable base, and a function to transform

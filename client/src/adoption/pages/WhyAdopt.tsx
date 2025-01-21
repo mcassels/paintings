@@ -1,8 +1,7 @@
-import React from 'react';
-import TextPage from './TextPage';
-import { MORGAN_BROOKS_WEBSITE, WHY_ADOPT_KEY } from './constants';
-import BrowsePaintingsButton from './BrowsePaintingsButton';
-import ImageCard from './ImageCard';
+import TextPage from '../../components/TextPage';
+import { MORGAN_BROOKS_WEBSITE, WHY_ADOPT_KEY } from '../../constants';
+import BrowsePaintingsButton from '../../components/BrowsePaintingsButton';
+import ImageCard from '../../components/ImageCard';
 import { Card, Image } from 'antd';
 
 export default function WhyAdopt() {

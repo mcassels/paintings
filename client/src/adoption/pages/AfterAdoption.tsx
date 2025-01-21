@@ -1,6 +1,6 @@
 import React from 'react';
-import TextPage from './TextPage';
-import { AFTER_ADOPTION_KEY } from './constants';
+import TextPage from '../../components/TextPage';
+import { AFTER_ADOPTION_KEY } from '../../constants';
 import { NavLink } from 'react-router-dom';
 import { Button } from 'antd';
 

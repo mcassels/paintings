@@ -1,6 +1,5 @@
-import React from 'react';
-import TextPage from './TextPage';
-import PriceTable from './PriceTable';
+import TextPage from '../../components/TextPage';
+import PriceTable from '../components/PriceTable';
 import { Card } from 'antd';
 
 export default function Pricing() {

@@ -1,5 +1,5 @@
-import { DamageLevel } from "./types";
-import { useAirtableRecords } from "./useAirtableRecords";
+import { DamageLevel } from "../../types";
+import { useAirtableRecords } from "../../hooks/useAirtableRecords";
 
 function parseDamageLevelDescription(airtableRecord: any): DamageLevel {
   return {

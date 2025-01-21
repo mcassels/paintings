@@ -1,9 +1,9 @@
 import React from 'react';
-import { getPriceFromDamageLevel } from './utils';
+import { getPriceFromDamageLevel } from '../../utils';
 import { Button, Spin, Table } from 'antd';
 import { NavLink } from 'react-router-dom';
-import { useDamageLevels } from './useDamageLevels';
-import LoadingError from './LoadingError';
+import { useDamageLevels } from '../hooks/useDamageLevels';
+import LoadingError from '../../components/LoadingError';
 
 interface PriceTableProps {
   selectedDamageLevel?: number;

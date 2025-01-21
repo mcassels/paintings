@@ -1,9 +1,9 @@
 import { Anchor, Divider } from "antd";
-import AdoptionForm from "./AdoptionForm";
-import { HOW_TO_ADOPT_KEY } from "./constants";
-import TextPage from "./TextPage";
-import SelectAPainting from "./SelectAPainting";
-import { getIsMobile } from "./utils";
+import AdoptionForm from "../components/AdoptionForm";
+import { HOW_TO_ADOPT_KEY } from "../../constants";
+import TextPage from "../../components/TextPage";
+import SelectAPainting from "../components/SelectAPainting";
+import { getIsMobile } from "../../utils";
 
 export default function HowToAdoptAPainting() {
 

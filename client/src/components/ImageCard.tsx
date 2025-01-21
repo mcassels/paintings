@@ -1,4 +1,3 @@
-import React from 'react';
 import { Card, Image } from 'antd';
 
 interface ImageCardProps {

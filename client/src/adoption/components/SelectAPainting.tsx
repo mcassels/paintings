@@ -1,10 +1,10 @@
 import React from 'react';
 import { useLocation } from 'react-router';
-import { usePaintings } from './usePaintings';
+import { usePaintings } from '../../hooks/usePaintings';
 import { Card, Spin, Image, Button } from 'antd';
 import { NavLink } from 'react-router-dom';
-import PaintingInformation from './PaintingInformation';
-import LoadingError from './LoadingError';
+import PaintingInformation from '../../components/PaintingInformation';
+import LoadingError from '../../components/LoadingError';
 
 export default function SelectAPainting() {
   const location = useLocation();

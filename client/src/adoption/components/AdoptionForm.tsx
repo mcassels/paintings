@@ -1,14 +1,14 @@
 import emailjs from '@emailjs/browser';
-import { usePaintings } from "./usePaintings";
+import { usePaintings } from "../../hooks/usePaintings";
 import { useLocation, useNavigate } from "react-router";
 import { Form, Input, Button, Spin, Divider, Cascader, Checkbox, Radio, Space } from 'antd';
 import { useEffect, useState } from "react";
-import { getAirtableRecord, getPriceFromDamageLevel, reportAnalytics, updateAirtableRecord } from './utils';
+import { getAirtableRecord, getPriceFromDamageLevel, reportAnalytics, updateAirtableRecord } from '../../utils';
 import { NavLink } from 'react-router-dom';
 import DamageLevelInfoButton from './DamageLevelInfoButton';
 import DamageInformation from './DamageInformation';
-import { AIRTABLE_PAINTINGS_TABLE } from './constants';
-import LoadingError from './LoadingError';
+import { AIRTABLE_PAINTINGS_TABLE } from '../../constants';
+import LoadingError from '../../components/LoadingError';
 
 async function getIsPaintingAvailable(recordId: string): Promise<boolean> {
   const record = await getAirtableRecord(AIRTABLE_PAINTINGS_TABLE, recordId);

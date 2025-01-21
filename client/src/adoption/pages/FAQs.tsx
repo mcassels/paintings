@@ -1,11 +1,11 @@
 import React from 'react';
 import Markdown from 'react-markdown';
 import { Collapse, CollapseProps, Spin } from 'antd';
-import BrowsePaintingsButton from './BrowsePaintingsButton';
-import ContactUsButton from './ContactUsButton';
-import { FAQ } from './types';
-import { useAirtableRecords } from './useAirtableRecords';
-import LoadingError from './LoadingError';
+import BrowsePaintingsButton from '../../components/BrowsePaintingsButton';
+import ContactUsButton from '../../components/contactus/ContactUsButton';
+import { FAQ } from '../../types';
+import { useAirtableRecords } from '../../hooks/useAirtableRecords';
+import LoadingError from '../../components/LoadingError';
 
 function parseFAQ(airtableRecord: any): FAQ {
   return {

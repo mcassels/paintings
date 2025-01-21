@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
-import { Painting, PaintingsResponse, PaintingStatus, PaintingTags } from "./types";
-import { AIRTABLE_PAINTINGS_TABLE, PAINTING_ORDER_KEY } from "./constants";
-import { fetchAllTableRecords } from "./utils";
+import { Painting, PaintingsResponse, PaintingStatus, PaintingTags } from "../types";
+import { AIRTABLE_PAINTINGS_TABLE, PAINTING_ORDER_KEY } from "../constants";
+import { fetchAllTableRecords } from "../utils";
 
 
 function getTags(painting: Omit<Painting, 'tags'>): PaintingTags {

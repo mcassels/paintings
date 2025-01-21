@@ -1,17 +1,16 @@
-import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Gallery from 'react-photo-gallery'
 import "yet-another-react-lightbox/styles.css";
 import "yet-another-react-lightbox/plugins/captions.css";
 
-import { Painting } from './types';
-import { usePaintings } from './usePaintings';
+import { Painting } from '../types';
+import { usePaintings } from '../hooks/usePaintings';
 import { Empty, Pagination, Spin } from 'antd';
-import GalleryFilters from './GalleryFilters';
-import PaintingLightbox from './PaintingLightbox';
-import { SAVED_PAINTING_KEY } from './constants';
-import { getPaintingAltText, reportAnalytics } from './utils';
-import LoadingError from './LoadingError';
+import GalleryFilters from '../components/GalleryFilters';
+import PaintingLightbox from '../components/PaintingLightbox';
+import { SAVED_PAINTING_KEY } from '../constants';
+import { getPaintingAltText, reportAnalytics } from '../utils';
+import LoadingError from '../components/LoadingError';
 
 // TODO: could probably make the code in here more generic
 function filterPaintings(

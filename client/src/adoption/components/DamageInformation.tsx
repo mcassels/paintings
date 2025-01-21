@@ -1,8 +1,8 @@
 import React from 'react';
 
 import { Spin } from 'antd';
-import { useDamageLevels } from './useDamageLevels';
-import LoadingError from './LoadingError';
+import { useDamageLevels } from '../hooks/useDamageLevels';
+import LoadingError from '../../components/LoadingError';
 
 interface DamageInformationProps {
   damageLevel: number;

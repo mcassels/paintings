@@ -1,5 +1,5 @@
 import Markdown from 'react-markdown'
-import { useTextContent } from "./useTextContent";
+import { useTextContent } from "../hooks/useTextContent";
 import { Spin } from "antd";
 import LoadingError from './LoadingError';
 

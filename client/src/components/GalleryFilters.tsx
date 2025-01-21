@@ -1,9 +1,8 @@
-import React from "react";
 import { Select, SliderSingleProps, Tag } from "antd";
-import { Painting, PaintingTags } from "./types";
+import { Painting, PaintingTags } from "../types";
 import { useLocation, useNavigate } from "react-router";
 import { HeartFilled, HeartOutlined } from "@ant-design/icons";
-import { reportAnalytics } from "./utils";
+import { reportAnalytics } from "../utils";
 
 interface MultiSelectFilterProps {
   paintings: Painting[];

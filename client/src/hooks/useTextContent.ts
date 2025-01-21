@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { TextContent, TextContentResponse } from "./types";
-import { fetchAllTableRecords } from "./utils";
+import { TextContent, TextContentResponse } from "../types";
+import { fetchAllTableRecords } from "../utils";
 
 async function fetchTextContent(): Promise<TextContent[]> {
   const records = await fetchAllTableRecords("website_text_content");

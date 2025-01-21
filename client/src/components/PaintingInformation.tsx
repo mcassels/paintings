@@ -1,6 +1,5 @@
-import React from "react";
-import { Painting } from "./types";
-import { getPaintingInfos } from "./utils";
+import { Painting } from "../types";
+import { getPaintingInfos } from "../utils";
 import { Divider } from "antd";
 
 interface PaintingInformationProps {

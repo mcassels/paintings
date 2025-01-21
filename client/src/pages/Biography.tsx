@@ -1,11 +1,11 @@
 import React from 'react';
-import TextPage from './TextPage';
-import { JIM_BIO_KEY } from './constants';
-import ImageCard from './ImageCard';
+import TextPage from '../components/TextPage';
+import { JIM_BIO_KEY } from '../constants';
+import ImageCard from '../components/ImageCard';
 import { List, Spin } from 'antd';
-import BrowsePaintingsButton from './BrowsePaintingsButton';
-import { BiographyLink } from './types';
-import { useAirtableRecords } from './useAirtableRecords';
+import BrowsePaintingsButton from '../components/BrowsePaintingsButton';
+import { BiographyLink } from '../types';
+import { useAirtableRecords } from '../hooks/useAirtableRecords';
 
 function parseBiographyLink(airtableRecord: any): BiographyLink {
   return {

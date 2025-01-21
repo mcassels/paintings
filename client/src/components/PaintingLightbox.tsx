@@ -7,12 +7,12 @@ import { HeartOutlined, HeartFilled, ShareAltOutlined, CopyOutlined, ReadOutline
 import { FacebookShareButton, FacebookIcon, WhatsappShareButton, WhatsappIcon, XIcon, TwitterShareButton, LinkedinShareButton, LinkedinIcon } from 'react-share';
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
 
-import { Painting } from './types';
+import { Painting } from '../types';
 import { Button, Divider, Image, Modal, Popover, Tag } from 'antd';
 import Markdown from 'react-markdown';
-import { getAirtableRecord, getPaintingInfos, reportAnalytics, updateAirtableRecord } from './utils';
-import { AIRTABLE_PAINTINGS_TABLE, SAVED_PAINTING_KEY } from './constants';
-import DamageLevelInfoButton from './DamageLevelInfoButton';
+import { getAirtableRecord, getPaintingInfos, reportAnalytics, updateAirtableRecord } from '../utils';
+import { AIRTABLE_PAINTINGS_TABLE, SAVED_PAINTING_KEY } from '../constants';
+import DamageLevelInfoButton from '../adoption/components/DamageLevelInfoButton';
 
 function reportPaintingButtonClick(
   eventName: string,

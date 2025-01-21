@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import { openContactUsModal } from "./contactus.utils";
+import { openContactUsModal } from "../../components/contactus/contactus.utils";
 
 function AdoptionsAreCurrentlyClosed() {
   const location = useLocation();

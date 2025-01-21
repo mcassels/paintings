@@ -1,9 +1,8 @@
-import React from "react";
-import { usePaintings } from "./usePaintings";
+import { usePaintings } from "../../hooks/usePaintings";
 import { Carousel, Image, Skeleton, Spin } from "antd";
-import BrowsePaintingsButton from "./BrowsePaintingsButton";
+import BrowsePaintingsButton from "../../components/BrowsePaintingsButton";
 import { useLocation, useNavigate } from "react-router";
-import { getPaintingAltText } from "./utils";
+import { getPaintingAltText } from "../../utils";
 
 function FeaturedPaintingDisplay() {
   const paintings = usePaintings();

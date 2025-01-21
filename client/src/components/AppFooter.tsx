@@ -1,8 +1,8 @@
 import { Divider } from 'antd';
 import { Footer } from 'antd/es/layout/layout';
 import React from 'react';
-import ContactUsButton from './ContactUsButton';
-import { MORGAN_BROOKS_WEBSITE } from './constants';
+import ContactUsButton from './contactus/ContactUsButton';
+import { MORGAN_BROOKS_WEBSITE } from '../constants';
 
 export default function AppFooter() {
   return (

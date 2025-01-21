@@ -3,23 +3,17 @@ import { ConfigProvider, Menu } from 'antd';
 import './App.css';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
-import PhotoGallery from './PhotoGallery';
+import PhotoGallery from './pages/PhotoGallery';
 import { NavLink, Navigate, Outlet, Route, Routes, useLocation } from 'react-router-dom';
-import HowToAdoptAPainting from './HowToAdoptAPainting';
-import FAQs from './FAQs';
-import WhyAdopt from './WhyAdopt';
-import AfterAdoption from './AfterAdoption';
-import LandingPage from './LandingPage';
-import Biography from './Biography';
+
+import * as AdoptionPages from './adoption/pages';
+import Biography from './pages/Biography';
 import { areAdoptionsOpen, getIsMobile, reportAnalytics } from './utils';
-import Pricing from './Pricing';
-import { CARE_AND_CONSERVATION_KEY } from './constants';
-import TextPage from './TextPage';
 import { Header } from 'antd/es/layout/layout';
-import AppFooter from './AppFooter';
+import AppFooter from './components/AppFooter';
 import { MenuOutlined } from '@ant-design/icons';
-import AdoptionsAreCurrentlyClosed from './AdoptionsAreCurrentlyClosed';
-import ContactUsModal from './ContactUsModal';
+import AdoptionsAreCurrentlyClosed from './adoption/components/AdoptionsAreCurrentlyClosed';
+import ContactUsModal from './components/contactus/ContactUsModal';
 
 
 const queryClient = new QueryClient();
@@ -31,15 +25,15 @@ function AppInner() {
           <Routes>
             <Route path="/" element={<Layout />}>
               <Route index element={<Navigate to="home" />} />
-              <Route path="home" element={<LandingPage />} />
+              <Route path="home" element={<AdoptionPages.LandingPage />} />
               <Route path="gallery" element={<PhotoGallery />} />
               <Route path="about" element={<Biography />} />
-              <Route path="why-adopt" element={<WhyAdopt />} />
-              <Route path="pricing" element={<Pricing />} />
-              <Route path="adopt" element={<HowToAdoptAPainting />} />
-              <Route path="faqs" element={<FAQs />} />
-              <Route path="after-adoption" element={<AfterAdoption />} />
-              <Route path="art-conservators" element={<TextPage textKey={CARE_AND_CONSERVATION_KEY} />} />
+              <Route path="why-adopt" element={<AdoptionPages.WhyAdopt />} />
+              <Route path="pricing" element={<AdoptionPages.Pricing />} />
+              <Route path="adopt" element={<AdoptionPages.HowToAdoptAPainting />} />
+              <Route path="faqs" element={<AdoptionPages.FAQs />} />
+              <Route path="after-adoption" element={<AdoptionPages.AfterAdoption />} />
+              <Route path="art-conservators" element={<AdoptionPages.ArtConservators />} />
               <Route path="*" element={<Navigate replace to="/home" />} />
             </Route>
           </Routes>
