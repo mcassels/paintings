@@ -1,8 +1,8 @@
 import { usePaintings } from "../../hooks/usePaintings";
-import { Carousel, Image, Skeleton, Spin } from "antd";
+import { Carousel, Skeleton, Spin } from "antd";
 import BrowsePaintingsButton from "../../components/BrowsePaintingsButton";
 import { useLocation, useNavigate } from "react-router";
-import { getPaintingAltText } from "../../utils";
+import LandingPageFeatureImage from "../../components/LandingPageFeatureImage";
 
 function FeaturedPaintingDisplay() {
   const paintings = usePaintings();
@@ -25,47 +25,21 @@ function FeaturedPaintingDisplay() {
     );
   }
 
-  const maxHeight = 550;
   return (
     <Carousel
       style={{ width: "min(650px, 100%)" }}
       autoplay
     >
       {paintings.slice(0, 3).map((painting) => {
-        const maxWidth = Math.min(document.body.clientWidth, 650);
-
-        // First try the width for the max height
-        let height = maxHeight;
-        let width = (painting.width / painting.height) * maxHeight;
-        if (width > maxWidth) {
-          // If the width is too big, use the max width
-          width = maxWidth;
-          height = (painting.height / painting.width) * maxWidth;
-        }
-        const altText = getPaintingAltText(painting);
-        return (
-          <div key={painting.id}>
-            <div className="my-[30px] flex justify-center">
-              <Image
-                className="cursor-pointer"
-                width={width}
-                height={height}
-                src={painting.frontPhotoUrl}
-                preview={false}
-                title={altText}
-                onClick={() => {
-                  const searchParams = new URLSearchParams(location.search);
-                  searchParams.set("selected", painting.id);
-                  navigate({
-                    search: searchParams.toString(),
-                    pathname: "/gallery",
-                  });
-                }}
-                alt={altText}
-              />
-            </div>
-          </div>
-        );
+        const onClick = () => {
+          const searchParams = new URLSearchParams(location.search);
+          searchParams.set("selected", painting.id);
+          navigate({
+            search: searchParams.toString(),
+            pathname: "/gallery",
+          });
+        };
+        return <LandingPageFeatureImage painting={painting} onClick={onClick} />;
       })}
     </Carousel>
   );

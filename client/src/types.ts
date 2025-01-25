@@ -54,3 +54,10 @@ export interface FAQ {
   answer: string;
   sort: number;
 }
+
+export interface Show {
+  name: string;
+  description: string;
+  startDate: Date;
+  endDate: Date;
+}

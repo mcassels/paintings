@@ -1,4 +1,3 @@
-import React from 'react';
 import TextPage from '../components/TextPage';
 import { JIM_BIO_KEY } from '../constants';
 import ImageCard from '../components/ImageCard';

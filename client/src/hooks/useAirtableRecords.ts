@@ -13,16 +13,16 @@ once per session.
 This hook is intended for fetching records from tables that are expected to change
 very infrequently, such as the damage_level_descriptions table.
 */
-export function useAirtableRecords<T>(
+export function useAirtableRecords<T, S>(
   airtableTableName: string,
   recordTransformer: (record: any) => T,
-  outputTransformer?: (records: T[]) => T[],
-): T[]|'error'|'loading' {
+  outputTransformer?: (records: T[]) => S,
+): S|'error'|'loading' {
 
-  async function fetchRecords(): Promise<T[]> {
+  async function fetchRecords(): Promise<S> {
     const data = await fetchAllTableRecords(airtableTableName);
     const records = data.map(recordTransformer);
-    return outputTransformer ? outputTransformer(records) : records;
+    return outputTransformer ? outputTransformer(records) : (records as S);
   }
 
   const {

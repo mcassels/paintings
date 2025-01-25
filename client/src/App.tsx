@@ -7,6 +7,7 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 
 import * as AdoptionPages from './adoption/pages';
 import Biography from './pages/Biography';
+import LandingPage from './pages/LandingPage';
 import AdoptionLayout from './adoption/AdoptionLayout';
 import HomeLayout from './components/CatalogLayout';
 
@@ -32,7 +33,7 @@ function AppRouter() {
       </Route>
       <Route path="/" element={<HomeLayout />}>
         <Route index element={<Navigate to="home" />} />
-        <Route path="home" element={<AdoptionPages.LandingPage />} />
+        <Route path="home" element={<LandingPage />} />
         <Route path="gallery" element={<PhotoGallery />} />
         <Route path="about" element={<Biography />} />
         <Route path="*" element={<Navigate replace to="/home" />} />
