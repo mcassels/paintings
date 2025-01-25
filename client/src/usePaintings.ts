@@ -22,6 +22,7 @@ async function fetchPaintings(): Promise<Painting[]> {
   // With query:
   // AND({hidden} != TRUE(), {damage_level} > 0)
   const filteredTable = `${AIRTABLE_PAINTINGS_TABLE}?filterByFormula=AND(%7Bhidden%7D+!%3D+TRUE()%2C+%7Bdamage_level%7D+%3E+0)`;
+
   const records = await fetchAllTableRecords(filteredTable);
 
   const paintings: Painting[] = [];
@@ -41,6 +42,7 @@ async function fetchPaintings(): Promise<Painting[]> {
         console.error('Skipping painting with missing year', fields);
         continue;
       }
+
       let status: PaintingStatus = 'available';
       // If a painting is both red_dot and adoption_pending, red_dot takes precedence
       if (fields.red_dot) {

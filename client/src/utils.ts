@@ -82,6 +82,39 @@ export function getIsMobile(): boolean {
   return isMobile;
 }
 
+// When fetching directly from airtable we need to handle pagination ourselves
+async function fetchAllTableRecordsFromAirtable(fetchUrl: string): Promise<any[]> {
+  const records: any[] = [];
+  let offset: string|undefined = undefined;
+  let i = 0;
+  while (true && i < 1000) { // 1000 is an arbitrary limit to prevent infinite loops
+    // TODO: Creating the url in this way is not really safe cause we're not guaranteed that
+    // the fetchUrl will already have a query string in the cases where the results are paginated.
+    // However currently in practice, this is the case because only the paintings fetch request
+    // returns more than 100 records.
+    const response: any = await fetch(
+      `${fetchUrl}${offset ? `&offset=${offset}` : ''}`,
+      { headers: { Authorization: `Bearer ${process.env.REACT_APP_AIRTABLE_TOKEN}` }},
+    );
+    const data: any = await response.json();
+    records.push(...data.records);
+
+    if (!data.offset) {
+      break;
+    }
+    offset = data.offset;
+    i++;
+  }
+  return records;
+}
+
+// The proxy server handles pagination for us.
+async function fetchAllTableRecordsFromProxyServer(fetchUrl: string): Promise<any[]> {
+  const response = await fetch(fetchUrl, {});
+  const data = await response.json();
+  return data;
+}
+
 // We don't need to handle the airtable pagination ourselves,
 // because the airtable-server rust server handles it for us (within list_records).
 export async function fetchAllTableRecords(
@@ -90,16 +123,10 @@ export async function fetchAllTableRecords(
   const url = `${process.env.REACT_APP_AIRTABLE_FETCH_URL}${tableAndParams}`;
   const isRawAirtable = url.startsWith('https://api.airtable.com');
 
-  let init = undefined;
   if (isRawAirtable) {
-    init = { headers: { 'Authorization': `Bearer ${process.env.REACT_APP_AIRTABLE_TOKEN}` }};
+    return fetchAllTableRecordsFromAirtable(url);
   }
-  const response = await fetch(url, init);
-  const data = await response.json();
-  if (isRawAirtable) {
-    return data.records;
-  }
-  return data;
+  return fetchAllTableRecordsFromProxyServer(url);
 }
 
 export function updateAirtableRecord(
