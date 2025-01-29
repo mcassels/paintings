@@ -9,6 +9,7 @@ function HomeLayout() {
   const menuItems = [
     { key: 'home', title: 'Home', route: 'home' },
     { key: 'gallery', title: 'Gallery', route: 'gallery' },
+    { key: 'show', title: 'Current Show', route: 'show' },
     { key: 'about', title: 'Biography', route: 'about' },
     { key: 'adoption', title: 'Painting Adoption Project', route: '/adoption', openInNewTab: true },
   ];

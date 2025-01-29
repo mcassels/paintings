@@ -55,9 +55,10 @@ html, body {
 .wrapper {
   display: grid;
   grid-gap: 10px;
+  grid-template-columns: min-content 1fr;
   grid-template-areas:
-              "sidebar content content"
-              "footer footer footer";
+              "sidebar content"
+              "footer footer";
 }
 
 .box {

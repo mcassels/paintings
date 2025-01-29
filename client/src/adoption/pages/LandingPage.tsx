@@ -48,19 +48,21 @@ function FeaturedPaintingDisplay() {
 
 export default function LandingPage() {
   return (
-    <div className="text-pretty" style={{ width: "min(650px, 100vw)" }}>
-      <div className="px-[10px]">
-        <div className="pb-2">
-          <h1 className="text-lg">A fundraiser for Victoria Visual Arts Legacy Society</h1>
-          <p className="max-w-[calc(100vw - 40px)]">
-            Supporting the James Gordaneer Legacy Award, given annually to a Camosun College Visual Arts student.
-          </p>
+    <div className="text-pretty flex justify-center w-[80%]">
+      <div style={{ width: "min(650px, 100vw)" }}>
+        <div className="px-[10px]">
+          <div className="pb-2">
+            <h1 className="text-lg">A fundraiser for Victoria Visual Arts Legacy Society</h1>
+            <p className="max-w-[calc(100vw - 40px)]">
+              Supporting the James Gordaneer Legacy Award, given annually to a Camosun College Visual Arts student.
+            </p>
+          </div>
+          <div className="pt-2">
+            <BrowsePaintingsButton />
+          </div>
         </div>
-        <div className="pt-2">
-          <BrowsePaintingsButton />
-        </div>
+        <FeaturedPaintingDisplay />
       </div>
-      <FeaturedPaintingDisplay />
     </div>
   );
 }

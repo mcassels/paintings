@@ -10,6 +10,7 @@ import Biography from './pages/Biography';
 import LandingPage from './pages/LandingPage';
 import AdoptionLayout from './adoption/AdoptionLayout';
 import HomeLayout from './components/CatalogLayout';
+import CurrentShow from './pages/CurrentShow';
 
 const queryClient = new QueryClient();
 
@@ -35,6 +36,7 @@ function AppRouter() {
         <Route index element={<Navigate to="home" />} />
         <Route path="home" element={<LandingPage />} />
         <Route path="gallery" element={<PhotoGallery />} />
+        <Route path="show" element={<CurrentShow />} />
         <Route path="about" element={<Biography />} />
         <Route path="*" element={<Navigate replace to="/home" />} />
       </Route>

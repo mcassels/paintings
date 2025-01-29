@@ -7,6 +7,9 @@ export interface PaintingTags {
   status: PaintingStatus;
   subjectMatter: string[];
 }
+
+type ShowId = string & { _opaque: 'ShowId' };
+
 export interface Painting {
   id: string;
   airtableId: string; // internal identifier within airtable, need to keep track of this for updates
@@ -26,6 +29,7 @@ export interface Painting {
   subjectMatter: string[];
   tags: PaintingTags;
   story?: string;
+  shows: ShowId[];
 }
 
 export type PaintingsResponse = Painting[]|'error'|'loading';
@@ -56,6 +60,7 @@ export interface FAQ {
 }
 
 export interface Show {
+  id: ShowId;
   name: string;
   description: string;
   startDate: Date;

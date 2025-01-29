@@ -11,6 +11,7 @@ import PaintingLightbox from '../components/PaintingLightbox';
 import { SAVED_PAINTING_KEY } from '../constants';
 import { getPaintingAltText, reportAnalytics } from '../utils';
 import LoadingError from '../components/LoadingError';
+import { useMemo } from 'react';
 
 // TODO: could probably make the code in here more generic
 function filterPaintings(
@@ -60,11 +61,11 @@ function filterPaintings(
 
 const PAGE_SIZE = 15;
 
-interface PhotoGalleryProps {
+interface PhotoGalleryImplProps {
   paintings: Painting[];
 }
 
-function PhotoGalleryImpl(props: PhotoGalleryProps) {
+export function PhotoGalleryImpl(props: PhotoGalleryImplProps) {
   const { paintings: allPaintings } = props;
 
   const navigate = useNavigate();
@@ -146,7 +147,28 @@ function PhotoGalleryImpl(props: PhotoGalleryProps) {
   )
 }
 
-export default function PhotoGallery() {
+interface PhotoGalleryFilteredProps {
+  paintings: Painting[];
+  paintingFilterFn?: (painting: Painting) => boolean;
+}
+
+function PhotoGalleryFiltered(props: PhotoGalleryFilteredProps) {
+  const { paintings, paintingFilterFn } = props;
+  const filtered = useMemo(() => {
+    if (paintingFilterFn) {
+      return paintings.filter(paintingFilterFn);
+    }
+    return paintings;
+  }, [paintings, paintingFilterFn]);
+
+  return <PhotoGalleryImpl paintings={filtered} />
+}
+
+interface PhotoGalleryProps {
+  paintingFilterFn?: (painting: Painting) => boolean;
+}
+
+export default function PhotoGallery(props: PhotoGalleryProps) {
   const paintings = usePaintings();
 
   if (paintings === 'loading') {
@@ -161,6 +183,6 @@ export default function PhotoGallery() {
   }
 
   return (
-    <PhotoGalleryImpl paintings={paintings} />
+    <PhotoGalleryFiltered paintings={paintings} paintingFilterFn={props.paintingFilterFn} />
   );
 }

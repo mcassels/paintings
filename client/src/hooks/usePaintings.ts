@@ -17,6 +17,7 @@ function getTags(painting: Omit<Painting, 'tags'>): PaintingTags {
   };
 }
 
+// TODO: need to change this filter programmatically for long term site.
 async function fetchPaintings(): Promise<Painting[]> {
   // used url encoder here https://codepen.io/airtable/full/MeXqOg
   // With query:
@@ -75,6 +76,7 @@ async function fetchPaintings(): Promise<Painting[]> {
         isFramed,
         status,
         story: fields.story,
+        shows: fields.show_name || [],
       };
       paintings.push({
         ...painting,
