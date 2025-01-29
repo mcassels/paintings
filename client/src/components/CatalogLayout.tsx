@@ -5,7 +5,14 @@ function HomeLayout() {
   useEffect(() => {
     document.title = 'James Gordaneer Artist Catalogue';
   }, []);
-  const headerContent = (<div className="pt-2 pb-1">James Gordaneer Artist Catalogue</div>)
+  const headerContent = (
+    <div>
+      <div className="p-4">James Gordaneer Artist Catalogue</div>
+      <div className="flex justify-center">
+        <div className="w-full bg-slate-500 h-[0.5px]"/>
+      </div>
+    </div>
+  );
   const menuItems = [
     { key: 'home', title: 'Home', route: 'home' },
     { key: 'gallery', title: 'Gallery', route: 'gallery' },
@@ -14,7 +21,7 @@ function HomeLayout() {
     { key: 'adoption', title: 'Painting Adoption Project', route: '/adoption', openInNewTab: true },
   ];
   return (
-    <Layout headerContent={headerContent} menuItems={menuItems} />
+    <Layout headerContent={headerContent} menuItems={menuItems} headerBackground="bg-white font-thin"/>
   );
 }
 

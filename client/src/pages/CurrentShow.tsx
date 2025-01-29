@@ -21,7 +21,7 @@ function CurrentShowImpl(props: { show: Show }) {
     <div className="max-w-[calc(100vw-300px)]">
       <div className="mb-6 bg-amber-100 rounded-md">
         <div className="p-6">
-          <div className="text-3xl font-bold">{show.name}</div>
+          <div className="text-3xl font-light">{show.name}</div>
           <div className="italic pt-2 text-sm">{`Show runs ${formatDate(show.startDate)} to ${formatDate(show.endDate)}`}</div>
           <div className="pt-4">{show.description}</div>
         </div>

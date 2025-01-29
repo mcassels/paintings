@@ -8,14 +8,14 @@ function AdoptionLayout() {
     document.title = 'James Gordaneer Painting Adoption Project';
   }, []);
   const headerContent = (
-    <>
+    <div className="text-white">
       <div className="pt-2 pb-1">Gordaneer Painting Adoption Project</div>
       {!areAdoptionsOpen() && (
         <div className="text-sm flex justify-center">
           <AdoptionsAreCurrentlyClosed />
         </div>
       )}
-    </>
+    </div>
   );
   const menuItems = [
     { key: 'home', title: 'Home', route: 'home' },
@@ -31,7 +31,7 @@ function AdoptionLayout() {
   ];
 
   return (
-    <Layout headerContent={headerContent} menuItems={menuItems}/>
+    <Layout headerContent={headerContent} menuItems={menuItems} headerBackground="bg-[#193259]"/>
   );
 }
 

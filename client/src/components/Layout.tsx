@@ -17,10 +17,11 @@ interface LayoutMenuItem {
 interface LayoutProps {
   menuItems: LayoutMenuItem[];
   headerContent: JSX.Element;
+  headerBackground: string;
 }
 
 function Layout(props: LayoutProps) {
-  const { headerContent, menuItems } = props;
+  const { headerContent, menuItems, headerBackground } = props;
 
   const location = useLocation();
   const selectedKey = location.pathname.split('/')[1];
@@ -32,7 +33,7 @@ function Layout(props: LayoutProps) {
   }, [selectedKey, location.search.length]);
 
   const headerElem = (
-    <Header className="bg-[#193259] text-white text-center justify-center flex flex-col text-3xl p-[8px] h-fit mb-6">
+    <Header className={`${headerBackground} text-center justify-center flex flex-col text-3xl p-[8px] h-fit mb-6`}>
       {headerContent}
     </Header>
   );

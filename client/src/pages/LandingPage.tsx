@@ -1,7 +1,5 @@
 import { usePaintings } from "../hooks/usePaintings";
-import { Button, Image, Skeleton, Spin } from "antd";
-import { useLocation, useNavigate } from "react-router";
-import { getPaintingAltText } from "../utils";
+import { Button, Skeleton, Spin } from "antd";
 import LandingPageFeatureImage from "../components/LandingPageFeatureImage";
 import { useCurrentShow } from "../hooks/useCurrentShow";
 import { NavLink } from "react-router-dom";
@@ -10,9 +8,6 @@ const FEATURE_PAINTING_ID = 'BP120';
 
 function FeaturedPaintingDisplay() {
   const paintings = usePaintings();
-
-  const location = useLocation();
-  const navigate = useNavigate();
 
   if (paintings === "error" || paintings.length === 0) {
     return (
@@ -48,7 +43,7 @@ function CurrentShowDisplay() {
 
   return (
     <Button type="link">
-      <NavLink to="/show" className="italic font-bold">
+      <NavLink to="/show" className="italic">
        {`Show "${currentShow.name}" on now!`}
       </NavLink>
     </Button>
@@ -62,10 +57,7 @@ export default function LandingPage() {
       <div style={{ width: "min(650px, 100vw)" }}>
         <div className="px-[10px]">
           <div className="pb-2">
-            <h1 className="text-lg">Some text to be filled in by Alisa</h1>
-            <p className="max-w-[calc(100vw - 40px)]">
-              Possibly some more text.
-            </p>
+            <p>Some text to be filled in by Alisa</p>
           </div>
         </div>
         <CurrentShowDisplay />
