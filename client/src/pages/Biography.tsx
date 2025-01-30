@@ -33,9 +33,7 @@ export default function Biography() {
           <TextPage textKey={JIM_BIO_KEY} />
           <div>
             {
-              bioLinks === 'loading' ? (
-                <Spin />
-              ) : bioLinks === 'error' ? (
+              bioLinks === 'loading' ? null : bioLinks === 'error' ? (
                 <div>Failed to load links</div>
               ) : (
                 <div>

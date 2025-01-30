@@ -173,3 +173,7 @@ export function reportAnalytics(
   }
   window.gtag('event', eventName, eventProperties);
 }
+
+export function formatDate(date: Date) {
+  return date.toLocaleDateString(undefined, { month: "long", day: "numeric", year: "numeric" });
+}

@@ -3,6 +3,8 @@ import { Button, Skeleton, Spin } from "antd";
 import LandingPageFeatureImage from "../components/LandingPageFeatureImage";
 import { useCurrentShow } from "../hooks/useCurrentShow";
 import { NavLink } from "react-router-dom";
+import { formatDate } from "../utils";
+import { Badge, Card, Space } from 'antd';
 
 const FEATURE_PAINTING_ID = 'BP120';
 
@@ -36,17 +38,28 @@ function FeaturedPaintingDisplay() {
 }
 
 function CurrentShowDisplay() {
-  const currentShow = useCurrentShow();
-  if (currentShow === 'error' || currentShow === 'loading' || currentShow === null) {
+  const show = useCurrentShow();
+  if (show === 'error' || show === 'loading' || show === null) {
     return null;
   }
 
   return (
-    <Button type="link">
-      <NavLink to="/show" className="italic">
-       {`Show "${currentShow.name}" on now!`}
-      </NavLink>
-    </Button>
+    <Badge.Ribbon text="Show on now!" color="blue">
+      <Card size="small" className="bg-slate-50">
+        <div>
+          <div className="text-xl font-light">{show.name}</div>
+          <div className="text-xs italic">{`${formatDate(show.startDate)} - ${formatDate(show.endDate)}`}</div>
+          <div className="pt-4 text-sm">{show.description}</div>
+          <div className="pt-6">
+          <Button type="primary" ghost>
+            <NavLink to="/show">
+              Visit show
+            </NavLink>
+          </Button>
+          </div>
+        </div>
+      </Card>
+  </Badge.Ribbon>
   );
 }
 
@@ -57,7 +70,7 @@ export default function LandingPage() {
       <div style={{ width: "min(650px, 100vw)" }}>
         <div className="px-[10px]">
           <div className="pb-2">
-            <p>Some text to be filled in by Alisa</p>
+            <p>A short paragraph of text to be written by Alisa.</p>
           </div>
         </div>
         <CurrentShowDisplay />
