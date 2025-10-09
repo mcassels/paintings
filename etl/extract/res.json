@@ -1,0 +1,29 @@
+{
+    "id": "1dd3fe4a-b072-4696-b8cd-7bdfa91f0140",
+    "clientId": "ec21a489-a67c-4704-b2f5-eadbc7ad3591",
+    "templateName": "Pack of 10 Greeting Cards (US & CA) - horizontal",
+    "title": "Pack of 10 Greeting Cards (US & CA)",
+    "description": "<p>Create a one-of-a-kind sentiment with these personalized folded greeting cards (pack of 10), perfect for any occasion.</p>\n\n<p><strong>Features:</strong></p>\n<li><strong>Premium Paper Choices:</strong> Enhance your cards with our coated silk (glossy) and matte paper options. Coated silk is ideal for photos and images that need to stand out, while matte paper adds a refined and professional touch, perfect for text-heavy cards such as wedding invitations or thank you notes, offering a luxurious feel.</li>\n<li><strong>High-Quality, Eco-Friendly Paper:</strong> Crafted from durable 350gsm coated silk or 300gsm/350gsm matte paper, all our options are FSC/PEFC-certified, ensuring sustainability without compromising on quality.</li>\n<li><strong>Stylish Rounded Corners:</strong> Enhance the look of your flat cards with elegant rounded corners, featuring an 8mm radius for a sleek finish.</li>\n<li><strong>Elegant Foil Accents:</strong> Add a touch of luxury with our gold, silver, or copper foil accents, exclusively available on our coated silk paper.</li>\n<li><strong>Envelope Options:</strong> Select from no envelope, standard, or premium options. Our standard envelopes are made from 120gsm recycled paper, while the premium envelopes feature 150gsm feltmark paper for an elegant and sophisticated presentation.</li>\n<p></p>\n<p> Printed on demand, no minimum orders.</p>",
+    "productType": null,
+    "vendor": null,
+    "previewUrl": "https://gelato-api-live.s3.eu-west-1.amazonaws.com/ecommerce/store_product_image/ee62597a-4def-4f2b-890e-d425059d9987/preview?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIA3QM3COBPZOL2E4GY%2F20251009%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20251009T160702Z&X-Amz-SignedHeaders=host&X-Amz-Expires=86400&X-Amz-Signature=683a8838da4472e7ae9ed46a836e2f69dbd887d7c6ee755f9db6d8dbd58797f6",
+    "variants": [
+        {
+            "id": "c72a3f19-902f-4059-8a6e-bef39ff9ddb9",
+            "title": "5R (5 x 7″) - Horizontal - Coated silk paper - Horizontal Fold - None - Square edges - Standard",
+            "productUid": "pack_of_folded_cards_qt_10_pcs_pf_5r_upt_350-gsm-130lb-coated-silk_cl_4-4_ft_crease-hor_ct_glossy-protection_prt_1-0_sft_none_hor_ept_standard",
+            "variantOptions": [],
+            "imagePlaceholders": [
+                {
+                    "name": "E8F3AB8E-374C-467B-8D0B-4C2BF108C2DF_4_5005_c.jpeg",
+                    "height": 159,
+                    "width": 119.5,
+                    "printArea": "Back - Front"
+                }
+            ],
+            "textPlaceholders": []
+        }
+    ],
+    "createdAt": "2025-10-09T15:33:20+0000",
+    "updatedAt": "2025-10-09T15:33:20+0000"
+}
