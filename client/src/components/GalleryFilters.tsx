@@ -59,10 +59,11 @@ function MultiSelectFilter(props: MultiSelectFilterProps) {
 
 interface GalleryFiltersProps {
   paintings: Painting[];
+  includeAdoptionFilters?: boolean;
 }
 
 export default function GalleryFilters(props: GalleryFiltersProps) {
-  const { paintings } = props;
+  const { paintings, includeAdoptionFilters } = props;
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -92,34 +93,43 @@ export default function GalleryFilters(props: GalleryFiltersProps) {
             }}
           />
         </div>
-        <MultiSelectFilter
-          paintings={paintings}
-          paramKey="color"
-          tagKey="predominantColors"
-          title="Predominant colours"
-        />
+        {
+          includeAdoptionFilters && (
+            <MultiSelectFilter
+            paintings={paintings}
+            paramKey="color"
+            tagKey="predominantColors"
+            title="Predominant colours"
+          />
+          )
+        }
         <MultiSelectFilter
           paintings={paintings}
           paramKey="subject"
           tagKey="subjectMatter"
           title="Subject matter"
         />
-        <MultiSelectFilter
-          paintings={paintings}
-          paramKey="damage_level"
-          tagKey="damageLevel"
-          title="Damage level"
-        />
-        <MultiSelectFilter
-          paintings={paintings}
-          paramKey="status"
-          tagKey="status"
-          title="Availability"
-          sortFn={(a: any, b: any) => {
-            const order = ['available', 'pending', 'adopted'];
-            return order.indexOf(a) - order.indexOf(b);
-          }}
-        />
+        {includeAdoptionFilters && (
+          <MultiSelectFilter
+            paintings={paintings}
+            paramKey="damage_level"
+            tagKey="damageLevel"
+            title="Damage level"
+          />
+        )}
+        {includeAdoptionFilters && (
+          <MultiSelectFilter
+            paintings={paintings}
+            paramKey="status"
+            tagKey="status"
+            title="Availability"
+            sortFn={(a: any, b: any) => {
+              const order = ['available', 'pending', 'adopted'];
+              return order.indexOf(a) - order.indexOf(b);
+            }}
+          />
+        )
+        }
         <div className="flex flex-col justify-center">
           <Tag.CheckableTag
             style={{

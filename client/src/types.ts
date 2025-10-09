@@ -66,3 +66,5 @@ export interface Show {
   startDate: Date;
   endDate: Date;
 }
+
+export type GalleryMode = 'catalogue'|'show'|'adoption';

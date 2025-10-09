@@ -3,7 +3,7 @@ import Gallery from 'react-photo-gallery'
 import "yet-another-react-lightbox/styles.css";
 import "yet-another-react-lightbox/plugins/captions.css";
 
-import { Painting } from '../types';
+import { GalleryMode, Painting } from '../types';
 import { usePaintings } from '../hooks/usePaintings';
 import { Empty, Pagination, Spin } from 'antd';
 import GalleryFilters from '../components/GalleryFilters';
@@ -149,7 +149,7 @@ export function PhotoGalleryImpl(props: PhotoGalleryImplProps) {
 
 interface PhotoGalleryFilteredProps {
   paintings: Painting[];
-  paintingFilterFn?: (painting: Painting) => boolean;
+  paintingsFilterFn: (painting: Painting) => boolean;
 }
 
 function PhotoGalleryFiltered(props: PhotoGalleryFilteredProps) {
@@ -165,11 +165,12 @@ function PhotoGalleryFiltered(props: PhotoGalleryFilteredProps) {
 }
 
 interface PhotoGalleryProps {
-  paintingFilterFn?: (painting: Painting) => boolean;
+  mode: GalleryMode
 }
 
 export default function PhotoGallery(props: PhotoGalleryProps) {
-  const paintings = usePaintings();
+  const { mode } = props;
+  const paintings = usePaintings(mode);
 
   if (paintings === 'loading') {
     return (

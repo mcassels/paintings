@@ -7,11 +7,11 @@ import { getAirtableRecord, getPriceFromDamageLevel, reportAnalytics, updateAirt
 import { NavLink } from 'react-router-dom';
 import DamageLevelInfoButton from './DamageLevelInfoButton';
 import DamageInformation from './DamageInformation';
-import { AIRTABLE_PAINTINGS_TABLE } from '../../constants';
+import { ADOPTABLE_PAINTINGS_TABLE } from '../../constants';
 import LoadingError from '../../components/LoadingError';
 
 async function getIsPaintingAvailable(recordId: string): Promise<boolean> {
-  const record = await getAirtableRecord(AIRTABLE_PAINTINGS_TABLE, recordId);
+  const record = await getAirtableRecord(ADOPTABLE_PAINTINGS_TABLE, recordId);
   // If it's pending or red_dot then it is not available
   return !record?.fields?.adoption_pending && !record?.fields?.red_dot;
 }
@@ -23,7 +23,7 @@ async function updatePaintingAirtable(recordId: string, pickupOption: string|nul
   };
 
   try {
-    await updateAirtableRecord(AIRTABLE_PAINTINGS_TABLE, recordId, fields);
+    await updateAirtableRecord(ADOPTABLE_PAINTINGS_TABLE, recordId, fields);
   } catch (e) {
     // Not a fatal error because we will still get the adoption form submission
     // and the adoption can be marked Pending manually

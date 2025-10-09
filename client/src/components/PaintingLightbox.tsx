@@ -11,7 +11,7 @@ import { Painting } from '../types';
 import { Button, Divider, Image, Modal, Popover, Tag } from 'antd';
 import Markdown from 'react-markdown';
 import { getAirtableRecord, getPaintingInfos, reportAnalytics, updateAirtableRecord } from '../utils';
-import { AIRTABLE_PAINTINGS_TABLE, SAVED_PAINTING_KEY } from '../constants';
+import { ADOPTABLE_PAINTINGS_TABLE, SAVED_PAINTING_KEY } from '../constants';
 import DamageLevelInfoButton from '../adoption/components/DamageLevelInfoButton';
 
 function reportPaintingButtonClick(
@@ -26,12 +26,12 @@ async function incrementFavouriteCount(recordId: string) {
   // airtable's API does not seem to support incrementing a field
   // so we need to fetch the record, increment the field, and then PATCH it back
   try {
-    const data = await getAirtableRecord(AIRTABLE_PAINTINGS_TABLE, recordId);
+    const data = await getAirtableRecord(ADOPTABLE_PAINTINGS_TABLE, recordId);
     if (!data || !data.fields) {
       return;
     }
     const prev = data.fields.favourite_count || 0;
-    await updateAirtableRecord(AIRTABLE_PAINTINGS_TABLE, recordId, { favourite_count: prev + 1 });
+    await updateAirtableRecord(ADOPTABLE_PAINTINGS_TABLE, recordId, { favourite_count: prev + 1 });
   } catch (e) {
     // Not a fatal error because this doesn't prevent them from marking it as a favourite
     console.error(e);

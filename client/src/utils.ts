@@ -116,7 +116,7 @@ async function fetchAllTableRecordsFromProxyServer(fetchUrl: string): Promise<an
 }
 
 // We don't need to handle the airtable pagination ourselves,
-// because the airtable-server rust server handles it for us (within list_records).
+// because the airtable-server rust server handles it for usain (within list_records).
 export async function fetchAllTableRecords(
   tableAndParams: string,
 ): Promise<any[]> {

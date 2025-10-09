@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { Painting, PaintingsResponse, PaintingStatus, PaintingTags } from "../types";
-import { AIRTABLE_PAINTINGS_TABLE, PAINTING_ORDER_KEY } from "../constants";
+import { GalleryMode, Painting, PaintingsResponse, PaintingStatus, PaintingTags } from "../types";
+import { ADOPTABLE_PAINTINGS_TABLE, PAINTING_ORDER_KEY } from "../constants";
 import { fetchAllTableRecords } from "../utils";
 
 
@@ -17,12 +17,19 @@ function getTags(painting: Omit<Painting, 'tags'>): PaintingTags {
   };
 }
 
+function getPaintingsQueryByMode(mode: GalleryMode): string {
+  switch (mode) {
+    'adoption': return AlipaySquareFilled;
+
+  }
+}
+
 // TODO: need to change this filter programmatically for long term site.
-async function fetchPaintings(): Promise<Painting[]> {
+async function fetchPaintings(mode: GalleryMode): Promise<Painting[]> {
   // used url encoder here https://codepen.io/airtable/full/MeXqOg
   // With query:
   // AND({hidden} != TRUE(), {damage_level} > 0)
-  const filteredTable = `${AIRTABLE_PAINTINGS_TABLE}?filterByFormula=AND(%7Bhidden%7D+!%3D+TRUE()%2C+%7Bdamage_level%7D+%3E+0)`;
+  const filteredTable = `${ADOPTABLE_PAINTINGS_TABLE}?filterByFormula=AND(%7Bhidden%7D+!%3D+TRUE()%2C+%7Bdamage_level%7D+%3E+0)`;
   const records = await fetchAllTableRecords(filteredTable);
 
   const paintings: Painting[] = [];
@@ -111,15 +118,15 @@ async function fetchPaintings(): Promise<Painting[]> {
   });
 }
 
-export function usePaintings(): PaintingsResponse {
+export function usePaintings(mode: GalleryMode): PaintingsResponse {
   const {
     isLoading,
     isError,
     data,
   } = useQuery({
-    queryKey: ['paintings'],
-    queryFn: fetchPaintings,
-    // This query should only be made once per session!
+    queryKey: ['paintings', mode],
+    queryFn: () => fetchPaintings(mode),
+    // This query should only be made once per session per mode.
     // Never need to refetch this.
     staleTime: Infinity,
     retry: false,
