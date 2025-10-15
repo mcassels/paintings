@@ -11,6 +11,9 @@ def main(dir_name: str):
     for filename in filenames:
         if filename.lower().endswith(".heic"):
             continue
+
+        if filename != "IMG_9520.jpeg":
+            continue
         description = get_image_description(os.path.join(dir_name, filename))
         if description is not None:
             has_description += 1
