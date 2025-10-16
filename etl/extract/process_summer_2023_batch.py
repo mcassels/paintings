@@ -62,10 +62,13 @@ def get_painting_rows(dir_path: str) -> List[PaintingRow]:
 
         if not re.match(r"IMG \d{4}\.jpeg", filename):
             year_i = next(
-              (i for i in range(len(splits)) if re.match(r"\d{4}", splits[i])), None
+              (i for i in range(len(splits)) if re.match(r"\d{4}", splits[i]) or splits[i].lower() == "nd"), None
             )
             if year_i is not None:
-                year = get_year(splits[year_i])
+                if splits[year_i].lower() == "nd":
+                    year = None
+                else:
+                    year = get_year(splits[year_i])
                 title = " ".join(splits[:year_i])
 
             dim_i = None
@@ -75,6 +78,8 @@ def get_painting_rows(dir_path: str) -> List[PaintingRow]:
                     height = int(match.group(1))
                     width = int(match.group(2))
                     dim_i = i
+                    break
+
             if year_i is None and dim_i is not None:
                 title = " ".join(splits[:dim_i])
 
