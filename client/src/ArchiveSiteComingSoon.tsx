@@ -1,6 +1,6 @@
 import { Button, Card, Image } from "antd";
 import { NavLink } from "react-router-dom";
-import { getIsMobile } from "./utils";
+// import { getIsMobile } from "./utils";
 import { Header } from "antd/es/layout/layout";
 import AppFooter from "./AppFooter";
 import ContactUsModal from "./ContactUsModal";
@@ -9,7 +9,7 @@ import ContactUsModal from "./ContactUsModal";
 export default function ArchiveSiteComingSoon() {
 
   // TODO: implement layout for mobile
-  const isMobile = getIsMobile();
+  // const isMobile = getIsMobile();
 
   return (
     <div className="min-h-svh flex flex-col items-stretch">
