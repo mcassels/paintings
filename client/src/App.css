@@ -214,3 +214,7 @@ html, body {
 .Demo__some-network__share-button:hover:not(:active) {
   opacity: 0.75;
 }
+
+.archive-site-coming-soon-page .ant-card {
+  border-radius: unset;
+}
