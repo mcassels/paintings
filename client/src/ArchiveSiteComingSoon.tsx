@@ -60,14 +60,14 @@ export default function ArchiveSiteComingSoon() {
         </div>
       </Header>
       <div className="flex-1 min-h-0 bg-cover bg-center px-4 lg:pl-20 lg:mx-0 mx-auto"
-           style={{ backgroundImage: 'url(https://james-gordaneer-paintings.s3.ca-central-1.amazonaws.com/website_images/pastel_blue_chair_painting.jpeg)'}}>
+           style={{ backgroundImage: 'url(https://james-gordaneer-paintings.s3.ca-central-1.amazonaws.com/website_images/pastel_blue_chair_painting.webp)'}}>
         <div className="py-6 space-y-6 flex-1">
           <div className="py-4">
             <Badge.Ribbon text="On sale now!" color="blue" placement="start">
               <ProjectCard
                 title="Calendar and card sale"
                 description="Support the James Gordaneer Legacy Award by purchasing a 2026 calendar or a set of greeting cards featuring the artwork of James Gordaneer."
-                imageUrl="https://james-gordaneer-paintings.s3.ca-central-1.amazonaws.com/website_images/calendar.jpeg"
+                imageUrl="https://james-gordaneer-paintings.s3.ca-central-1.amazonaws.com/website_images/calendar.webp"
                 imageAlt="calendar"
                 extraContent={
                   <div className="pl-4">
@@ -88,13 +88,13 @@ export default function ArchiveSiteComingSoon() {
           <ProjectCard
             title="Digital archive (coming soon!)"
             description="Between 1950 and 2016, noted Canadian abstract expressionist James Gordaneer created thousands of paintings. This archive aims to document as many of these works as possible. Stay tuned for more."
-            imageUrl="https://james-gordaneer-paintings.s3.ca-central-1.amazonaws.com/website_images/armchair_window_painting.jpeg"
+            imageUrl="https://james-gordaneer-paintings.s3.ca-central-1.amazonaws.com/website_images/armchair_window_painting.webp"
             imageAlt="painting-of-armchair-by-window"
           />
           <ProjectCard
             title="Painting adoption project"
             description="The James Gordaneer Painting Adoption project took place April to May, 2024. The project raised funds in support of the James Gordaneer Legacy Award, a scholarship given annually to a Camosun College Visual Arts student. More than 100 works were included."
-            imageUrl="https://james-gordaneer-paintings.s3.ca-central-1.amazonaws.com/website_images/paintings-under-tarp.jpeg"
+            imageUrl="https://james-gordaneer-paintings.s3.ca-central-1.amazonaws.com/website_images/paintings-under-tarp.webp"
             imageAlt="paintings-under-tarp"
             extraContent={
               <div>
