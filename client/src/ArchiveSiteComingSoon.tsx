@@ -130,7 +130,7 @@ export default function ArchiveSiteComingSoon() {
           <div className="py-4">
             <Badge.Ribbon text="On sale now!" color="blue" placement="start">
               <ProjectCardResponsive
-                title="Calendar and card sale"
+                title="2026 Calendar and blank cards"
                 description="Support the James Gordaneer Legacy Award by purchasing a 2026 calendar or a set of greeting cards featuring the artwork of James Gordaneer."
                 imageUrl="https://james-gordaneer-paintings.s3.ca-central-1.amazonaws.com/website_images/calendar.webp"
                 imageAlt="calendar"
@@ -150,7 +150,7 @@ export default function ArchiveSiteComingSoon() {
               />
             </Badge.Ribbon>
           </div>
-          <SectionHeader text="Other projects" />
+          <SectionHeader text="Projects" />
           <ProjectCardResponsive
             title="Digital archive (coming soon!)"
             description="Between 1950 and 2016, noted Canadian abstract expressionist James Gordaneer created thousands of paintings. This archive aims to document as many of these works as possible. Stay tuned for more."
