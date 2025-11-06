@@ -3,11 +3,13 @@ Given a directory of images that are NAMED with the description,
 extract information and produce a csv file.
 """
 
+import json
 import sys
 import os
-from typing import NamedTuple, List, Any, Literal
+from typing import NamedTuple, List, Any, Literal, Dict, Tuple
 import pandas
 import re
+from datetime import datetime
 
 class PaintingRow(NamedTuple):
     image_title: str
@@ -34,19 +36,29 @@ def get_year(year: Any) -> int|None:
         return None
 
 
-def get_painting_rows(dir_path: str) -> List[PaintingRow]:
+def clean_filename(filename: str) -> str:
+    filename = re.sub(r'[_\-,"]', ' ', filename)      # replace punctuation with spaces
+    filename = re.sub(r'\(\d\)', '', filename)         # remove literal '(1)', '(2)', etc.
+    filename = re.sub(r'.jpeg$', '', filename, flags=re.IGNORECASE)  # remove .jpeg extension
+    filename = re.sub(r'\s+', ' ', filename).strip()  # collapse multiple spaces
+    return filename
+
+def get_painting_rows(dir_path: str) -> Tuple[List[PaintingRow], Dict[str, str]]:
     filenames = [
         x for x in os.listdir(dir_path) if os.path.isfile(os.path.join(dir_path, x))
     ]
     painting_rows: List[PaintingRow] = []
+
+    back_photos: Dict[str, str] = {}  # image_title -> back_filename
+
     for filename in filenames:
         if filename == ".DS_Store":
             continue
 
-        filename = filename.replace("_", " ").replace("-", " ").replace(",", " ").replace("  ", " ").replace("\"", " ").strip()
-        splits = filename.strip(".jpeg").split()
+        splits = clean_filename(filename).split()
 
         if "verso" in splits:
+            back_photos[filename.replace(" verso", "")] = filename
             continue
 
         image_title = filename
@@ -128,15 +140,19 @@ def get_painting_rows(dir_path: str) -> List[PaintingRow]:
         )
         painting_rows.append(painting_row)
 
-    return painting_rows
+    return painting_rows, back_photos
 
 def main(dir_path: str):
-    painting_rows = get_painting_rows(dir_path)
+    painting_rows, back_photos = get_painting_rows(dir_path)
     print(f"Extracted {len(painting_rows)} paintings")
     df = pandas.DataFrame(painting_rows)
-    df.to_csv("extracted_painting_info.csv", index=False)
+    df.to_csv(f"extracted_painting_info_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv", index=False)
 
-# python3 process_summer_2023_batch.py "../data/2023-08-01 Batch jim paintings summer 2023 info in title"
+    # Save back photos mapping
+    with open(f"extracted_back_photos_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json", "w") as f:
+        json.dump(back_photos, f)
+
+# python3 process_legacy_batch.py "../data/2023-08-01 Batch jim paintings summer 2023 info in title"
 if __name__ == "__main__":
     dir_path = sys.argv[1]
     main(dir_path)
