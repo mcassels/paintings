@@ -20,6 +20,7 @@ import AppFooter from './AppFooter';
 import { MenuOutlined } from '@ant-design/icons';
 import AdoptionsAreCurrentlyClosed from './AdoptionsAreCurrentlyClosed';
 import ContactUsModal from './ContactUsModal';
+import ArchiveSiteComingSoon from './ArchiveSiteComingSoon';
 
 
 const queryClient = new QueryClient();
@@ -29,7 +30,10 @@ function AppInner() {
     <div>
       <div className="App">
           <Routes>
-            <Route path="/" element={<Layout />}>
+            <Route>
+              <Route path="/" element={<ArchiveSiteComingSoon />} />
+            </Route>
+            <Route path="/adoption-project" element={<Layout />}>
               <Route index element={<Navigate to="home" />} />
               <Route path="home" element={<LandingPage />} />
               <Route path="gallery" element={<PhotoGallery />} />
@@ -91,15 +95,15 @@ function Layout() {
               selectedKeys={[selectedKey]}
               overflowedIndicator={isMobile ? <MenuOutlined /> : null}
             >
-              <Menu.Item key="home" title="Home"><NavLink to="/home">Home</NavLink></Menu.Item>
-              <Menu.Item key="gallery" title="Gallery"><NavLink to="/gallery">Gallery</NavLink></Menu.Item>
-              <Menu.Item key="about" title="Biography"><NavLink to="/about">Biography</NavLink></Menu.Item>
-              <Menu.Item key="why-adopt" title="About this Project"><NavLink to="/why-adopt">About this Project</NavLink></Menu.Item>
-              <Menu.Item key="pricing" title="Pricing"><NavLink to="/pricing">Pricing</NavLink></Menu.Item>
-              <Menu.Item key="adopt" title="Adopt a Painting"><NavLink to="/adopt">Adopt a Painting</NavLink></Menu.Item>
-              <Menu.Item key="after-adoption" title="After Adoption"><NavLink to="/after-adoption">After Adoption</NavLink></Menu.Item>
-              <Menu.Item key="art-conservators" title="Care & Conservation"><NavLink to="/art-conservators">Care & Conservation</NavLink></Menu.Item>
-              <Menu.Item key="faqs" title="FAQs"><NavLink to="/faqs">FAQs</NavLink></Menu.Item>
+              <Menu.Item key="home" title="Home"><NavLink to="/adoption-project/home">Home</NavLink></Menu.Item>
+              <Menu.Item key="gallery" title="Gallery"><NavLink to="/adoption-project/gallery">Gallery</NavLink></Menu.Item>
+              <Menu.Item key="about" title="Biography"><NavLink to="/adoption-project/about">Biography</NavLink></Menu.Item>
+              <Menu.Item key="why-adopt" title="About this Project"><NavLink to="/adoption-project/why-adopt">About this Project</NavLink></Menu.Item>
+              <Menu.Item key="pricing" title="Pricing"><NavLink to="/adoption-project/pricing">Pricing</NavLink></Menu.Item>
+              <Menu.Item key="adopt" title="Adopt a Painting"><NavLink to="/adoption-project/adopt">Adopt a Painting</NavLink></Menu.Item>
+              <Menu.Item key="after-adoption" title="After Adoption"><NavLink to="/adoption-project/after-adoption">After Adoption</NavLink></Menu.Item>
+              <Menu.Item key="art-conservators" title="Care & Conservation"><NavLink to="/adoption-project/art-conservators">Care & Conservation</NavLink></Menu.Item>
+              <Menu.Item key="faqs" title="FAQs"><NavLink to="/adoption-project/faqs">FAQs</NavLink></Menu.Item>
             </Menu>
             {isMobile && <div className="w-full">{headerElem}</div>}
           </div>

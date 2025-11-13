@@ -6,7 +6,7 @@ import { MORGAN_BROOKS_WEBSITE } from './constants';
 
 export default function AppFooter() {
   return (
-    <Footer className="shrink-0 p-1 mt-4 flex justify-center">
+    <Footer className="h-fit shrink-0 flex justify-center p-2">
       <div className="flex">
         <div>
           <ContactUsButton />
@@ -24,7 +24,7 @@ export default function AppFooter() {
         </div>
         <div className="flex flex-col justify-center text-slate-600 ml-4">
           <div>
-            Site © 2024&nbsp;<a href={MORGAN_BROOKS_WEBSITE} target="_blank" rel="noreferrer">Morgan Brooks</a>
+            Site © 2025&nbsp;<a href={MORGAN_BROOKS_WEBSITE} target="_blank" rel="noreferrer">Morgan Brooks</a>
           </div>
         </div>
       </div>
