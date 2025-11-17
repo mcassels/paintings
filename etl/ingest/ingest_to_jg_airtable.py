@@ -7,7 +7,7 @@ import pandas
 import shutil
 
 
-def main(csv_path: str):
+def main(csv_path: str, photo_dir: str):
     load_dotenv()
 
     api_key = os.getenv("AIRTABLE_API_KEY")
@@ -25,6 +25,8 @@ def main(csv_path: str):
     renamed_image_dir = csv_path.replace(".csv", "_renamed_images")
     os.makedirs(renamed_image_dir, exist_ok=True)
 
+    df["jgid"] = None
+
     for _, row in df.iterrows():
         record = {}
         for field in ["title", "year", "medium", "height", "width", "damaged", "condition_notes", "framed", "location"]:
@@ -32,18 +34,24 @@ def main(csv_path: str):
             if not pandas.isna(val):
                 field_key = f"{field}_inches" if field in ["height", "width"] else field
                 field_key = "location_code" if field == "location" else field_key
-                record[field_key] = val
+
+                cleaned_val = True if val == "yes" else val
+                record[field_key] = cleaned_val
+
         print(f"Creating record: {record}")
         new_record = table.create(record)
         print(f"Created record: {new_record}")
         jgid = new_record["fields"]["id"]
-        img_name = jgid.lower() + ".jpeg"
-        shutil.copy(f"../data/2021 batch - all/{row['image_title']}", os.path.join(renamed_image_dir, img_name))
-        ## TODO: ONLY write the id to the csv.
-        # Make a separate script to rename the images and the back images, after the ids have been collected.
-        return
+        # img_name = jgid.lower() + ".jpeg"
+        # shutil.copy(f"{photo_dir}/{row['image_title']}", os.path.join(renamed_image_dir, img_name))
+        df.loc[df['image_title'] == row['image_title'], "jgid"] = jgid
 
-# python ingest_to_jg_airtable.py "../data/out/extracted_painting_info_20251111_182029.csv"
+    outpath = csv_path.replace(".csv", "_with_ids.csv")
+    print(f"Writing updated CSV to {outpath}")
+    df.to_csv(outpath, index=False)
+
+# python ingest_to_jg_airtable.py "../data/out/extracted_painting_info_20251111_182029.csv" "../data/2021 batch - all"
 if __name__ == "__main__":
     csv_path = sys.argv[1]
-    main(csv_path)
+    photo_dir = sys.argv[2]
+    main(csv_path, photo_dir)
