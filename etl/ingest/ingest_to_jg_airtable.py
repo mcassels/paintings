@@ -7,7 +7,7 @@ import pandas
 import shutil
 
 
-def main(csv_path: str, photo_dir: str):
+def main(csv_path: str):
     load_dotenv()
 
     api_key = os.getenv("AIRTABLE_API_KEY")
@@ -53,5 +53,4 @@ def main(csv_path: str, photo_dir: str):
 # python ingest_to_jg_airtable.py "../data/out/extracted_painting_info_20251111_182029.csv" "../data/2021 batch - all"
 if __name__ == "__main__":
     csv_path = sys.argv[1]
-    photo_dir = sys.argv[2]
-    main(csv_path, photo_dir)
+    main(csv_path)
