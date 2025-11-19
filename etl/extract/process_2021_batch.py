@@ -241,14 +241,3 @@ def main(dir_path: str):
 if __name__ == "__main__":
     dir_path = sys.argv[1]
     main(dir_path)
-
-
-"""
-TODO:
-1. handle w43xh43 style dimensions
-2. handle presence of BP to indicate damage
-if BP but no BP number, then mark as damaged but put into regular JG airtable. Mark them as "originals" i.e. prior to damage.
-
-Questions for Alisa:
-- is the weight accurate for any of the painting_catalog entries?
-"""
