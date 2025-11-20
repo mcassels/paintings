@@ -65,7 +65,7 @@ interface PhotoGalleryProps {
   paintings: Painting[];
 }
 
-function PhotoGalleryImpl(props: PhotoGalleryProps) {
+export function PhotoGalleryImpl(props: PhotoGalleryProps) {
   const { paintings: allPaintings } = props;
 
   const navigate = useNavigate();
