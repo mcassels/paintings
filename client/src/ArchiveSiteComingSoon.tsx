@@ -138,7 +138,7 @@ export default function ArchiveSiteComingSoon() {
                 extraContent={
                   <div className="">
                     <Button type="primary" ghost>
-                      <NavLink to="https://www.zazzle.ca/store/jamesgordaneerart" target="_blank">
+                      <NavLink to="https://www.etsy.com/ca/shop/JamesGordaneerArt" target="_blank">
                         <div>
                           Browse the shop
                           <i className="fa-solid fa-up-right-from-square pl-2"></i>
