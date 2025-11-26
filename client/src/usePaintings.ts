@@ -17,8 +17,13 @@ function getTags(painting: Omit<Painting, 'tags'>): PaintingTags {
   };
 }
 
-async function fetchPaintingsImpl(fetchUrl: string): Promise<Painting[]> {
-  const records = await fetchAllTableRecords(fetchUrl);
+async function fetchPaintings(): Promise<Painting[]> {
+  // used url encoder here https://codepen.io/airtable/full/MeXqOg
+  // With query:
+  // AND({hidden} != TRUE(), {damage_level} > 0)
+  const filteredTable = `${AIRTABLE_PAINTINGS_TABLE}?filterByFormula=AND(%7Bhidden%7D+!%3D+TRUE()%2C+%7Bdamage_level%7D+%3E+0)`;
+
+  const records = await fetchAllTableRecords(filteredTable);
 
   const paintings: Painting[] = [];
 
@@ -106,49 +111,14 @@ async function fetchPaintingsImpl(fetchUrl: string): Promise<Painting[]> {
   });
 }
 
-function fetchPaintings(fetchUrl: string) {
-  return async (): Promise<Painting[]> => {
-    return fetchPaintingsImpl(fetchUrl);
-  };
-}
-
-export function usePaintingsGeneric(fetchUrl: string): PaintingsResponse {
-  const {
-    isLoading,
-    isError,
-    data,
-  } = useQuery({
-    queryKey: ['paintings'],
-    queryFn: fetchPaintings(fetchUrl),
-    // This query should only be made once per session!
-    // Never need to refetch this.
-    staleTime: Infinity,
-    retry: false,
-  });
-
-  if (isLoading) {
-    return 'loading';
-  }
-  if (isError) {
-    return 'error';
-  }
-
-  return data || 'error';
-}
-
 export function usePaintings(): PaintingsResponse {
-  // used url encoder here https://codepen.io/airtable/full/MeXqOg
-  // With query:
-  // AND({hidden} != TRUE(), {damage_level} > 0)
-  const filteredTable = `${AIRTABLE_PAINTINGS_TABLE}?filterByFormula=AND(%7Bhidden%7D+!%3D+TRUE()%2C+%7Bdamage_level%7D+%3E+0)`;
-
   const {
     isLoading,
     isError,
     data,
   } = useQuery({
     queryKey: ['paintings'],
-    queryFn: fetchPaintings(filteredTable),
+    queryFn: fetchPaintings,
     // This query should only be made once per session!
     // Never need to refetch this.
     staleTime: Infinity,
