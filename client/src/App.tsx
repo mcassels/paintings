@@ -21,6 +21,9 @@ import { MenuOutlined } from '@ant-design/icons';
 import AdoptionsAreCurrentlyClosed from './AdoptionsAreCurrentlyClosed';
 import ContactUsModal from './ContactUsModal';
 import ArchiveSiteComingSoon from './ArchiveSiteComingSoon';
+import ArchiveLandingPage from './ArchiveLandingPage';
+import ArchiveGallery from './ArchiveGallery';
+import CurrentShow from './CurrentShow';
 
 
 const queryClient = new QueryClient();
@@ -33,7 +36,7 @@ function AppInner() {
             <Route>
               <Route path="/" element={<ArchiveSiteComingSoon />} />
             </Route>
-            <Route path="/adoption-project" element={<Layout />}>
+            <Route path="/adoption-project" element={<AdoptionLayout />}>
               <Route index element={<Navigate to="home" />} />
               <Route path="home" element={<LandingPage />} />
               <Route path="gallery" element={<PhotoGallery />} />
@@ -46,12 +49,13 @@ function AppInner() {
               <Route path="art-conservators" element={<TextPage textKey={CARE_AND_CONSERVATION_KEY} />} />
               <Route path="*" element={<Navigate replace to="/home" />} />
             </Route>
-            <Route path="/archive" element={<Layout />}>
-              <Route index element={<Navigate to="welcome" />} />
-              <Route path="welcome" element={<LandingPage />} />
-              <Route path="gallery" element={<PhotoGallery />} />
+            <Route path="/archive" element={<ArchiveLayout />}>
+              <Route index element={<Navigate to="home" />} />
+              <Route path="home" element={<ArchiveLandingPage />} />
+              <Route path="gallery" element={<ArchiveGallery />} />
+              <Route path="current-show" element={<CurrentShow />} />
               <Route path="about" element={<Biography />} />
-              <Route path="*" element={<Navigate replace to="/welcome" />} />
+              <Route path="*" element={<Navigate replace to="/home" />} />
             </Route>
           </Routes>
       </div>
@@ -59,7 +63,7 @@ function AppInner() {
   );
 }
 
-function Layout() {
+function AdoptionLayout() {
   const location = useLocation();
   const selectedKey = location.pathname.split('/')[1];
 
@@ -113,6 +117,55 @@ function Layout() {
               <Menu.Item key="faqs" title="FAQs"><NavLink to="/adoption-project/faqs">FAQs</NavLink></Menu.Item>
             </Menu>
             {isMobile && <div className="w-full">{headerElem}</div>}
+          </div>
+          <div className="box content">
+            <Outlet />
+          </div>
+        </div>
+      </div>
+      <AppFooter />
+    </div>
+  );
+}
+
+// TODO: maybe make this a horizontal menu under the header?
+// Or a hamburger menu within the header?
+function ArchiveLayout() {
+  const location = useLocation();
+  // TODO: if this works, use save selected key logic for adoption layout
+  const selectedKey = location.pathname.split('/').slice(1).join("/");
+
+  useEffect(() => {
+    if (location.search.length === 0) {
+      reportAnalytics('view_page', { page: selectedKey });
+    }
+  }, [selectedKey, location.search.length]);
+
+  // TODO: mobile-friendly layout
+  // Menu needs different layout for mobile
+  // const isMobile = getIsMobile();
+
+  return (
+    <div className="min-h-svh flex flex-col items-stretch">
+      <ContactUsModal />
+      <div className="grow">
+        <div className="">
+          <div className="lg:pl-20">
+            <Header className="bg-white flex flex-col text-4xl pt-10 pb-5 px-0 h-fit">
+              <div className="flex flex-col font-light px-4">
+                James Gordaneer, RCA
+              </div>
+            </Header>
+            <Menu
+              mode="horizontal"
+              defaultSelectedKeys={[selectedKey]}
+              selectedKeys={[selectedKey]}
+            >
+              <Menu.Item key="home" title="Home"><NavLink to="/archive/home">Home</NavLink></Menu.Item>
+              <Menu.Item key="current-show" title="Current Show"><NavLink to="/archive/current-show">Current Show</NavLink></Menu.Item>
+              <Menu.Item key="gallery" title="Gallery"><NavLink to="/archive/gallery">The Archive</NavLink></Menu.Item>
+              <Menu.Item key="about" title="Biography"><NavLink to="/archive/about">Biography</NavLink></Menu.Item>
+            </Menu>
           </div>
           <div className="box content">
             <Outlet />

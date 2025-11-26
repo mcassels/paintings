@@ -195,14 +195,14 @@ html, body {
   .sidebar .ant-menu .ant-menu-submenu-title .anticon {
     font-size: 30px;
   }
-  .sidebar .ant-menu-horizontal .ant-menu-submenu {
+  /* .sidebar .ant-menu-horizontal .ant-menu-submenu {
     padding-top: 10px;
-  }
+  } */
 }
 
-.sidebar .ant-menu-horizontal .ant-menu-submenu-title [role=img] {
+/* .sidebar .ant-menu-horizontal .ant-menu-submenu-title [role=img] {
   color: white;
-}
+} */
 
 /* Only for NOT mobile */
 @media screen and not (max-width: 768px) {
