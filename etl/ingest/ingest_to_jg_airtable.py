@@ -2,12 +2,11 @@ from pyairtable import Api
 import sys
 import os
 from dotenv import load_dotenv
-from typing import NamedTuple, List, Any, Literal
 import pandas
 import shutil
 
 
-def main(csv_path: str):
+def main(csv_path: str, photo_dir: str):
     load_dotenv()
 
     api_key = os.getenv("AIRTABLE_API_KEY")
@@ -34,6 +33,7 @@ def main(csv_path: str):
             if not pandas.isna(val):
                 field_key = f"{field}_inches" if field in ["height", "width"] else field
                 field_key = "location_code" if field == "location" else field_key
+                field_key = "notes" if field == "condition_notes" else field_key
 
                 cleaned_val = True if val == "yes" else val
                 record[field_key] = cleaned_val
@@ -42,8 +42,11 @@ def main(csv_path: str):
         new_record = table.create(record)
         print(f"Created record: {new_record}")
         jgid = new_record["fields"]["id"]
-        # img_name = jgid.lower() + ".jpeg"
-        # shutil.copy(f"{photo_dir}/{row['image_title']}", os.path.join(renamed_image_dir, img_name))
+        img_name = jgid.lower() + ".jpeg"
+        try:
+            shutil.copy(f"{photo_dir}/{row['image_title']}", os.path.join(renamed_image_dir, img_name))
+        except Exception as e:
+            print(row['image_title'])
         df.loc[df['image_title'] == row['image_title'], "jgid"] = jgid
 
     outpath = csv_path.replace(".csv", "_with_ids.csv")
@@ -51,6 +54,8 @@ def main(csv_path: str):
     df.to_csv(outpath, index=False)
 
 # python ingest_to_jg_airtable.py "../data/out/extracted_painting_info_20251111_182029.csv" "../data/2021 batch - all"
+# python ingest_to_jg_airtable.py "../data/2023-08-01 Batch - Extracted painting info - extracted_painting_info.csv" "../data/2023-08-01 Batch jim paintings summer 2023 info in title"
 if __name__ == "__main__":
     csv_path = sys.argv[1]
-    main(csv_path)
+    photo_dir = sys.argv[2]
+    main(csv_path, photo_dir)
