@@ -46,6 +46,13 @@ function AppInner() {
               <Route path="art-conservators" element={<TextPage textKey={CARE_AND_CONSERVATION_KEY} />} />
               <Route path="*" element={<Navigate replace to="/home" />} />
             </Route>
+            <Route path="/archive" element={<Layout />}>
+              <Route index element={<Navigate to="welcome" />} />
+              <Route path="welcome" element={<LandingPage />} />
+              <Route path="gallery" element={<PhotoGallery />} />
+              <Route path="about" element={<Biography />} />
+              <Route path="*" element={<Navigate replace to="/welcome" />} />
+            </Route>
           </Routes>
       </div>
     </div>
