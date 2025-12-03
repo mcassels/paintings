@@ -24,6 +24,7 @@ import ArchiveSiteComingSoon from './ArchiveSiteComingSoon';
 import ArchiveLandingPage from './ArchiveLandingPage';
 import ArchiveGallery from './ArchiveGallery';
 import CurrentShow from './CurrentShow';
+import DecadeDetailPage from './DecadeGallery';
 
 
 const queryClient = new QueryClient();
@@ -52,7 +53,10 @@ function AppInner() {
             <Route path="/archive" element={<ArchiveLayout />}>
               <Route index element={<Navigate to="home" />} />
               <Route path="home" element={<ArchiveLandingPage />} />
-              <Route path="gallery" element={<ArchiveGallery />} />
+                <Route path="gallery">
+                <Route index element={<ArchiveGallery />} />
+                <Route path=":year" element={<DecadeDetailPage />} />
+              </Route>
               <Route path="current-show" element={<CurrentShow />} />
               <Route path="about" element={<Biography />} />
               <Route path="*" element={<Navigate replace to="/home" />} />
