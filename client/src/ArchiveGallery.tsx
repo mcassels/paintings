@@ -65,10 +65,21 @@ function DecadeCard(props: DecadeCardProps) {
     <Card
       hoverable
       key={startYear}
+      className="group"
       style={{ width: "min(95%, 400px)"}}
       onClick={handleClick}
     >
-      <div className="text-lg font-semibold pb-2">{`The ${startYear}s`}</div>
+      <div className="
+      text-lg
+      font-semibold
+      pb-2
+      cursor-pointer
+      group-hover:underline
+      group-hover:text-blue-600
+      transition-colors
+      ">
+        {`The ${startYear}s`}
+      </div>
       <div className="flex flex-col flex-shrink-0 space-y-4">
           <Image
             title={imageAlt}
