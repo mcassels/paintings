@@ -17,6 +17,9 @@ function getTags(painting: Omit<Painting, 'tags'>): PaintingTags {
   };
 }
 
+const AIRTABLE_ARCHIVE_TABLE = 'paintings_catalog';
+const AIRTABLE_ENDPOINT = "https://api.airtable.com/v0/appQ82FjKmdPtKpsg/tblzIhPORo6lcOxLJ?filterByFormula=AND(%7Bdecade%7D+%3D+%221950%22)";
+
 async function fetchPaintings(): Promise<Painting[]> {
   // used url encoder here https://codepen.io/airtable/full/MeXqOg
   // With query:
