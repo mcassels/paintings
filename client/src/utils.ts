@@ -1,11 +1,17 @@
+import { ArchivePainting } from "./archiveTypes";
 import { Painting } from "./types";
 
-export function getPaintingInfos(p: Painting, excludeDamageLevel?: boolean): string[] {
+export function getPaintingYearString(p: Painting|ArchivePainting): string {
   let year = p.year ? p.year.toString() : undefined;
   if (!year) {
     const estimated = p.yearGuess ? ` (estimated ${p.yearGuess})` : '';
     year = `ND${estimated}`;
   }
+  return year;
+}
+
+export function getPaintingInfos(p: Painting, excludeDamageLevel?: boolean): string[] {
+  const year = getPaintingYearString(p);
   const size = `${p.height} x ${p.width}`;
   const parts = [year, size];
   if (p.medium) {
@@ -127,6 +133,13 @@ export async function fetchAllTableRecords(
     return fetchAllTableRecordsFromAirtable(url);
   }
   return fetchAllTableRecordsFromProxyServer(url);
+}
+
+// TODO: Combine this function and the one above
+export async function fetchAllTableRecordsArchiveSite(
+  fetchUrl: string
+): Promise<any[]> {
+  return fetchAllTableRecordsFromAirtable(fetchUrl);
 }
 
 export function updateAirtableRecord(

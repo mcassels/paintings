@@ -55,7 +55,7 @@ function AppInner() {
               <Route path="home" element={<ArchiveLandingPage />} />
                 <Route path="gallery">
                 <Route index element={<ArchiveGallery />} />
-                <Route path=":year" element={<DecadeDetailPage />} />
+                <Route path=":decade" element={<DecadeDetailPage />} />
               </Route>
               <Route path="current-show" element={<CurrentShow />} />
               <Route path="about" element={<Biography />} />

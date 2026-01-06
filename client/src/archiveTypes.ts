@@ -4,14 +4,19 @@ export interface ArchivePainting {
     title: string;
     frontPhotoUrl: string,
     backPhotoUrl?: string,
-    height: number;
-    width: number;
+    height?: number;
+    width?: number;
     damaged: boolean;
     year?: number;
+    yearGuess?: number;
+    bestKnownYear: number;
     decade: number;
     conditionNotes?: string;
     isFramed: boolean;
     medium: string;
     predominantColors: string[];
     subjectMatter: string[];
+    story: string;
 }
+
+export type ArchivePaintingsResponse = ArchivePainting[]|'error'|'loading';

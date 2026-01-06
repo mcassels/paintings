@@ -56,7 +56,6 @@ function DecadeCard(props: DecadeCardProps) {
   const location = useLocation();
 
   const handleClick = () => {
-    debugger;
     const base = location.pathname.replace(/\/$/, ""); // remove trailing slash
     navigate(`${base}/${startYear}`);
   };
