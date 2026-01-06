@@ -25,6 +25,7 @@ import ArchiveLandingPage from './ArchiveLandingPage';
 import ArchiveGallery from './ArchiveGallery';
 import CurrentShow from './CurrentShow';
 import DecadeDetailPage from './DecadeGallery';
+import ArchivePaintingDetailPage from './ArchivePaintingDetailPage';
 
 
 const queryClient = new QueryClient();
@@ -60,6 +61,9 @@ function AppInner() {
               <Route path="current-show" element={<CurrentShow />} />
               <Route path="about" element={<Biography />} />
               <Route path="*" element={<Navigate replace to="/home" />} />
+            </Route>
+            <Route path="/work" element={<WorkLayout />}>
+              <Route path=":id" element={<ArchivePaintingDetailPage />} />
             </Route>
           </Routes>
       </div>
@@ -177,6 +181,14 @@ function ArchiveLayout() {
         </div>
       </div>
       <AppFooter />
+    </div>
+  );
+}
+
+function WorkLayout() {
+  return (
+    <div>
+      <Outlet />
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useArchivePaintings } from "./useArchivePaintings";
 import { Card, Image, Spin } from "antd";
 import LoadingError from "./LoadingError";
@@ -20,18 +20,12 @@ function getPaintingDescription(painting: ArchivePainting) {
 
 interface ArchivePaintingCardProps {
   painting: ArchivePainting;
+  onPaintingClick: () => void;
 }
 
 function ArchivePaintingCard(props: ArchivePaintingCardProps) {
-  const { painting } = props;
+  const { painting, onPaintingClick } = props;
   const imageAlt = `Painting titled "${painting.title}" from ${painting.year}`;
-  // const navigate = useNavigate();
-  // const location = useLocation();
-
-  // const handleClick = () => {
-  //   const base = location.pathname.replace(/\/$/, ""); // remove trailing slash
-  //   navigate(`${base}/${startYear}`);
-  // };
 
   return (
     <Card
@@ -39,7 +33,7 @@ function ArchivePaintingCard(props: ArchivePaintingCardProps) {
       key={painting.id}
       className="group"
       style={{ width: "min(95%, 400px)" }}
-      // onClick={handleClick}
+      onClick={onPaintingClick}
     >
       <div className="flex flex-col flex-shrink-0 space-y-4">
           <Image
@@ -57,13 +51,20 @@ function ArchivePaintingCard(props: ArchivePaintingCardProps) {
 // TODO: pagination
 function ArchivePaintingsGallery(props: { paintings: ArchivePainting[] }) {
   const { paintings } = props;
+
+  // TODO: use lightbox for painting detail instead, so that you can use arrow key navigation
+  const navigate = useNavigate();
+
   return (
     <div>
       <div>{`${paintings.length} works`}</div>
       <div className="grid grid-cols-4 gap-2">
         {paintings.map((painting) => (
           <div className="pb-4" key={painting.id}>
-            <ArchivePaintingCard painting={painting} />
+            <ArchivePaintingCard
+              painting={painting}
+              onPaintingClick={() => navigate(`/work/${painting.id}`)}
+            />
           </div>
         ))}
       </div>
