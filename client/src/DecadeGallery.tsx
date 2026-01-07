@@ -1,6 +1,6 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useArchivePaintings } from "./useArchivePaintings";
-import { Card, Image, Spin } from "antd";
+import { Card, Image, Pagination, Spin } from "antd";
 import LoadingError from "./LoadingError";
 import { ArchivePainting } from "./archiveTypes";
 import { getPaintingYearString } from "./utils";
@@ -48,18 +48,34 @@ function ArchivePaintingCard(props: ArchivePaintingCardProps) {
   );
 }
 
+const PAGE_SIZE = 15;
+
 // TODO: pagination
 function ArchivePaintingsGallery(props: { paintings: ArchivePainting[] }) {
   const { paintings } = props;
 
   // TODO: use lightbox for painting detail instead, so that you can use arrow key navigation
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const params = new URLSearchParams(location.search);
+
+  const pageNumFromParams = params.get('page');
+  const pageNum = Math.min(pageNumFromParams ? parseInt(pageNumFromParams) : 1, Math.ceil(paintings.length / PAGE_SIZE));
+
+  function setPageNum(pageNum: number) {
+    const nextParams = new URLSearchParams(location.search);
+    nextParams.set('page', pageNum.toString());
+    navigate({
+      search: nextParams.toString()
+    });
+  }
 
   return (
     <div>
       <div>{`${paintings.length} works`}</div>
       <div className="grid grid-cols-4 gap-2">
-        {paintings.map((painting) => (
+        {paintings.slice((pageNum - 1) * PAGE_SIZE, pageNum * PAGE_SIZE).map((painting) => (
           <div className="pb-4" key={painting.id}>
             <ArchivePaintingCard
               painting={painting}
@@ -67,6 +83,17 @@ function ArchivePaintingsGallery(props: { paintings: ArchivePainting[] }) {
             />
           </div>
         ))}
+      </div>
+      <div className="py-4 min-w-[calc(100vw-200px)]">
+        <div className="flex justify-center">
+          <Pagination
+            defaultCurrent={pageNum}
+            total={paintings.length}
+            showSizeChanger={false}
+            defaultPageSize={PAGE_SIZE}
+            onChange={(page) => setPageNum(page)}
+          />
+        </div>
       </div>
     </div>
   );
