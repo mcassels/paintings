@@ -3,7 +3,8 @@ import { useArchivePaintings } from "./useArchivePaintings";
 import { Card, Image, Pagination, Spin } from "antd";
 import LoadingError from "./LoadingError";
 import { ArchivePainting } from "./archiveTypes";
-import { getPaintingYearString } from "./utils";
+import { getPaintingYearString, reportAnalytics } from "./utils";
+import ArchivePaintingLightbox from "./ArchivePaintingLightbox";
 
 function sortPaintings(paintings: ArchivePainting[]) {
   return paintings.sort((a, b) => {
@@ -50,11 +51,9 @@ function ArchivePaintingCard(props: ArchivePaintingCardProps) {
 
 const PAGE_SIZE = 15;
 
-// TODO: pagination
 function ArchivePaintingsGallery(props: { paintings: ArchivePainting[] }) {
   const { paintings } = props;
 
-  // TODO: use lightbox for painting detail instead, so that you can use arrow key navigation
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -79,7 +78,15 @@ function ArchivePaintingsGallery(props: { paintings: ArchivePainting[] }) {
           <div className="pb-4" key={painting.id}>
             <ArchivePaintingCard
               painting={painting}
-              onPaintingClick={() => navigate(`/work/${painting.id}`)}
+              onPaintingClick={() => {
+                const nextParams = new URLSearchParams(location.search);
+                nextParams.set('selected', painting.id);
+                reportAnalytics('click_painting', { painting_id: painting.id });
+                navigate({
+                  pathname: location.pathname,
+                  search: nextParams.toString()
+                });
+              }}
             />
           </div>
         ))}
@@ -95,6 +102,7 @@ function ArchivePaintingsGallery(props: { paintings: ArchivePainting[] }) {
           />
         </div>
       </div>
+      <ArchivePaintingLightbox paintings={paintings} />
     </div>
   );
 }

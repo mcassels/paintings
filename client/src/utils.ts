@@ -186,3 +186,11 @@ export function reportAnalytics(
   }
   window.gtag('event', eventName, eventProperties);
 }
+
+export function reportPaintingButtonClick(
+  eventName: string,
+  paintingId: string,
+  params?: { [key: string]: string },
+) {
+  reportAnalytics(eventName, { paintingId, ...params });
+}
