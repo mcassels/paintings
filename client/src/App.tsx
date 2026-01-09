@@ -136,12 +136,9 @@ function AdoptionLayout() {
   );
 }
 
-// TODO: maybe make this a horizontal menu under the header?
-// Or a hamburger menu within the header?
 function ArchiveLayout() {
   const location = useLocation();
-  // TODO: if this works, use save selected key logic for adoption layout
-  const selectedKey = location.pathname.split('/').slice(1).join("/");
+  const selectedKey = location.pathname.split('/').filter(s => s !== '').slice(1).join("/");
 
   useEffect(() => {
     if (location.search.length === 0) {
@@ -168,6 +165,7 @@ function ArchiveLayout() {
               mode="horizontal"
               defaultSelectedKeys={[selectedKey]}
               selectedKeys={[selectedKey]}
+              className="archive-main-menu"
             >
               <Menu.Item key="home" title="Home"><NavLink to="/archive/home">Home</NavLink></Menu.Item>
               <Menu.Item key="current-show" title="Current Show"><NavLink to="/archive/current-show">Current Show</NavLink></Menu.Item>
