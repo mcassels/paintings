@@ -117,7 +117,7 @@ export default function ArchivePaintingLightbox(props: ArchivePaintingLightboxPr
                 </div>
                 <div className="flex painting-lightbox-buttons h-fit">
                   <PaintingStoryButton key={`painting-story-${selectedPhotoId}`} painting={painting} />
-                  <SeeReverseButton key={`see-reverse-${selectedPhotoId}`} painting={painting} />
+                  {painting.backPhotoUrl && (<SeeReverseButton key={`see-reverse-${selectedPhotoId}`} painting={painting} />)}
                   <PaintingShareButton key={`share-${selectedPhotoId}`} painting={painting} />
                 </div>
               </div>
