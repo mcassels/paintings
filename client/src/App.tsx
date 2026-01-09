@@ -59,7 +59,7 @@ function AppInner() {
                 <Route path=":decade" element={<DecadeDetailPage />} />
               </Route>
               <Route path="current-show" element={<CurrentShow />} />
-              <Route path="about" element={<Biography />} />
+              <Route path="about" element={<Biography isArchive={true}/>} />
               <Route path="*" element={<Navigate replace to="/home" />} />
             </Route>
             <Route path="/work" element={<WorkLayout />}>
