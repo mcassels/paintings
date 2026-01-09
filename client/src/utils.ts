@@ -99,7 +99,7 @@ async function fetchAllTableRecordsFromAirtable(fetchUrl: string): Promise<any[]
     // However currently in practice, this is the case because only the paintings fetch request
     // returns more than 100 records.
     const response: any = await fetch(
-      `${fetchUrl}${offset ? `&offset=${offset}` : ''}`,
+      `${fetchUrl}${fetchUrl.includes('?') ? '' : '?'}${offset ? `&offset=${offset}` : ''}`,
       { headers: { Authorization: `Bearer ${process.env.REACT_APP_AIRTABLE_TOKEN}` }},
     );
     const data: any = await response.json();

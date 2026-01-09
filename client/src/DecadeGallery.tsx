@@ -109,7 +109,7 @@ function ArchivePaintingsGallery(props: { paintings: ArchivePainting[] }) {
 
 function DecadeGalleryInner(props: { decade: string|null}) {
   const { decade } = props;
-  const paintings = useArchivePaintings(decade ? decade : null);
+  const paintings = useArchivePaintings();
 
   if (paintings === 'loading') {
     return (
@@ -121,9 +121,12 @@ function DecadeGalleryInner(props: { decade: string|null}) {
   if (paintings === 'error') {
     return <LoadingError message="Error loading paintings" />;
   }
+  debugger;
+  // There are not that many painting records, like less than 1000. So just fetching them all and then doing the filtering
+  // here is more efficient cause it reduces the number of airtable requests required.
   return (
     <div>
-      <ArchivePaintingsGallery paintings={sortPaintings(paintings)} />
+      <ArchivePaintingsGallery paintings={sortPaintings(decade ? paintings.filter(p => p.decade === decade) : paintings)} />
     </div>
   );
 }

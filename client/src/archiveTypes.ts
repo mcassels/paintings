@@ -10,13 +10,10 @@ export interface ArchivePainting {
     year?: number;
     yearGuess?: number;
     bestKnownYear: number;
-    decade: number;
-    conditionNotes?: string;
-    isFramed: boolean;
-    medium: string;
-    predominantColors: string[];
+    decade: string;
+    medium?: string;
     subjectMatter: string[];
-    story: string;
+    story?: string;
 }
 
 export type ArchivePaintingsResponse = ArchivePainting[]|'error'|'loading';
