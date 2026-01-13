@@ -112,8 +112,24 @@ function ArchivePaintingsGallery(props: { paintings: ArchivePainting[] }) {
   );
 }
 
-export function DecadeGalleryInner(props: { decade: string|null}) {
-  const { decade } = props;
+function filterPaintings(paintings: ArchivePainting[], decade: string|undefined, search: string|undefined) {
+  if (decade) {
+    return paintings.filter(p => p.decade === decade);
+  }
+  // TODO: use a fuzzy search library if necessary
+  if (search) {
+    const lowerSearch = search.toLowerCase();
+    return paintings.filter(p => {
+      const paintingString = `${p.title}${p.medium}${p.bestKnownYear}${p.subjectMatter.join("")}${p.story}`.toLowerCase();
+      return paintingString.includes(lowerSearch);
+    });
+  }
+  return paintings;
+}
+
+// TODO: pull this out to a separate component
+export function DecadeGalleryInner(props: { decade?: string, search?: string }) {
+  const { decade, search } = props;
   const paintings = useArchivePaintings();
 
   if (paintings === 'loading') {
@@ -130,7 +146,7 @@ export function DecadeGalleryInner(props: { decade: string|null}) {
   // here is more efficient cause it reduces the number of airtable requests required.
   return (
     <div>
-      <ArchivePaintingsGallery paintings={sortPaintings(decade ? paintings.filter(p => p.decade === decade) : paintings)} />
+      <ArchivePaintingsGallery paintings={sortPaintings(filterPaintings(paintings, decade, search))} />
     </div>
   );
 }
