@@ -24,9 +24,6 @@ export default function ArchiveLandingPage() {
                   <div>
                     This archive documents and shares Gordaneer’s artistic legacy, offering free digital access to the works it showcases. We invite friends, former students and colleagues, collectors, and new viewers alike to explore Gordaneer’s artistic vision, determination and passion for painting.
                   </div>
-                  <div>
-                    The original works in this archive are not for sale, but during limited-time virtual exhibitions, selected pieces will be available to purchase.
-                  </div>
                 </div>
               </div>
             </Card>
@@ -34,7 +31,7 @@ export default function ArchiveLandingPage() {
               <div className="text-lg font-semibold py-2">Virtual Exhibitions</div>
               <div className="flex flex-shrink-0 space-x-4 pt-4">
                 <div className="flex flex-col space-y-2">
-                  <div>The original works in this archive are not for sale, but during limited-time virtual exhibitions, selected pieces will be available to purchase. </div>
+                  <div>During limited-time virtual exhibitions, selected pieces will be available to purchase. </div>
                   <div>
                     [TODO: link to contact form] Please add your contact info to be notified of upcoming virtual exhibitions.
                   </div>

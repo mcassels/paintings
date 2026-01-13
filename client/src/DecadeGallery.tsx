@@ -5,6 +5,8 @@ import LoadingError from "./LoadingError";
 import { ArchivePainting } from "./archiveTypes";
 import { getPaintingYearString, reportAnalytics } from "./utils";
 import ArchivePaintingLightbox from "./ArchivePaintingLightbox";
+import { DECADE_DESCRIPTIONS } from "./constants";
+import PageNotFound from "./PageNotFound";
 
 function sortPaintings(paintings: ArchivePainting[]) {
   return paintings.sort((a, b) => {
@@ -72,7 +74,9 @@ function ArchivePaintingsGallery(props: { paintings: ArchivePainting[] }) {
 
   return (
     <div>
-      <div>{`${paintings.length} works`}</div>
+      <div className="pb-4 pl-2 italic">
+        <div>{`${paintings.length} works`}</div>
+      </div>
       <div className="grid grid-cols-4 gap-2">
         {paintings.slice((pageNum - 1) * PAGE_SIZE, pageNum * PAGE_SIZE).map((painting) => (
           <div className="pb-4" key={painting.id}>
@@ -133,10 +137,21 @@ export function DecadeGalleryInner(props: { decade: string|null}) {
 export default function DecadeGallery() {
   const { decade } = useParams<{ decade: string }>();
 
+  if (!decade || !(decade in DECADE_DESCRIPTIONS)) {
+    return PageNotFound();
+  }
+
   return (
-    <div>
-      <div>{`Artwork from the ${decade}s`}</div>
-      <DecadeGalleryInner decade={decade || null} />
+    <div className="text-pretty p-4">
+      <div className="px-[10px]">
+        <div className="pb-2">
+          <h1 className="text-lg">{`The ${decade}s`}</h1>
+          <p className="max-w-[900px]">
+            {DECADE_DESCRIPTIONS[decade]}
+          </p>
+        </div>
+      </div>
+      <DecadeGalleryInner decade={decade} />
     </div>
   );
 }

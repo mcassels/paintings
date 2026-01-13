@@ -230,3 +230,10 @@ html, body {
   margin-inline: 16px;
   padding-inline: unset;
 }
+
+.decade-read-more .ant-btn-link {
+  font-size: unset;
+  line-height: unset;
+  padding-top: 0;
+  height: unset;
+}

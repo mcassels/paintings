@@ -70,7 +70,6 @@ async function fetchArchivePaintings(): Promise<ArchivePainting[]> {
       continue;
     }
   }
-  debugger;
   return paintings;
 }
 
