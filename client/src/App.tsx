@@ -24,9 +24,8 @@ import ArchiveSiteComingSoon from './ArchiveSiteComingSoon';
 import ArchiveLandingPage from './ArchiveLandingPage';
 import ArchiveGallery from './ArchiveGallery';
 import CurrentShow from './CurrentShow';
-import DecadeDetailPage from './DecadeGallery';
-import ArchivePaintingDetailPage from './ArchivePaintingDetailPage';
-
+import DecadeGallery from './DecadeGallery';
+import SearchWorksPage from './SearchWorksPage';
 
 const queryClient = new QueryClient();
 
@@ -56,14 +55,12 @@ function AppInner() {
               <Route path="home" element={<ArchiveLandingPage />} />
                 <Route path="gallery">
                 <Route index element={<ArchiveGallery />} />
-                <Route path=":decade" element={<DecadeDetailPage />} />
+                <Route path=":decade" element={<DecadeGallery />} />
               </Route>
+              <Route path="search" element={<SearchWorksPage />} />
               <Route path="current-show" element={<CurrentShow />} />
               <Route path="about" element={<Biography isArchive={true}/>} />
               <Route path="*" element={<Navigate replace to="/home" />} />
-            </Route>
-            <Route path="/work" element={<WorkLayout />}>
-              <Route path=":id" element={<ArchivePaintingDetailPage />} />
             </Route>
           </Routes>
       </div>
@@ -169,7 +166,8 @@ function ArchiveLayout() {
             >
               <Menu.Item key="home" title="Home"><NavLink to="/archive/home">Home</NavLink></Menu.Item>
               <Menu.Item key="current-show" title="Current Show"><NavLink to="/archive/current-show">Current Show</NavLink></Menu.Item>
-              <Menu.Item key="gallery" title="Gallery"><NavLink to="/archive/gallery">The Archive</NavLink></Menu.Item>
+              <Menu.Item key="gallery" title="The Archive"><NavLink to="/archive/gallery">The Archive</NavLink></Menu.Item>
+              <Menu.Item key="search" title="Search Works"><NavLink to="/archive/search">Search Works</NavLink></Menu.Item>
               <Menu.Item key="about" title="Biography"><NavLink to="/archive/about">Biography</NavLink></Menu.Item>
             </Menu>
           </div>
@@ -179,14 +177,6 @@ function ArchiveLayout() {
         </div>
       </div>
       <AppFooter />
-    </div>
-  );
-}
-
-function WorkLayout() {
-  return (
-    <div>
-      <Outlet />
     </div>
   );
 }
