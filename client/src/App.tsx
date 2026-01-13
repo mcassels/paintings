@@ -135,7 +135,7 @@ function AdoptionLayout() {
 
 function ArchiveLayout() {
   const location = useLocation();
-  const selectedKey = location.pathname.split('/').filter(s => s !== '').slice(1).join("/");
+  const selectedKey = location.pathname.split('/').filter(s => s !== '').slice(1, 2).join("/");
 
   useEffect(() => {
     if (location.search.length === 0) {

@@ -1,12 +1,13 @@
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useArchivePaintings } from "./useArchivePaintings";
-import { Card, Image, Pagination, Spin } from "antd";
+import { Card, Dropdown, Image, MenuProps, Pagination, Space, Spin } from "antd";
 import LoadingError from "./LoadingError";
 import { ArchivePainting } from "./archiveTypes";
 import { getPaintingYearString, reportAnalytics } from "./utils";
 import ArchivePaintingLightbox from "./ArchivePaintingLightbox";
 import { DECADE_DESCRIPTIONS } from "./constants";
 import PageNotFound from "./PageNotFound";
+import { DownOutlined } from "@ant-design/icons";
 
 function sortPaintings(paintings: ArchivePainting[]) {
   return paintings.sort((a, b) => {
@@ -134,6 +135,15 @@ export function DecadeGalleryInner(props: { decade: string|null}) {
   );
 }
 
+const dropdownItems: MenuProps['items'] = Object.keys(DECADE_DESCRIPTIONS).map((decade) => ({
+  key: decade,
+  label: (
+      <a href={`/archive/gallery/${decade}`}>
+        {`The ${decade}s`}
+      </a>
+    ),
+}));
+
 export default function DecadeGallery() {
   const { decade } = useParams<{ decade: string }>();
 
@@ -145,7 +155,15 @@ export default function DecadeGallery() {
     <div className="text-pretty p-4">
       <div className="px-[10px]">
         <div className="pb-2">
-          <h1 className="text-lg">{`The ${decade}s`}</h1>
+          <div className="flex justify-between max-w-[900px]">
+            <h1 className="text-lg">{`The ${decade}s`}</h1>
+            <Dropdown menu={{ items: dropdownItems }}>
+              <Space>
+                Explore other decades
+                <DownOutlined />
+              </Space>
+            </Dropdown>
+          </div>
           <p className="max-w-[900px]">
             {DECADE_DESCRIPTIONS[decade]}
           </p>
