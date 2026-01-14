@@ -57,6 +57,18 @@ export default function ArchiveSiteComingSoon() {
             description="Between 1950 and 2016, noted Canadian abstract expressionist James Gordaneer created thousands of paintings. This digital archive aims to document as many of these works as possible, to share Gordaneer’s work with art lovers and students in Canada and around the world. Stay tuned for more."
             imageUrl="https://james-gordaneer-paintings.s3.ca-central-1.amazonaws.com/website_images/paintings_archive.webp"
             imageAlt="painting-of-armchair-by-window"
+            extraContent={
+              <div>
+                <Button type="link" ghost>
+                  <NavLink to="/archive" target="_blank">
+                    <div>
+                      Visit the Archive
+                      <i className="fa-solid fa-up-right-from-square pl-2"></i>
+                    </div>
+                  </NavLink>
+                </Button>
+              </div>
+            }
           />
           <ProjectCardResponsive
             title="Painting adoption project"

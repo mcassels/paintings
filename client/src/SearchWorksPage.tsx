@@ -32,6 +32,12 @@ export default function SearchWorksPage() {
             placeholder="Search by title, medium, subject matter..."
             onChange={(e) => setVal(e.target.value)}
             onPressEnter={runSearch}
+            onClear={() => {
+              navigate({
+                search: '',
+              });
+            }}
+            allowClear
           />
         </div>
         <Button
