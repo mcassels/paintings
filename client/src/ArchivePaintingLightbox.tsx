@@ -14,9 +14,11 @@ import { SeeReverseButton } from './SeeReverseButton';
 
 export function getArchivePaintingInfos(p: ArchivePainting): string[] {
   const year = getPaintingYearString(p);
-  const size = `${p.height} x ${p.width}`;
-  const parts = [year, size];
-  // TODO: use medium and substrate multiselect columns
+  const parts = [year];
+  if (p.height && p.width) {
+    const size = `${p.height} x ${p.width}`;
+    parts.push(size);
+  }
   if (p.medium) {
     parts.push(p.medium);
   }

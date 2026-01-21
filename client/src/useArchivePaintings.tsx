@@ -2,18 +2,6 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchAllTableRecordsArchiveSite } from "./utils";
 import { ArchivePainting, ArchivePaintingsResponse } from "./archiveTypes";
 
-// function getFetchUrl(decade: string|null): string {
-//   const baseUrl = `https://api.airtable.com/v0/${process.env.REACT_APP_ARCHIVE_AIRTABLE_BASE}/${process.env.REACT_APP_ARCHIVE_AIRTABLE_TABLE}`;
-//   if (!decade) {
-//     return baseUrl
-//   }
-//   // used url encoder here https://codepen.io/airtable/full/MeXqOg
-//   // With query e.g.:
-//   // {decade} = "1950"
-//   const filterFormula = `filterByFormula=AND(%7Bdecade%7D+%3D+%22${decade}%22)`;
-//   return `${baseUrl}?${filterFormula}`;
-// }
-
 function getMedium(fields: any): string|undefined {
   let medium = fields.medium;
   if (!medium && fields.medium_multi_select && fields.substrate_multi_select) {
@@ -22,15 +10,7 @@ function getMedium(fields: any): string|undefined {
   if (!medium) {
     return undefined;
   }
-  const splits = medium.split(' ');
-  if (splits.length < 3) {
-    return medium;
-  }
-  const formatted = `${splits[0].charAt(0).toUpperCase() + splits[0].substr(1).toLowerCase()} ${splits[1]} ${splits[2].charAt(0).toUpperCase() + splits[2].substr(1).toLowerCase()}`;
-  if (splits.length > 3) {
-    return `${formatted} ${splits.slice(3).join(' ')}`;
-  }
-  return formatted;
+  return `${medium.charAt(0).toUpperCase() + medium.substr(1).toLowerCase()}`;
 }
 
 async function fetchArchivePaintings(): Promise<ArchivePainting[]> {

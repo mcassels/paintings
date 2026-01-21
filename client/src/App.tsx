@@ -26,6 +26,7 @@ import ArchiveGallery from './ArchiveGallery';
 import CurrentShow from './CurrentShow';
 import DecadeGallery from './DecadeGallery';
 import SearchWorksPage from './SearchWorksPage';
+import ContactPage from './ContactPage';
 
 const queryClient = new QueryClient();
 
@@ -59,6 +60,7 @@ function AppInner() {
               </Route>
               <Route path="search" element={<SearchWorksPage />} />
               <Route path="current-show" element={<CurrentShow />} />
+              <Route path="contact" element={<ContactPage />} />
               <Route path="about" element={<Biography isArchive={true}/>} />
               <Route path="*" element={<Navigate replace to="/home" />} />
             </Route>
@@ -169,6 +171,7 @@ function ArchiveLayout() {
               <Menu.Item key="gallery" title="The Archive"><NavLink to="/archive/gallery">The Archive</NavLink></Menu.Item>
               <Menu.Item key="search" title="Search Works"><NavLink to="/archive/search">Search Works</NavLink></Menu.Item>
               <Menu.Item key="about" title="Biography"><NavLink to="/archive/about">Biography</NavLink></Menu.Item>
+              <Menu.Item key="contact" title="Get in Touch"><NavLink to="/archive/contact">Get in Touch</NavLink></Menu.Item>
             </Menu>
           </div>
           <div className="box content">
