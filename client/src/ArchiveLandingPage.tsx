@@ -30,10 +30,14 @@ export default function ArchiveLandingPage() {
             <Card key="welcome" style={{ maxWidth: "950px", borderRadius: "unset" }}>
               <div className="text-lg font-semibold py-2">Virtual Exhibitions</div>
               <div className="flex flex-shrink-0 space-x-4 pt-4">
-                <div className="flex flex-col space-y-2">
+                <div className="flex flex-col space-y-3">
                   <div>During limited-time virtual exhibitions, selected pieces will be available to purchase. </div>
                   <div>
-                    [TODO: link to contact form] Please add your contact info to be notified of upcoming virtual exhibitions.
+                    <Button type="primary" ghost>
+                      <NavLink to="/archive/contact#newsletter-signup">
+                        Sign up for updates
+                      </NavLink>
+                    </Button>
                   </div>
                 </div>
               </div>

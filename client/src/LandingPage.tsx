@@ -59,7 +59,7 @@ function FeaturedPaintingDisplay() {
                   searchParams.set("selected", painting.id);
                   navigate({
                     search: searchParams.toString(),
-                    pathname: "/gallery",
+                    pathname: "/adoption-project/gallery",
                   });
                 }}
                 alt={altText}
