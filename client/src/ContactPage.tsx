@@ -1,4 +1,5 @@
 import ContactUsForm from "./ContactUsForm";
+import { NewsletterSignup } from "./NewsletterSignup";
 
 export default function ContactPage() {
   return (
@@ -6,7 +7,7 @@ export default function ContactPage() {
     style={{ backgroundImage: 'url(https://james-gordaneer-paintings.s3.ca-central-1.amazonaws.com/website_images/pastel_blue_chair_painting.webp)'}}>
       <div className="flex flex-col space-y-8 py-6">
         <div className="max-w-[600px]">
-          <div style={{textAlign: "left"}} className="sender-form-field" data-sender-form-id="dyPxvW"></div>
+          <NewsletterSignup />
         </div>
         <div className="bg-white max-w-[800px]">
           <div className="p-[24px]">
