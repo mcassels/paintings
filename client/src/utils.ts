@@ -123,37 +123,51 @@ async function fetchAllTableRecordsFromProxyServer(fetchUrl: string): Promise<an
 
 // We don't need to handle the airtable pagination ourselves,
 // because the airtable-server rust server handles it for us (within list_records).
-export async function fetchAllTableRecords(
+async function fetchAllTableRecordsImpl(
+  base: string,
   tableAndParams: string,
 ): Promise<any[]> {
-  const url = `${process.env.REACT_APP_AIRTABLE_FETCH_URL}${process.env.REACT_APP_AIRTABLE_BASE}/${tableAndParams}`;
+  const url = `${process.env.REACT_APP_AIRTABLE_FETCH_URL}${base}/${tableAndParams}`;
   const isRawAirtable = url.startsWith('https://api.airtable.com');
 
   if (isRawAirtable) {
     return fetchAllTableRecordsFromAirtable(url);
   }
   return fetchAllTableRecordsFromProxyServer(url);
+}
+
+export async function fetchAllTableRecords(
+  tableAndParams: string,
+): Promise<any[]> {
+  const base = process.env.REACT_APP_AIRTABLE_BASE;
+  if (!base) {
+    throw new Error('REACT_APP_AIRTABLE_BASE is not defined');
+  }
+  return fetchAllTableRecordsImpl(base, tableAndParams);
 }
 
 export async function fetchAllTableRecordsArchiveSite(
   tableAndParams: string,
 ): Promise<any[]> {
-  const url = `${process.env.REACT_APP_AIRTABLE_FETCH_URL}${process.env.REACT_APP_ARCHIVE_AIRTABLE_BASE}/${tableAndParams}`;
-  const isRawAirtable = url.startsWith('https://api.airtable.com');
-
-  if (isRawAirtable) {
-    return fetchAllTableRecordsFromAirtable(url);
+  const base = process.env.REACT_APP_ARCHIVE_AIRTABLE_BASE;
+  if (!base) {
+    throw new Error('REACT_APP_ARCHIVE_AIRTABLE_BASE is not defined');
   }
-  return fetchAllTableRecordsFromProxyServer(url);
+  return fetchAllTableRecordsImpl(base, tableAndParams);
 }
 
+// NOTE: this function is only used by the adoption site. The archive site is read-only.
 export function updateAirtableRecord(
   tableName: string,
   recordId: string,
   fields: { [key: string]: string|number|boolean },
 ): Promise<any> {
+  const base = process.env.REACT_APP_AIRTABLE_BASE;
+  if (!base) {
+    throw new Error('REACT_APP_AIRTABLE_BASE is not defined');
+  }
   return fetch(
-    `https://api.airtable.com/v0/${process.env.REACT_APP_AIRTABLE_BASE}/${tableName}/${recordId}`,
+    `https://api.airtable.com/v0/${base}/${tableName}/${recordId}`,
     {
       method: 'PATCH',
       headers: {
@@ -168,12 +182,17 @@ export function updateAirtableRecord(
 // We do not use the airtable rust server for this because we do NOT
 // want the cached value. Additionally, this is not used on first load
 // of any page so it isn't needed for google SEO.
+// This is only used for the adoption site.
 export async function getAirtableRecord(
   tableName: string,
   recordId: string,
 ): Promise<any> {
+  const base = process.env.REACT_APP_AIRTABLE_BASE;
+  if (!base) {
+    throw new Error('REACT_APP_AIRTABLE_BASE is not defined');
+  }
   const res = await fetch(
-    `https://api.airtable.com/v0/${process.env.REACT_APP_AIRTABLE_BASE}/${tableName}/${recordId}`,
+    `https://api.airtable.com/v0/${base}/${tableName}/${recordId}`,
     {
       headers: { Authorization: `Bearer ${process.env.REACT_APP_AIRTABLE_TOKEN}` },
     },

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Button } from 'antd';
 
 function getCacheClearUrl(): string | null {
@@ -37,7 +38,12 @@ export default function AdminPage() {
         >
           Clear airtable cache
         </Button>
-        {status === 'success' && <p className="text-green-600">Cache cleared.</p>}
+        {status === 'success' && (
+          <>
+            <p className="text-green-600">Cache cleared.</p>
+            <Link to="/" className="text-blue-500 hover:text-blue-700">Take me home</Link>
+          </>
+        )}
         {status === 'error' && <p className="text-red-600">Failed to clear cache.</p>}
         {!cacheClearUrl && (
           <p className="text-gray-500 text-sm">
