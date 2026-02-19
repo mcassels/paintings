@@ -14,8 +14,7 @@ function getMedium(fields: any): string|undefined {
 }
 
 async function fetchArchivePaintings(): Promise<ArchivePainting[]> {
-  const fetchUrl = `https://api.airtable.com/v0/${process.env.REACT_APP_ARCHIVE_AIRTABLE_BASE}/${process.env.REACT_APP_ARCHIVE_AIRTABLE_TABLE}`;
-  const records = await fetchAllTableRecordsArchiveSite(fetchUrl);
+  const records = await fetchAllTableRecordsArchiveSite(process.env.REACT_APP_ARCHIVE_AIRTABLE_TABLE!);
 
   const paintings: ArchivePainting[] = [];
 

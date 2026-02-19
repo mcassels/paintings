@@ -27,6 +27,7 @@ import CurrentShow from './CurrentShow';
 import DecadeGallery from './DecadeGallery';
 import SearchWorksPage from './SearchWorksPage';
 import ContactPage from './ContactPage';
+import AdminPage from './AdminPage';
 
 const queryClient = new QueryClient();
 
@@ -37,6 +38,7 @@ function AppInner() {
           <Routes>
             <Route>
               <Route path="/" element={<ArchiveSiteComingSoon />} />
+              <Route path="/admin" element={<AdminPage />} />
             </Route>
             <Route path="/adoption-project" element={<AdoptionLayout />}>
               <Route index element={<Navigate to="home" />} />

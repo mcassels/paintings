@@ -126,7 +126,7 @@ async function fetchAllTableRecordsFromProxyServer(fetchUrl: string): Promise<an
 export async function fetchAllTableRecords(
   tableAndParams: string,
 ): Promise<any[]> {
-  const url = `${process.env.REACT_APP_AIRTABLE_FETCH_URL}${tableAndParams}`;
+  const url = `${process.env.REACT_APP_AIRTABLE_FETCH_URL}${process.env.REACT_APP_AIRTABLE_BASE}/${tableAndParams}`;
   const isRawAirtable = url.startsWith('https://api.airtable.com');
 
   if (isRawAirtable) {
@@ -135,11 +135,16 @@ export async function fetchAllTableRecords(
   return fetchAllTableRecordsFromProxyServer(url);
 }
 
-// TODO: Combine this function and the one above
 export async function fetchAllTableRecordsArchiveSite(
-  fetchUrl: string
+  tableAndParams: string,
 ): Promise<any[]> {
-  return fetchAllTableRecordsFromAirtable(fetchUrl);
+  const url = `${process.env.REACT_APP_AIRTABLE_FETCH_URL}${process.env.REACT_APP_ARCHIVE_AIRTABLE_BASE}/${tableAndParams}`;
+  const isRawAirtable = url.startsWith('https://api.airtable.com');
+
+  if (isRawAirtable) {
+    return fetchAllTableRecordsFromAirtable(url);
+  }
+  return fetchAllTableRecordsFromProxyServer(url);
 }
 
 export function updateAirtableRecord(
