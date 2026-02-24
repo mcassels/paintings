@@ -162,9 +162,15 @@ function ArchiveLayout() {
       <div className="grow">
         <div className="">
           <div className="lg:pl-20">
-            <Header className="bg-white flex flex-col text-2xl lg:text-4xl pt-4 lg:pt-10 pb-3 lg:pb-5 px-0 h-fit">
-              <div className="flex flex-col font-light px-4">
+            <Header className="bg-white flex flex-row items-center justify-between text-2xl lg:text-4xl pt-4 lg:pt-10 pb-3 lg:pb-5 px-4 h-fit">
+              <div className="font-light">
                 James Gordaneer, RCA
+              </div>
+              {/* Mobile hamburger - hidden on desktop */}
+              <div className="md:hidden">
+                <Dropdown menu={{ items: mobileNavItems, selectedKeys: [selectedKey] }} trigger={['click']}>
+                  <Button type="text" icon={<MenuOutlined />} />
+                </Dropdown>
               </div>
             </Header>
             {/* Desktop nav */}
@@ -182,12 +188,6 @@ function ArchiveLayout() {
                 <Menu.Item key="about" title="Biography"><NavLink to="/archive/about">Biography</NavLink></Menu.Item>
                 <Menu.Item key="contact" title="Get in Touch"><NavLink to="/archive/contact">Get in Touch</NavLink></Menu.Item>
               </Menu>
-            </div>
-            {/* Mobile nav */}
-            <div className="md:hidden px-4 pb-3">
-              <Dropdown menu={{ items: mobileNavItems, selectedKeys: [selectedKey] }} trigger={['click']}>
-                <Button icon={<MenuOutlined />}>Menu</Button>
-              </Dropdown>
             </div>
           </div>
           <div className="box content">
