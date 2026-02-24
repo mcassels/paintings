@@ -78,7 +78,7 @@ function ArchivePaintingsGallery(props: { paintings: ArchivePainting[] }) {
       <div className="pb-4 pl-2 italic">
         <div>{`${paintings.length} works`}</div>
       </div>
-      <div className="grid grid-cols-4 gap-2">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2">
         {paintings.slice((pageNum - 1) * PAGE_SIZE, pageNum * PAGE_SIZE).map((painting) => (
           <div className="pb-4" key={painting.id}>
             <ArchivePaintingCard
@@ -96,7 +96,7 @@ function ArchivePaintingsGallery(props: { paintings: ArchivePainting[] }) {
           </div>
         ))}
       </div>
-      <div className="py-4 min-w-[calc(100vw-200px)]">
+      <div className="py-4">
         <div className="flex justify-center">
           <Pagination
             defaultCurrent={pageNum}
@@ -134,7 +134,7 @@ export function DecadeGalleryInner(props: { decade?: string, search?: string }) 
 
   if (paintings === 'loading') {
     return (
-      <div className="w-[650px] h-[500px] flex items-center justify-center">
+      <div className="w-full max-w-[650px] h-[500px] flex items-center justify-center">
         <Spin />
       </div>
     );

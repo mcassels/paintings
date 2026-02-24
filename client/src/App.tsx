@@ -147,17 +147,13 @@ function ArchiveLayout() {
     }
   }, [selectedKey, location.search.length]);
 
-  // TODO: mobile-friendly layout
-  // Menu needs different layout for mobile
-  // const isMobile = getIsMobile();
-
   return (
     <div className="min-h-svh flex flex-col items-stretch">
       <ContactUsModal />
       <div className="grow">
         <div className="">
           <div className="lg:pl-20">
-            <Header className="bg-white flex flex-col text-4xl pt-10 pb-5 px-0 h-fit">
+            <Header className="bg-white flex flex-col text-2xl lg:text-4xl pt-4 lg:pt-10 pb-3 lg:pb-5 px-0 h-fit">
               <div className="flex flex-col font-light px-4">
                 James Gordaneer, RCA
               </div>
@@ -167,6 +163,7 @@ function ArchiveLayout() {
               defaultSelectedKeys={[selectedKey]}
               selectedKeys={[selectedKey]}
               className="archive-main-menu"
+              overflowedIndicator={<MenuOutlined />}
             >
               <Menu.Item key="home" title="Home"><NavLink to="/archive/home">Home</NavLink></Menu.Item>
               <Menu.Item key="current-show" title="Current Show"><NavLink to="/archive/current-show">Current Show</NavLink></Menu.Item>

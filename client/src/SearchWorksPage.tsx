@@ -26,8 +26,8 @@ export default function SearchWorksPage() {
       <div>
         <h1 className="text-lg">Search Works</h1>
       </div>
-      <div className="flex">
-        <div className="w-[400px]">
+      <div className="flex flex-wrap gap-2">
+        <div className="w-full max-w-[400px]">
           <Input
             placeholder="Search by title, medium, subject matter..."
             onChange={(e) => setVal(e.target.value)}
@@ -42,7 +42,7 @@ export default function SearchWorksPage() {
         </div>
         <Button
           type="primary"
-          className="ml-2 padding-x-0"
+          className="padding-x-0"
           onClick={runSearch}
           disabled={val.trim().length === 0}
         >

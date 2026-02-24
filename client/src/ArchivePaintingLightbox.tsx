@@ -145,8 +145,10 @@ export default function ArchivePaintingLightbox(props: ArchivePaintingLightboxPr
           maxHeight = document.documentElement.clientHeight - 90; // height of the header on desktop
         }
 
-        // TODO: this ends up negative on mobile!!
-        const maxWidthNoOverlap = document.documentElement.clientWidth - 400;
+        const isMobileWidth = document.documentElement.clientWidth <= 768;
+        const maxWidthNoOverlap = isMobileWidth
+          ? document.documentElement.clientWidth
+          : document.documentElement.clientWidth - 400;
 
         let height = maxHeight;
         let width = maxHeight * (paintingWidth / paintingHeight);
