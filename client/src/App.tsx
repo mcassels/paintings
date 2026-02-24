@@ -147,6 +147,12 @@ function ArchiveLayout() {
     }
   }, [selectedKey, location.search.length]);
 
+  const isMobile = getIsMobile();
+
+  const menuStyle = isMobile
+    ? { maxWidth: '60px', flex: 'auto' }
+    : undefined;
+
   return (
     <div className="min-h-svh flex flex-col items-stretch">
       <ContactUsModal />
@@ -163,7 +169,8 @@ function ArchiveLayout() {
               defaultSelectedKeys={[selectedKey]}
               selectedKeys={[selectedKey]}
               className="archive-main-menu"
-              overflowedIndicator={<MenuOutlined />}
+              style={menuStyle}
+              overflowedIndicator={isMobile ? <MenuOutlined /> : null}
             >
               <Menu.Item key="home" title="Home"><NavLink to="/archive/home">Home</NavLink></Menu.Item>
               <Menu.Item key="current-show" title="Current Show"><NavLink to="/archive/current-show">Current Show</NavLink></Menu.Item>
