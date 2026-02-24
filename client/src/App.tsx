@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { ConfigProvider, Menu } from 'antd';
+import { Button, ConfigProvider, Dropdown, Menu, MenuProps } from 'antd';
 import './App.css';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
@@ -147,11 +147,14 @@ function ArchiveLayout() {
     }
   }, [selectedKey, location.search.length]);
 
-  const isMobile = getIsMobile();
-
-  const menuStyle = isMobile
-    ? { maxWidth: '60px', flex: 'auto' }
-    : undefined;
+  const mobileNavItems: MenuProps['items'] = [
+    { key: 'home', label: <NavLink to="/archive/home">Home</NavLink> },
+    { key: 'current-show', label: <NavLink to="/archive/current-show">Current Show</NavLink> },
+    { key: 'gallery', label: <NavLink to="/archive/gallery">The Archive</NavLink> },
+    { key: 'search', label: <NavLink to="/archive/search">Search Works</NavLink> },
+    { key: 'about', label: <NavLink to="/archive/about">Biography</NavLink> },
+    { key: 'contact', label: <NavLink to="/archive/contact">Get in Touch</NavLink> },
+  ];
 
   return (
     <div className="min-h-svh flex flex-col items-stretch">
@@ -164,21 +167,28 @@ function ArchiveLayout() {
                 James Gordaneer, RCA
               </div>
             </Header>
-            <Menu
-              mode="horizontal"
-              defaultSelectedKeys={[selectedKey]}
-              selectedKeys={[selectedKey]}
-              className="archive-main-menu"
-              style={menuStyle}
-              overflowedIndicator={isMobile ? <MenuOutlined /> : null}
-            >
-              <Menu.Item key="home" title="Home"><NavLink to="/archive/home">Home</NavLink></Menu.Item>
-              <Menu.Item key="current-show" title="Current Show"><NavLink to="/archive/current-show">Current Show</NavLink></Menu.Item>
-              <Menu.Item key="gallery" title="The Archive"><NavLink to="/archive/gallery">The Archive</NavLink></Menu.Item>
-              <Menu.Item key="search" title="Search Works"><NavLink to="/archive/search">Search Works</NavLink></Menu.Item>
-              <Menu.Item key="about" title="Biography"><NavLink to="/archive/about">Biography</NavLink></Menu.Item>
-              <Menu.Item key="contact" title="Get in Touch"><NavLink to="/archive/contact">Get in Touch</NavLink></Menu.Item>
-            </Menu>
+            {/* Desktop nav */}
+            <div className="hidden md:block">
+              <Menu
+                mode="horizontal"
+                defaultSelectedKeys={[selectedKey]}
+                selectedKeys={[selectedKey]}
+                className="archive-main-menu"
+              >
+                <Menu.Item key="home" title="Home"><NavLink to="/archive/home">Home</NavLink></Menu.Item>
+                <Menu.Item key="current-show" title="Current Show"><NavLink to="/archive/current-show">Current Show</NavLink></Menu.Item>
+                <Menu.Item key="gallery" title="The Archive"><NavLink to="/archive/gallery">The Archive</NavLink></Menu.Item>
+                <Menu.Item key="search" title="Search Works"><NavLink to="/archive/search">Search Works</NavLink></Menu.Item>
+                <Menu.Item key="about" title="Biography"><NavLink to="/archive/about">Biography</NavLink></Menu.Item>
+                <Menu.Item key="contact" title="Get in Touch"><NavLink to="/archive/contact">Get in Touch</NavLink></Menu.Item>
+              </Menu>
+            </div>
+            {/* Mobile nav */}
+            <div className="md:hidden px-4 pb-3">
+              <Dropdown menu={{ items: mobileNavItems, selectedKeys: [selectedKey] }} trigger={['click']}>
+                <Button icon={<MenuOutlined />}>Menu</Button>
+              </Dropdown>
+            </div>
           </div>
           <div className="box content">
             <Outlet />
