@@ -22,6 +22,7 @@ export function getArchivePaintingInfos(p: ArchivePainting): string[] {
   if (p.medium) {
     parts.push(p.medium);
   }
+  parts.push(`Painting Id#: ${p.id}`);
   return parts;
 }
 
