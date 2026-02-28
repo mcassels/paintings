@@ -1,5 +1,5 @@
 import { Button, Card } from "antd";
-import ProjectCardResponsive from "./ProjectCardResponsive";
+import GiftShopCard from "./GiftShopCard";
 import { NavLink } from "react-router-dom";
 
 // TODO: mobile friendly layout
@@ -42,25 +42,7 @@ export default function ArchiveLandingPage() {
                 </div>
               </div>
             </Card>
-            <ProjectCardResponsive
-              title="Online gift shop"
-              description="Proceeds from sales of cards, calendars, and more support the James Gordaneer Legacy Award, presented annually by the Victoria Visual Artists Legacy Society to a promising art student attending Camosun College."
-              imageUrl="https://james-gordaneer-paintings.s3.ca-central-1.amazonaws.com/website_images/calendar.webp"
-              imageAlt="calendar"
-              orientation="vertical"
-              extraContent={
-                <div className="">
-                  <Button type="primary" ghost>
-                    <NavLink to="https://www.etsy.com/ca/shop/JamesGordaneerArt" target="_blank">
-                      <div>
-                        Browse the shop
-                        <i className="fa-solid fa-up-right-from-square pl-2"></i>
-                      </div>
-                    </NavLink>
-                  </Button>
-                </div>
-              }
-            />
+            <GiftShopCard />
             <Card key="welcome" style={{ maxWidth: "950px", borderRadius: "unset" }}>
               <div className="text-lg font-semibold py-2">About this archive</div>
               <div className="flex flex-shrink-0 space-x-4 pt-4">

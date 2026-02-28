@@ -12,7 +12,7 @@ interface ProjectCardProps {
 function ProjectCardMobile(props: ProjectCardProps) {
   const { title, description, imageUrl, imageAlt, extraContent } = props;
   return (
-    <Card key={title} style={{ maxWidth: "calc(100vw - 2rem)" }}>
+    <Card key={title} style={{ maxWidth: "calc(100vw - 2rem)", borderRadius: "unset" }}>
       <div className="text-lg font-semibold pb-2">{title}</div>
       <div className="flex flex-col flex-shrink-0 space-y-4">
           <Image
@@ -36,7 +36,7 @@ function ProjectCardMobile(props: ProjectCardProps) {
 function ProjectCardMobileVertical(props: ProjectCardProps) {
   const { title, description, imageUrl, imageAlt, extraContent } = props;
   return (
-    <Card key={title} style={{ maxWidth: "calc(100vw - 2rem)" }}>
+    <Card key={title} style={{ maxWidth: "calc(100vw - 2rem)", borderRadius: "unset" }}>
       <div className="text-lg font-semibold py-2">{title}</div>
       <div className="flex flex-shrink-0 space-x-4">
           <Image
@@ -62,7 +62,7 @@ function ProjectCardMobileVertical(props: ProjectCardProps) {
 function ProjectCard(props: ProjectCardProps) {
   const { title, description, imageUrl, imageAlt, extraContent } = props;
   return (
-    <Card key={title} style={{ maxWidth: "950px"}}>
+    <Card key={title} style={{ maxWidth: "950px", borderRadius: "unset" }}>
       <div className="h-full flex flex-shrink-0 space-x-4 py-4">
         <Image
           title={imageAlt}

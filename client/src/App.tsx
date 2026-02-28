@@ -28,6 +28,7 @@ import DecadeGallery from './DecadeGallery';
 import SearchWorksPage from './SearchWorksPage';
 import ContactPage from './ContactPage';
 import AdminPage from './AdminPage';
+import ShopPage from './ShopPage';
 
 const queryClient = new QueryClient();
 
@@ -63,6 +64,7 @@ function AppInner() {
               <Route path="search" element={<SearchWorksPage />} />
               <Route path="current-show" element={<CurrentShow />} />
               <Route path="contact" element={<ContactPage />} />
+              <Route path="shop" element={<ShopPage />} />
               <Route path="about" element={<Biography isArchive={true}/>} />
               <Route path="*" element={<Navigate replace to="/home" />} />
             </Route>
@@ -153,6 +155,7 @@ function ArchiveLayout() {
     { key: 'gallery', label: <NavLink to="/archive/gallery">The Archive</NavLink> },
     { key: 'search', label: <NavLink to="/archive/search">Search Works</NavLink> },
     { key: 'about', label: <NavLink to="/archive/about">Biography</NavLink> },
+    { key: 'shop', label: <NavLink to="/archive/shop">Shop</NavLink> },
     { key: 'contact', label: <NavLink to="/archive/contact">Get in Touch</NavLink> },
   ];
 
@@ -186,6 +189,7 @@ function ArchiveLayout() {
                 <Menu.Item key="gallery" title="The Archive"><NavLink to="/archive/gallery">The Archive</NavLink></Menu.Item>
                 <Menu.Item key="search" title="Search Works"><NavLink to="/archive/search">Search Works</NavLink></Menu.Item>
                 <Menu.Item key="about" title="Biography"><NavLink to="/archive/about">Biography</NavLink></Menu.Item>
+                <Menu.Item key="shop" title="Shop"><NavLink to="/archive/shop">Shop</NavLink></Menu.Item>
                 <Menu.Item key="contact" title="Get in Touch"><NavLink to="/archive/contact">Get in Touch</NavLink></Menu.Item>
               </Menu>
             </div>
