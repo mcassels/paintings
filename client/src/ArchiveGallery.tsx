@@ -115,7 +115,7 @@ export default function ArchiveGallery() {
           </p>
         </div>
       </div>
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {DECADE_CARDS.map((config) => (
           <div className="pb-4" key={config.decade}>
             <DecadeCard config={config} />
