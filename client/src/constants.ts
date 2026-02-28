@@ -16,6 +16,16 @@ export const AIRTABLE_PAINTINGS_TABLE = 'broken_paintings';
 
 export const MORGAN_BROOKS_WEBSITE = 'https://morganbrooks.io/';
 
+export type ShowInfo = { title: string; blurb: string; url: string };
+
+export const SHOWS: { [key: string]: ShowInfo } = {
+  test_show: {
+    title: 'Test Show',
+    blurb: 'A test show.',
+    url: 'https://example.com',
+  },
+};
+
 export const DECADE_DESCRIPTIONS: {[decade: string]: string} = {
   '1950': 'Gordaneer began his career as an artist after dropping out of high school and enrolling in the Doon School of Fine Arts, near Kitchener, Ontario. From 1952-1955 he studied plein air painting with artists such as the Group of Seven’s Jock Macdonald, plus renowned Canadian artists Carl Shaefer, Jack Bechtel, Alex Millar, and Yvonne Housser. His work during this decade is characterized by explorations in figure and form, often using a dark, gritty palette that captures the landscapes of southern Ontario and the semi-industrial aura of working-class Toronto.',
   '1960': 'After spending several years traveling and painting in Mexico and Europe, Gordaneer returned to Toronto to teach art at Central Technical School. He moved to Orangeville Ontario in 1962, where he taught high school art classes and continued his painting practice, showing in Toronto galleries. His work during this decade is characterized by broad abstractions, colourful palettes, and experimentation with white space that reflects the decade’s contemporary approaches to abstraction.',
