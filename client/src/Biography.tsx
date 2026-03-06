@@ -20,7 +20,8 @@ function sortAndFilterBioLinks(links: BiographyLink[]): BiographyLink[] {
   return bioLinks.filter((bioLink) => bioLink.description && bioLink.url && bioLink.description.length > 0 && bioLink.url.length > 0);
 }
 
-export default function Biography() {
+export default function Biography(props: {isArchive?: boolean}) {
+  const { isArchive } = props;
   const bioLinks = useAirtableRecords(
     'biography_links',
     parseBiographyLink,
@@ -57,9 +58,7 @@ export default function Biography() {
           </div>
         </div>
         <div className="space-y-8" style={{ maxWidth: "min(100%, 500px)"}}>
-          <div>
-            <BrowsePaintingsButton />
-          </div>
+          {!isArchive && (<div> <BrowsePaintingsButton /></div>)}
           <ImageCard
             imageKey="jim-self-portrait"
             caption="James Gordaneer, 1991. Self-Portrait. Oil on canvas. Collection of the Gordaneer family."
@@ -78,9 +77,11 @@ export default function Biography() {
           />
         </div>
       </div>
-      <div className="py-6 flex justify-center">
-        <BrowsePaintingsButton />
-      </div>
+      {!isArchive && (
+        <div className="py-6 flex justify-center">
+          <BrowsePaintingsButton />
+        </div>
+      )}
     </div>
   );
 }

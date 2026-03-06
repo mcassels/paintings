@@ -20,7 +20,7 @@ export default function SelectAPainting() {
       >
         <div>
           <Button type="primary">
-            <NavLink to="/gallery">
+            <NavLink to="/adoption-project/gallery">
               Browse paintings
             </NavLink>
           </Button>
@@ -53,7 +53,7 @@ export default function SelectAPainting() {
       }
       extra={
         <Button type="link">
-          <NavLink to="/gallery">
+          <NavLink to="/adoption-project/gallery">
             Change selection
           </NavLink>
         </Button>

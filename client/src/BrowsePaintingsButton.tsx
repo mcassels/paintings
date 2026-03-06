@@ -5,7 +5,7 @@ import { NavLink } from "react-router-dom";
 export default function BrowsePaintingsButton() {
   return (
     <Button type="primary" ghost>
-      <NavLink to="/gallery">
+      <NavLink to="/adoption-project/gallery">
         Browse paintings
       </NavLink>
     </Button>

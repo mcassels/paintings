@@ -195,14 +195,14 @@ html, body {
   .sidebar .ant-menu .ant-menu-submenu-title .anticon {
     font-size: 30px;
   }
-  .sidebar .ant-menu-horizontal .ant-menu-submenu {
+  /* .sidebar .ant-menu-horizontal .ant-menu-submenu {
     padding-top: 10px;
-  }
+  } */
 }
 
-.sidebar .ant-menu-horizontal .ant-menu-submenu-title [role=img] {
+/* .sidebar .ant-menu-horizontal .ant-menu-submenu-title [role=img] {
   color: white;
-}
+} */
 
 /* Only for NOT mobile */
 @media screen and not (max-width: 768px) {
@@ -217,4 +217,23 @@ html, body {
 
 .archive-site-coming-soon-page .ant-card {
   border-radius: unset;
+}
+
+.archive-main-menu .ant-menu-item-selected {
+  border-bottom: black 2px solid !important;
+  color: black !important;
+  font-weight: 600 !important;
+}
+
+/*Changing padding to margin on the menu items makes their bottom border not extend so widely - looks better.*/
+.archive-main-menu .ant-menu-item {
+  margin-inline: 16px;
+  padding-inline: unset;
+}
+
+.decade-read-more .ant-btn-link {
+  font-size: unset;
+  line-height: unset;
+  padding-top: 0;
+  height: unset;
 }

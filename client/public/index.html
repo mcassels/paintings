@@ -35,6 +35,43 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>James Gordaneer</title>
+    <script>
+      [
+        "https://james-gordaneer-paintings.s3.ca-central-1.amazonaws.com/website_images/pastel_blue_chair_painting.webp",
+        "https://james-gordaneer-paintings.s3.ca-central-1.amazonaws.com/website_images/calendar.webp",
+        "https://james-gordaneer-paintings.s3.ca-central-1.amazonaws.com/website_images/paintings_archive.webp",
+        "https://james-gordaneer-paintings.s3.ca-central-1.amazonaws.com/website_images/paintings-under-tarp.webp",
+        "https://james-gordaneer-paintings.s3.ca-central-1.amazonaws.com/archive/jg172.jpeg",
+        "https://james-gordaneer-paintings.s3.ca-central-1.amazonaws.com/archive/jg553.jpeg",
+        "https://james-gordaneer-paintings.s3.ca-central-1.amazonaws.com/archive/jg160.jpeg",
+        "https://james-gordaneer-paintings.s3.ca-central-1.amazonaws.com/archive/jg687.jpeg",
+        "https://james-gordaneer-paintings.s3.ca-central-1.amazonaws.com/archive/jg115.jpeg",
+        "https://james-gordaneer-paintings.s3.ca-central-1.amazonaws.com/archive/jg178.jpeg",
+        "https://james-gordaneer-paintings.s3.ca-central-1.amazonaws.com/archive/jg277.jpeg"
+      ].forEach(function(url) {
+        var link = document.createElement("link");
+        link.rel = "preload";
+        link.as = "image";
+        link.href = url;
+        document.head.appendChild(link);
+      });
+    </script>
+    <!-- Sender newsletter signup -->
+    <script>
+      (function (s, e, n, d, er) {
+        s['Sender'] = er;
+        s[er] = s[er] || function () {
+          (s[er].q = s[er].q || []).push(arguments)
+        }, s[er].l = 1 * new Date();
+        var a = e.createElement(n),
+            m = e.getElementsByTagName(n)[0];
+        a.async = 1;
+        a.src = d;
+        m.parentNode.insertBefore(a, m)
+      })(window, document, 'script', 'https://cdn.sender.net/accounts_resources/universal.js?explicit=true', 'sender');
+      sender('cca5bb42088133')
+    </script>
+    <!-- End newsletter signup -->
   </head>
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-L1MXESLN6H"></script>

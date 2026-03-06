@@ -186,7 +186,7 @@ export default function AdoptionForm() {
       const paintingIsAvailable = await getIsPaintingAvailable(painting.airtableId);
       if (!paintingIsAvailable) {
         window.alert("Sorry, this painting is no longer available.");
-        navigate("/gallery");
+        navigate("/adoption-project/gallery");
         return;
       }
       const res = await emailjs.send(serviceId, templateId, emailTemplate, {

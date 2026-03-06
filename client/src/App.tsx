@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { ConfigProvider, Menu } from 'antd';
+import { Button, ConfigProvider, Dropdown, Menu, MenuProps } from 'antd';
 import './App.css';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
@@ -21,7 +21,14 @@ import { MenuOutlined } from '@ant-design/icons';
 import AdoptionsAreCurrentlyClosed from './AdoptionsAreCurrentlyClosed';
 import ContactUsModal from './ContactUsModal';
 import ArchiveSiteComingSoon from './ArchiveSiteComingSoon';
-
+import ArchiveLandingPage from './ArchiveLandingPage';
+import ArchiveGallery from './ArchiveGallery';
+import CurrentShow from './CurrentShow';
+import DecadeGallery from './DecadeGallery';
+import SearchWorksPage from './SearchWorksPage';
+import ContactPage from './ContactPage';
+import AdminPage from './AdminPage';
+import ShopPage from './ShopPage';
 
 const queryClient = new QueryClient();
 
@@ -32,8 +39,9 @@ function AppInner() {
           <Routes>
             <Route>
               <Route path="/" element={<ArchiveSiteComingSoon />} />
+              <Route path="/admin" element={<AdminPage />} />
             </Route>
-            <Route path="/adoption-project" element={<Layout />}>
+            <Route path="/adoption-project" element={<AdoptionLayout />}>
               <Route index element={<Navigate to="home" />} />
               <Route path="home" element={<LandingPage />} />
               <Route path="gallery" element={<PhotoGallery />} />
@@ -46,13 +54,27 @@ function AppInner() {
               <Route path="art-conservators" element={<TextPage textKey={CARE_AND_CONSERVATION_KEY} />} />
               <Route path="*" element={<Navigate replace to="/home" />} />
             </Route>
+            <Route path="/archive" element={<ArchiveLayout />}>
+              <Route index element={<Navigate to="home" />} />
+              <Route path="home" element={<ArchiveLandingPage />} />
+                <Route path="gallery">
+                <Route index element={<ArchiveGallery />} />
+                <Route path=":decade" element={<DecadeGallery />} />
+              </Route>
+              <Route path="search" element={<SearchWorksPage />} />
+              <Route path="current-show" element={<CurrentShow />} />
+              <Route path="contact" element={<ContactPage />} />
+              <Route path="shop" element={<ShopPage />} />
+              <Route path="about" element={<Biography isArchive={true}/>} />
+              <Route path="*" element={<Navigate replace to="/home" />} />
+            </Route>
           </Routes>
       </div>
     </div>
   );
 }
 
-function Layout() {
+function AdoptionLayout() {
   const location = useLocation();
   const selectedKey = location.pathname.split('/')[1];
 
@@ -106,6 +128,71 @@ function Layout() {
               <Menu.Item key="faqs" title="FAQs"><NavLink to="/adoption-project/faqs">FAQs</NavLink></Menu.Item>
             </Menu>
             {isMobile && <div className="w-full">{headerElem}</div>}
+          </div>
+          <div className="box content">
+            <Outlet />
+          </div>
+        </div>
+      </div>
+      <AppFooter />
+    </div>
+  );
+}
+
+function ArchiveLayout() {
+  const location = useLocation();
+  const selectedKey = location.pathname.split('/').filter(s => s !== '').slice(1, 2).join("/");
+
+  useEffect(() => {
+    if (location.search.length === 0) {
+      reportAnalytics('view_page', { page: selectedKey });
+    }
+  }, [selectedKey, location.search.length]);
+
+  const mobileNavItems: MenuProps['items'] = [
+    { key: 'home', label: <NavLink to="/archive/home">Home</NavLink> },
+    { key: 'current-show', label: <NavLink to="/archive/current-show">Current Show</NavLink> },
+    { key: 'gallery', label: <NavLink to="/archive/gallery">The Archive</NavLink> },
+    { key: 'search', label: <NavLink to="/archive/search">Search Works</NavLink> },
+    { key: 'about', label: <NavLink to="/archive/about">Biography</NavLink> },
+    { key: 'shop', label: <NavLink to="/archive/shop">Shop</NavLink> },
+    { key: 'contact', label: <NavLink to="/archive/contact">Get in Touch</NavLink> },
+  ];
+
+  return (
+    <div className="min-h-svh flex flex-col items-stretch">
+      <ContactUsModal />
+      <div className="grow">
+        <div className="">
+          <div className="lg:pl-20">
+            <Header className="bg-white flex flex-row items-center justify-between text-2xl lg:text-4xl pt-4 lg:pt-10 pb-3 lg:pb-5 px-4 h-fit">
+              <div className="font-light">
+                James Gordaneer, RCA
+              </div>
+              {/* Mobile hamburger - hidden on desktop */}
+              <div className="md:hidden">
+                <Dropdown menu={{ items: mobileNavItems, selectedKeys: [selectedKey] }} trigger={['click']}>
+                  <Button type="text" icon={<MenuOutlined />} />
+                </Dropdown>
+              </div>
+            </Header>
+            {/* Desktop nav */}
+            <div className="hidden md:block">
+              <Menu
+                mode="horizontal"
+                defaultSelectedKeys={[selectedKey]}
+                selectedKeys={[selectedKey]}
+                className="archive-main-menu"
+              >
+                <Menu.Item key="home" title="Home"><NavLink to="/archive/home">Home</NavLink></Menu.Item>
+                <Menu.Item key="current-show" title="Current Show"><NavLink to="/archive/current-show">Current Show</NavLink></Menu.Item>
+                <Menu.Item key="gallery" title="The Archive"><NavLink to="/archive/gallery">The Archive</NavLink></Menu.Item>
+                <Menu.Item key="search" title="Search Works"><NavLink to="/archive/search">Search Works</NavLink></Menu.Item>
+                <Menu.Item key="about" title="Biography"><NavLink to="/archive/about">Biography</NavLink></Menu.Item>
+                <Menu.Item key="shop" title="Shop"><NavLink to="/archive/shop">Shop</NavLink></Menu.Item>
+                <Menu.Item key="contact" title="Get in Touch"><NavLink to="/archive/contact">Get in Touch</NavLink></Menu.Item>
+              </Menu>
+            </div>
           </div>
           <div className="box content">
             <Outlet />
