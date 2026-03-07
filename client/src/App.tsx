@@ -172,7 +172,7 @@ function ArchiveLayout() {
               {/* Mobile hamburger - hidden on desktop */}
               <div className="md:hidden">
                 <Dropdown menu={{ items: mobileNavItems, selectedKeys: [selectedKey] }} trigger={['click']}>
-                  <Button type="text" icon={<MenuOutlined />} />
+                  <Button icon={<MenuOutlined />} className="mobile-menu-btn">Menu</Button>
                 </Dropdown>
               </div>
             </Header>

@@ -219,6 +219,13 @@ html, body {
   border-radius: unset;
 }
 
+.mobile-menu-btn {
+  border: 1px solid #d9d9d9 !important;
+  font-size: 1rem !important;
+  padding: 4px 12px !important;
+  height: auto !important;
+}
+
 .archive-main-menu .ant-menu-item-selected {
   border-bottom: black 2px solid !important;
   color: black !important;
