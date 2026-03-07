@@ -120,7 +120,7 @@ function filterPaintings(paintings: ArchivePainting[], decade: string|undefined,
   if (search) {
     const lowerSearch = search.toLowerCase();
     return paintings.filter(p => {
-      const paintingString = `${p.title}${p.medium}${p.bestKnownYear}${p.subjectMatter.join("")}${p.story}`.toLowerCase();
+      const paintingString = `${p.id}${p.title}${p.medium}${p.bestKnownYear}${p.subjectMatter.join("")}${p.story}`.toLowerCase();
       return paintingString.includes(lowerSearch);
     });
   }
