@@ -21,6 +21,10 @@ async function fetchArchivePaintings(): Promise<ArchivePainting[]> {
   for (const record of records) {
     try {
       const fields = record.fields;
+      if (fields.hide === true) {
+        continue;
+      }
+
       if (!fields.id || !fields.title || !fields.front_photo_url || !fields.best_known_year || !fields.decade) {
         console.error('Skipping painting with missing required fields', fields);
         continue;
