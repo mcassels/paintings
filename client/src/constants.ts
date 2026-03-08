@@ -19,10 +19,10 @@ export const MORGAN_BROOKS_WEBSITE = 'https://morganbrooks.io/';
 export type ShowInfo = { title: string; blurb: string; url: string };
 
 export const SHOWS: { [key: string]: ShowInfo } = {
-  test_show: {
-    title: 'Test Show',
-    blurb: 'A test show.',
-    url: 'https://example.com',
+  naked_ladies: {
+    title: 'James Gordaneer - All the Naked Ladies',
+    blurb: "In celebration of Jim Gordaneer's 10th deathiversary, his estate is sharing some of his most joyously life-affirming nudes.",
+    url: 'https://visit.virtualartgallery.com/jamesgordaneer',
   },
 };
 

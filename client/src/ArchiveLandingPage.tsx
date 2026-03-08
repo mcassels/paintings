@@ -2,7 +2,6 @@ import { Button, Card } from "antd";
 import GiftShopCard from "./GiftShopCard";
 import { NavLink } from "react-router-dom";
 
-// TODO: mobile friendly layout
 export default function ArchiveLandingPage() {
   return (
       <div className="flex-1 min-h-0 bg-cover bg-center px-4 lg:pl-20 lg:mx-0 mx-auto"

@@ -1,9 +1,9 @@
-import { Card } from "antd";
+import { Badge, Button, Card } from "antd";
 import { SHOWS } from "./constants";
+import { NavLink } from "react-router-dom";
 
-const showIsOn = process.env.REACT_APP_SHOW_IS_ON === 'true';
-const showKey = process.env.REACT_APP_SHOW_KEY ?? '';
-const currentShow = showIsOn ? SHOWS[showKey] : null;
+const showKey = process.env.REACT_APP_CURRENT_SHOW_KEY ?? '';
+const currentShow = SHOWS[showKey] ?? null;
 
 export default function CurrentShow() {
   return (
@@ -15,25 +15,30 @@ export default function CurrentShow() {
       }}
     >
       <div className="py-6 space-y-6">
+        <Badge.Ribbon text={currentShow ? "Show on now!" : undefined} color="blue" placement="start">
         <Card style={{ maxWidth: "750px", borderRadius: "unset" }}>
-          <div className="text-lg font-semibold py-2">{currentShow ? `Show on now: ${currentShow.title}` : 'Current Show'}</div>
-          {currentShow ? (
-            <div className="flex flex-col space-y-2">
-              <div>{currentShow.blurb}</div>
-              <a
-                href={currentShow.url}
-                target="_blank"
-                rel="noreferrer"
-                className="text-blue-600 hover:underline"
-              >
-                Visit {currentShow.title}
-                <i className="fa-solid fa-up-right-from-square pl-2" />
-              </a>
-            </div>
-          ) : (
-            <p className="text-gray-600">No current show. Please check back soon!</p>
-          )}
+          <div className="p-4">
+            <div className="text-lg font-semibold py-2">{currentShow ? currentShow.title : 'Current Show'}</div>
+            {currentShow ? (
+              <div className="flex flex-col space-y-4">
+                <div>{currentShow.blurb}</div>
+                <div>
+                  <Button type="primary" ghost>
+                    <NavLink to={currentShow.url} target="_blank">
+                      <div className="font-semibold">
+                        Visit {currentShow.title}
+                        <i className="fa-solid fa-up-right-from-square pl-2"></i>
+                      </div>
+                    </NavLink>
+                  </Button>
+                </div>
+              </div>
+            ) : (
+              <p className="text-gray-600">No current show. Please check back soon!</p>
+            )}
+          </div>
         </Card>
+        </Badge.Ribbon>
       </div>
     </div>
   );
