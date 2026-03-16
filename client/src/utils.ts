@@ -147,12 +147,9 @@ export async function fetchAllTableRecords(
 }
 
 export async function fetchAllTableRecordsArchiveSite(
+  base: string,
   tableAndParams: string,
 ): Promise<any[]> {
-  const base = process.env.REACT_APP_ARCHIVE_AIRTABLE_BASE;
-  if (!base) {
-    throw new Error('REACT_APP_ARCHIVE_AIRTABLE_BASE is not defined');
-  }
   return fetchAllTableRecordsImpl(base, tableAndParams);
 }
 

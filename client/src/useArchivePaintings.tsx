@@ -15,11 +15,13 @@ function getMedium(fields: any): string|undefined {
 }
 
 async function fetchArchivePaintings(): Promise<ArchivePainting[]> {
-  const [archiveRecords, brokenRecords] = await Promise.all([
-    fetchAllTableRecordsArchiveSite(process.env.REACT_APP_ARCHIVE_AIRTABLE_TABLE!),
+  const [archiveRecords1, archiveRecords2, brokenRecords] = await Promise.all([
+    fetchAllTableRecordsArchiveSite(process.env.REACT_APP_ARCHIVE_AIRTABLE_BASE!, process.env.REACT_APP_ARCHIVE_AIRTABLE_TABLE!),
+    fetchAllTableRecordsArchiveSite(process.env.REACT_APP_ARCHIVE_AIRTABLE_BASE_2!, process.env.REACT_APP_ARCHIVE_AIRTABLE_TABLE_2!),
     // AND({hidden} != TRUE(), {damage_level} > 0)
     fetchAllTableRecords(`${AIRTABLE_PAINTINGS_TABLE}?filterByFormula=AND(%7Bhidden%7D+!%3D+TRUE()%2C+%7Bdamage_level%7D+%3E+0)`),
   ]);
+  const archiveRecords = [...archiveRecords1, ...archiveRecords2];
 
   const paintings: ArchivePainting[] = [];
 
