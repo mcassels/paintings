@@ -33,7 +33,7 @@ export default function ArchiveLandingPage() {
                   <div>During limited-time virtual exhibitions, selected pieces will be available to purchase. </div>
                   <div>
                     <Button type="primary" ghost>
-                      <NavLink to="/archive/contact#newsletter-signup">
+                      <NavLink to="/contact#newsletter-signup">
                         Sign up for updates
                       </NavLink>
                     </Button>

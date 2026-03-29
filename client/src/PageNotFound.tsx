@@ -9,7 +9,7 @@ export default function PageNotFound() {
           <p className="max-w-[calc(100vw - 40px)]">
             This page does not exist.
           </p>
-          <Button type="link" href="/archive/home">Return Home</Button>
+          <Button type="link" href="/">Return Home</Button>
         </div>
       </div>
     </div>

@@ -154,7 +154,7 @@ export function DecadeGalleryInner(props: { decade?: string, search?: string }) 
 const dropdownItems: MenuProps['items'] = Object.keys(DECADE_DESCRIPTIONS).map((decade) => ({
   key: decade,
   label: (
-      <a href={`/archive/gallery/${decade}`}>
+      <a href={`/gallery/${decade}`}>
         {`The ${decade}s`}
       </a>
     ),
