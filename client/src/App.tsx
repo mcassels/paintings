@@ -20,7 +20,6 @@ import AppFooter from './AppFooter';
 import { MenuOutlined } from '@ant-design/icons';
 import AdoptionsAreCurrentlyClosed from './AdoptionsAreCurrentlyClosed';
 import ContactUsModal from './ContactUsModal';
-import ArchiveSiteComingSoon from './ArchiveSiteComingSoon';
 import ArchiveLandingPage from './ArchiveLandingPage';
 import ArchiveGallery from './ArchiveGallery';
 import CurrentShow from './CurrentShow';
@@ -37,10 +36,7 @@ function AppInner() {
     <div>
       <div className="App">
           <Routes>
-            <Route>
-              <Route path="/" element={<ArchiveSiteComingSoon />} />
-              <Route path="/admin" element={<AdminPage />} />
-            </Route>
+            <Route path="/admin" element={<AdminPage />} />
             <Route path="/adoption-project" element={<AdoptionLayout />}>
               <Route index element={<Navigate to="home" />} />
               <Route path="home" element={<LandingPage />} />
@@ -52,12 +48,11 @@ function AppInner() {
               <Route path="faqs" element={<FAQs />} />
               <Route path="after-adoption" element={<AfterAdoption />} />
               <Route path="art-conservators" element={<TextPage textKey={CARE_AND_CONSERVATION_KEY} />} />
-              <Route path="*" element={<Navigate replace to="/home" />} />
+              <Route path="*" element={<Navigate replace to="/" />} />
             </Route>
-            <Route path="/archive" element={<ArchiveLayout />}>
-              <Route index element={<Navigate to="home" />} />
-              <Route path="home" element={<ArchiveLandingPage />} />
-                <Route path="gallery">
+            <Route path="/" element={<ArchiveLayout />}>
+              <Route index element={<ArchiveLandingPage />} />
+              <Route path="gallery">
                 <Route index element={<ArchiveGallery />} />
                 <Route path=":decade" element={<DecadeGallery />} />
               </Route>
@@ -66,7 +61,7 @@ function AppInner() {
               <Route path="contact" element={<ContactPage />} />
               <Route path="shop" element={<ShopPage />} />
               <Route path="about" element={<Biography isArchive={true}/>} />
-              <Route path="*" element={<Navigate replace to="/home" />} />
+              <Route path="*" element={<Navigate replace to="/" />} />
             </Route>
           </Routes>
       </div>
@@ -141,7 +136,7 @@ function AdoptionLayout() {
 
 function ArchiveLayout() {
   const location = useLocation();
-  const selectedKey = location.pathname.split('/').filter(s => s !== '').slice(1, 2).join("/");
+  const selectedKey = location.pathname.split('/').filter(s => s !== '').slice(0, 1).join("/");
 
   useEffect(() => {
     if (location.search.length === 0) {
@@ -150,13 +145,13 @@ function ArchiveLayout() {
   }, [selectedKey, location.search.length]);
 
   const mobileNavItems: MenuProps['items'] = [
-    { key: 'home', label: <NavLink to="/archive/home">Home</NavLink> },
-    { key: 'current-show', label: <NavLink to="/archive/current-show">Current Show</NavLink> },
-    { key: 'gallery', label: <NavLink to="/archive/gallery">The Archive</NavLink> },
-    { key: 'search', label: <NavLink to="/archive/search">Search Works</NavLink> },
-    { key: 'about', label: <NavLink to="/archive/about">Biography</NavLink> },
-    { key: 'shop', label: <NavLink to="/archive/shop">Shop</NavLink> },
-    { key: 'contact', label: <NavLink to="/archive/contact">Get in Touch</NavLink> },
+    { key: '', label: <NavLink to="/">Home</NavLink> },
+    { key: 'current-show', label: <NavLink to="/current-show">Current Show</NavLink> },
+    { key: 'gallery', label: <NavLink to="/gallery">The Archive</NavLink> },
+    { key: 'search', label: <NavLink to="/search">Search Works</NavLink> },
+    { key: 'about', label: <NavLink to="/about">Biography</NavLink> },
+    { key: 'shop', label: <NavLink to="/shop">Shop</NavLink> },
+    { key: 'contact', label: <NavLink to="/contact">Get in Touch</NavLink> },
   ];
 
   return (
@@ -184,13 +179,13 @@ function ArchiveLayout() {
                 selectedKeys={[selectedKey]}
                 className="archive-main-menu"
               >
-                <Menu.Item key="home" title="Home"><NavLink to="/archive/home">Home</NavLink></Menu.Item>
-                <Menu.Item key="current-show" title="Current Show"><NavLink to="/archive/current-show">Current Show</NavLink></Menu.Item>
-                <Menu.Item key="gallery" title="The Archive"><NavLink to="/archive/gallery">The Archive</NavLink></Menu.Item>
-                <Menu.Item key="search" title="Search Works"><NavLink to="/archive/search">Search Works</NavLink></Menu.Item>
-                <Menu.Item key="about" title="Biography"><NavLink to="/archive/about">Biography</NavLink></Menu.Item>
-                <Menu.Item key="shop" title="Shop"><NavLink to="/archive/shop">Shop</NavLink></Menu.Item>
-                <Menu.Item key="contact" title="Get in Touch"><NavLink to="/archive/contact">Get in Touch</NavLink></Menu.Item>
+                <Menu.Item key="" title="Home"><NavLink to="/">Home</NavLink></Menu.Item>
+                <Menu.Item key="current-show" title="Current Show"><NavLink to="/current-show">Current Show</NavLink></Menu.Item>
+                <Menu.Item key="gallery" title="The Archive"><NavLink to="/gallery">The Archive</NavLink></Menu.Item>
+                <Menu.Item key="search" title="Search Works"><NavLink to="/search">Search Works</NavLink></Menu.Item>
+                <Menu.Item key="about" title="Biography"><NavLink to="/about">Biography</NavLink></Menu.Item>
+                <Menu.Item key="shop" title="Shop"><NavLink to="/shop">Shop</NavLink></Menu.Item>
+                <Menu.Item key="contact" title="Get in Touch"><NavLink to="/contact">Get in Touch</NavLink></Menu.Item>
               </Menu>
             </div>
           </div>
