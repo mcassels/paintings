@@ -1,6 +1,6 @@
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useArchivePaintings } from "./useArchivePaintings";
-import { Card, Dropdown, Image, MenuProps, Pagination, Space, Spin } from "antd";
+import { Button, Card, Dropdown, Image, MenuProps, Pagination, Space, Spin } from "antd";
 import LoadingError from "./LoadingError";
 import { ArchivePainting } from "./archiveTypes";
 import { getPaintingYearString, reportAnalytics } from "./utils";
@@ -171,8 +171,8 @@ export default function DecadeGallery() {
     <div className="text-pretty p-4">
       <div className="px-[10px]">
         <div className="pb-2">
-          <div className="flex justify-between max-w-[900px]">
-            <h1 className="text-lg">{`The ${decade}s`}</h1>
+          <div className="flex justify-between max-w-[900px] items-center mb-2">
+            <Button type="text" href="/gallery" className="pl-0 hover:!font-bold hover:!bg-transparent">← Back to all decades</Button>
             <Dropdown menu={{ items: dropdownItems }}>
               <Space>
                 Explore other decades
@@ -180,6 +180,7 @@ export default function DecadeGallery() {
               </Space>
             </Dropdown>
           </div>
+          <h1 className="text-lg">{`The ${decade}s`}</h1>
           <p className="max-w-[900px]">
             {DECADE_DESCRIPTIONS[decade]}
           </p>

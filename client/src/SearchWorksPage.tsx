@@ -24,7 +24,7 @@ export default function SearchWorksPage() {
     <div className="text-pretty p-4">
     <div className="pb-6">
       <div>
-        <h1 className="text-lg">Search Works</h1>
+        <h1 className="text-lg">All Works</h1>
       </div>
       <div className="flex flex-wrap gap-2">
         <div className="w-full max-w-[400px]">
