@@ -1,4 +1,4 @@
-import { Button, Card, Image } from "antd";
+import { Button, Card, Image, Tooltip } from "antd";
 import { useLocation, useNavigate } from "react-router-dom";
 import { DECADE_DESCRIPTIONS } from "./constants";
 
@@ -95,10 +95,17 @@ function DecadeCard(props: DecadeCardProps) {
             preview={false}
             src={imageUrl}
           />
+          <Tooltip
+            title={DECADE_DESCRIPTIONS[decade]}
+            mouseEnterDelay={0}
+            styles={{ root: { maxWidth: 500 }, body: { color: "black" } }}
+            color="white"
+          >
           <div className="decade-read-more">
             <span>{`${firstNWords(DECADE_DESCRIPTIONS[decade], truncateN)}...`}</span>
-            <span><Button type="link" onClick={handleClick}>Read More</Button></span>
+            <span><Button type="link" onClick={handleClick}>See works</Button></span>
           </div>
+          </Tooltip>
       </div>
     </Card>
   );
@@ -109,7 +116,7 @@ export default function ArchiveGallery() {
     <div className="text-pretty p-4">
       <div className="px-[10px]">
         <div className="pb-2">
-          <h1 className="text-lg">The Archive</h1>
+          <h1 className="text-lg">Works by Decade</h1>
           <p className="max-w-[900px]">
             James Gordaneer’s artistic career spanned from the mid-1950s to the mid-2010s. His work developed and evolved as he developed his own visual language and idioms by experimenting with a vast range of artistic styles. Many recurrent themes and ideas cross the decades, demonstrating Gordaneer’s life-long passion for painting trains, horses, buildings, nudes, wrestlers, and more.
           </p>

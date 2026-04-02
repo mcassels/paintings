@@ -147,8 +147,8 @@ function ArchiveLayout() {
   const mobileNavItems: MenuProps['items'] = [
     { key: '', label: <NavLink to="/">Home</NavLink> },
     { key: 'current-show', label: <NavLink to="/current-show">Current Show</NavLink> },
-    { key: 'gallery', label: <NavLink to="/gallery">The Archive</NavLink> },
-    { key: 'search', label: <NavLink to="/search">Search Works</NavLink> },
+    { key: 'gallery', label: <NavLink to="/gallery">Works by Decade</NavLink> },
+    { key: 'search', label: <NavLink to="/search">All Works</NavLink> },
     { key: 'about', label: <NavLink to="/about">Biography</NavLink> },
     { key: 'shop', label: <NavLink to="/shop">Shop</NavLink> },
     { key: 'contact', label: <NavLink to="/contact">Get in Touch</NavLink> },
@@ -181,8 +181,8 @@ function ArchiveLayout() {
               >
                 <Menu.Item key="" title="Home"><NavLink to="/">Home</NavLink></Menu.Item>
                 <Menu.Item key="current-show" title="Current Show"><NavLink to="/current-show">Current Show</NavLink></Menu.Item>
-                <Menu.Item key="gallery" title="The Archive"><NavLink to="/gallery">The Archive</NavLink></Menu.Item>
-                <Menu.Item key="search" title="Search Works"><NavLink to="/search">Search Works</NavLink></Menu.Item>
+                <Menu.Item key="gallery" title="Works by Decade"><NavLink to="/gallery">Works by Decade</NavLink></Menu.Item>
+                <Menu.Item key="search" title="All Works"><NavLink to="/search">All Works</NavLink></Menu.Item>
                 <Menu.Item key="about" title="Biography"><NavLink to="/about">Biography</NavLink></Menu.Item>
                 <Menu.Item key="shop" title="Shop"><NavLink to="/shop">Shop</NavLink></Menu.Item>
                 <Menu.Item key="contact" title="Get in Touch"><NavLink to="/contact">Get in Touch</NavLink></Menu.Item>
