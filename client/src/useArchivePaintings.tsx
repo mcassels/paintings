@@ -28,7 +28,7 @@ async function fetchArchivePaintings(): Promise<ArchivePainting[]> {
   for (const record of archiveRecords) {
     try {
       const fields = record.fields;
-      if (fields.hide === true) {
+      if (fields.hide === true || fields.is_bad_duplicate_of?.length > 0) {
         continue;
       }
 
