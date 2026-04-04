@@ -28,6 +28,7 @@ import SearchWorksPage from './SearchWorksPage';
 import ContactPage from './ContactPage';
 import AdminPage from './AdminPage';
 import ShopPage from './ShopPage';
+import TermsAndConditionsModal from './TermsAndConditionsModal';
 
 const queryClient = new QueryClient();
 
@@ -156,6 +157,7 @@ function ArchiveLayout() {
 
   return (
     <div className="min-h-svh flex flex-col items-stretch">
+      <TermsAndConditionsModal />
       <ContactUsModal />
       <div className="grow">
         <div className="">
