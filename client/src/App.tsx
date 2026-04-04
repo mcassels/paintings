@@ -29,6 +29,7 @@ import ContactPage from './ContactPage';
 import AdminPage from './AdminPage';
 import ShopPage from './ShopPage';
 import TermsAndConditionsModal from './TermsAndConditionsModal';
+import UserGuidePage from './UserGuidePage';
 
 const queryClient = new QueryClient();
 
@@ -62,6 +63,7 @@ function AppInner() {
               <Route path="contact" element={<ContactPage />} />
               <Route path="shop" element={<ShopPage />} />
               <Route path="about" element={<Biography isArchive={true}/>} />
+              <Route path="user-guide" element={<UserGuidePage />} />
               <Route path="*" element={<Navigate replace to="/" />} />
             </Route>
           </Routes>
@@ -147,10 +149,10 @@ function ArchiveLayout() {
 
   const mobileNavItems: MenuProps['items'] = [
     { key: '', label: <NavLink to="/">Home</NavLink> },
-    { key: 'current-show', label: <NavLink to="/current-show">Current Show</NavLink> },
+    { key: 'user-guide', label: <NavLink to="/user-guide">User Guide</NavLink> },
     { key: 'gallery', label: <NavLink to="/gallery">Works by Decade</NavLink> },
     { key: 'search', label: <NavLink to="/search">All Works</NavLink> },
-    { key: 'about', label: <NavLink to="/about">Biography</NavLink> },
+    { key: 'current-show', label: <NavLink to="/current-show">Current Show</NavLink> },
     { key: 'shop', label: <NavLink to="/shop">Shop</NavLink> },
     { key: 'contact', label: <NavLink to="/contact">Get in Touch</NavLink> },
   ];
@@ -182,10 +184,10 @@ function ArchiveLayout() {
                 className="archive-main-menu"
               >
                 <Menu.Item key="" title="Home"><NavLink to="/">Home</NavLink></Menu.Item>
-                <Menu.Item key="current-show" title="Current Show"><NavLink to="/current-show">Current Show</NavLink></Menu.Item>
+                <Menu.Item key="user-guide" title="User Guide"><NavLink to="/user-guide">User Guide</NavLink></Menu.Item>
                 <Menu.Item key="gallery" title="Works by Decade"><NavLink to="/gallery">Works by Decade</NavLink></Menu.Item>
                 <Menu.Item key="search" title="All Works"><NavLink to="/search">All Works</NavLink></Menu.Item>
-                <Menu.Item key="about" title="Biography"><NavLink to="/about">Biography</NavLink></Menu.Item>
+                <Menu.Item key="current-show" title="Current Show"><NavLink to="/current-show">Current Show</NavLink></Menu.Item>
                 <Menu.Item key="shop" title="Shop"><NavLink to="/shop">Shop</NavLink></Menu.Item>
                 <Menu.Item key="contact" title="Get in Touch"><NavLink to="/contact">Get in Touch</NavLink></Menu.Item>
               </Menu>

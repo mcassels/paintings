@@ -117,9 +117,6 @@ export default function ArchiveGallery() {
       <div className="px-[10px]">
         <div className="pb-2">
           <h1 className="text-lg">Works by Decade</h1>
-          <p className="max-w-[900px]">
-            James Gordaneer’s artistic career spanned from the mid-1950s to the mid-2010s. His work developed and evolved as he developed his own visual language and idioms by experimenting with a vast range of artistic styles. Many recurrent themes and ideas cross the decades, demonstrating Gordaneer’s life-long passion for painting trains, horses, buildings, nudes, wrestlers, and more.
-          </p>
         </div>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
