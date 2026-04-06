@@ -7,7 +7,6 @@ export default function ContactPage() {
   const { hash } = useLocation();
 
   useEffect(() => {
-    debugger;
     if (hash) {
       const id = hash.replace("#", "");
       document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });

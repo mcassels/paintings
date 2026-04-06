@@ -1,62 +1,52 @@
 import { Button, Card } from "antd";
-import GiftShopCard from "./GiftShopCard";
 import { NavLink } from "react-router-dom";
 
 export default function ArchiveLandingPage() {
   return (
-      <div className="flex-1 min-h-0 bg-cover bg-center px-4 lg:pl-20 lg:mx-0 mx-auto"
-           style={{ backgroundImage: 'url(https://james-gordaneer-paintings.s3.ca-central-1.amazonaws.com/website_images/pastel_blue_chair_painting.webp)'}}>
-        <div className="py-6 space-y-6 flex-1">
-            <Card key="welcome" style={{ maxWidth: "950px", borderRadius: "unset" }}>
-              <div className="text-lg font-semibold py-2">The James Gordaneer Archive</div>
-              <div className="italic pb-6">Documenting and sharing the work of Canadian artist James Gordaneer, RCA.</div>
-              <div className="flex flex-shrink-0 space-x-4">
-                <div className="flex flex-col space-y-2">
-                  <div>Welcome.</div>
-                  <div>
-                    This digital archive documents the work of James Gordaneer, RCA, (1933–2016), one of British Columbia’s most prolific painters and a beloved art instructor in Victoria, B.C.
-                    Over six decades, Gordaneer created thousands of oil paintings, acrylics, and watercolours distinguished by their rich colour, emotional intensity, and bold abstract forms.
-                  </div>
-                  <div>
-                    Over his six-decade career, Gordaneer’s artistic style continually evolved, from early influences shaped by mentorship from notable Canadian artists including members of the Group of Seven and Painters Eleven, to later explorations shaped by travel, philosophy, and collaboration. Gordaneer developed his own distinct visual language that encompassed abstract expressionism, figurative work, nudes, landscapes, and dynamic series work that focused on topics like “Heads,” “Circus” and the landscape and communities of Victoria, BC. His art has been exhibited nationally and internationally, and is represented in major public and private collections across Canada and throughout the world.
-                  </div>
-                  <div>
-                    This archive documents and shares Gordaneer’s artistic legacy, offering free digital access to the works it showcases. We invite friends, former students and colleagues, collectors, and new viewers alike to explore Gordaneer’s artistic vision, determination and passion for painting.
-                  </div>
-                </div>
-              </div>
-            </Card>
-            <Card key="welcome" style={{ maxWidth: "950px", borderRadius: "unset" }}>
-              <div className="text-lg font-semibold py-2">Virtual Exhibitions</div>
-              <div className="flex flex-shrink-0 space-x-4 pt-4">
-                <div className="flex flex-col space-y-3">
-                  <div>During limited-time virtual exhibitions, selected pieces will be available to purchase. </div>
-                  <div>
-                    <Button type="primary" ghost>
-                      <NavLink to="/contact#newsletter-signup">
-                        Sign up for updates
-                      </NavLink>
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            </Card>
-            <GiftShopCard />
-            <Card key="welcome" style={{ maxWidth: "950px", borderRadius: "unset" }}>
-              <div className="text-lg font-semibold py-2">About this archive</div>
-              <div className="flex flex-shrink-0 space-x-4 pt-4">
-                <div className="flex flex-col space-y-2">
-                  <div>This archive was compiled in 2024-2026 by Alisa Gordaneer and Morgan Brooks, with additional support from John Barton and Joseph Hoh.</div>
-                  <div>
-                    The goal of this project is to document every known work created by artist James Gordaneer during his lifetime, 1933-2016. While there are numerous paintings presented here, there are many more in public and private collections that we have not been able to include. We welcome additions to the archive - please contact us to have your painting’s image included.
-                  </div>
-                  <div>
-                    All images copyright James Gordaneer Estate.
-                  </div>
-                </div>
-              </div>
-            </Card>
-        </div>
+    <div className="flex-1 min-h-0 bg-cover bg-center bg-fixed px-4 lg:pl-20 lg:mx-0 mx-auto"
+         style={{ backgroundImage: 'url(https://james-gordaneer-paintings.s3.ca-central-1.amazonaws.com/website_images/pastel_blue_chair_painting.webp)' }}>
+      <div className="py-6 space-y-6 flex-1">
+
+        <Card style={{ maxWidth: "950px", borderRadius: "unset" }}>
+          <div className="text-lg font-semibold py-2">The James Gordaneer Catalogue Raisonné</div>
+          <div className="flex flex-col space-y-2 pt-2">
+            <div>The James Gordaneer Catalogue Raisonné is an ongoing project of the Estate of James Gordaneer, Victoria, BC, Canada, committed to documenting the artistic practice of James Gordaneer (1933–2016).</div>
+            <div className="pt-2 flex gap-3 items-center">
+              <NavLink to="/gallery">
+                <Button className="border-black text-black bg-white hover:!bg-gray-100 hover:!text-black hover:!border-black">
+                  Explore the catalogue
+                </Button>
+              </NavLink>
+              <NavLink to="/user-guide">
+                <Button type="text" className="text-black hover:!text-black hover:!bg-transparent hover:!font-medium">
+                  <span style={{ display: 'grid' }}>
+                    <span style={{ gridArea: '1/1', fontWeight: 500, visibility: 'hidden', pointerEvents: 'none' }} aria-hidden>Visit user guide</span>
+                    <span style={{ gridArea: '1/1' }}>Visit user guide</span>
+                  </span>
+                </Button>
+              </NavLink>
+              <NavLink to="/biography">
+                <Button type="text" className="text-black hover:!text-black hover:!bg-transparent hover:!font-medium">
+                  <span style={{ display: 'grid' }}>
+                    <span style={{ gridArea: '1/1', fontWeight: 500, visibility: 'hidden', pointerEvents: 'none' }} aria-hidden>About James Gordaneer</span>
+                    <span style={{ gridArea: '1/1' }}>About James Gordaneer</span>
+                  </span>
+                </Button>
+              </NavLink>
+            </div>
+          </div>
+        </Card>
+
+        <Card style={{ maxWidth: "950px", borderRadius: "unset" }}>
+          <div className="text-lg font-semibold py-2">Foreword</div>
+          <div className="flex flex-col space-y-2 pt-2">
+            <div>The Estate of James Gordaneer is pleased to present the James Gordaneer Catalogue Raisonné, the authoritative documentation of the artistic practice of James Gordaneer, RCA (1933–2016). This digital publication is the result of dedicated efforts to catalogue the artwork Gordaneer produced during his long and prolific career, which spanned more than six decades and encompassed thousands of works in oil, acrylic, and watercolour, distinguished throughout by rich colour, emotional intensity, and bold abstract forms. The goal of this project is to document every known work created by James Gordaneer during his lifetime. While there are numerous paintings presented here, there are many more in public and private collections that we have not been able to include by the time of publication. We welcome additions to the archive — please contact us to have your painting's image included.</div>
+            <div>This digital catalogue was compiled between 2024 and 2026 by Alisa Gordaneer and Morgan Brooks, with additional support from John Barton and Joseph Hoh. The goal of this initiative is to document every known work created by Gordaneer during his lifetime. While the archive as it stands is extensive, many works have not yet been included, and the compilers warmly welcome contributions from collectors and institutions who wish to have their works added to this record.</div>
+            <div>The Estate and the compilers join in expressing gratitude to the many collectors, institutions, former students, and colleagues who have opened their homes and collections to support this research. We are particularly grateful to the Victoria Visual Artists Legacy Society, whose stewardship of the James Gordaneer Legacy Award — presented annually to a promising student at Camosun College in Victoria, BC — ensures that Gordaneer's passion for teaching and mentorship continues to shape the next generation of artists in British Columbia.</div>
+            <div>We hope that what follows will help you to gain further insight into the extraordinary work and enduring artistic vision of James Gordaneer.</div>
+          </div>
+        </Card>
       </div>
+    </div>
   );
 }
