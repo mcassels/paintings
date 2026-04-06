@@ -17,19 +17,19 @@ export default function ArchiveLandingPage() {
                   Explore the catalogue
                 </Button>
               </NavLink>
-              <NavLink to="/user-guide">
-                <Button type="text" className="text-black hover:!text-black hover:!bg-transparent hover:!font-medium">
-                  <span style={{ display: 'grid' }}>
-                    <span style={{ gridArea: '1/1', fontWeight: 500, visibility: 'hidden', pointerEvents: 'none' }} aria-hidden>Visit user guide</span>
-                    <span style={{ gridArea: '1/1' }}>Visit user guide</span>
-                  </span>
-                </Button>
-              </NavLink>
               <NavLink to="/biography">
                 <Button type="text" className="text-black hover:!text-black hover:!bg-transparent hover:!font-medium">
                   <span style={{ display: 'grid' }}>
                     <span style={{ gridArea: '1/1', fontWeight: 500, visibility: 'hidden', pointerEvents: 'none' }} aria-hidden>About James Gordaneer</span>
                     <span style={{ gridArea: '1/1' }}>About James Gordaneer</span>
+                  </span>
+                </Button>
+              </NavLink>
+              <NavLink to="/user-guide">
+                <Button type="text" className="text-black hover:!text-black hover:!bg-transparent hover:!font-medium">
+                  <span style={{ display: 'grid' }}>
+                    <span style={{ gridArea: '1/1', fontWeight: 500, visibility: 'hidden', pointerEvents: 'none' }} aria-hidden>Visit user guide</span>
+                    <span style={{ gridArea: '1/1' }}>Visit user guide</span>
                   </span>
                 </Button>
               </NavLink>
