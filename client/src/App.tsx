@@ -30,6 +30,7 @@ import AdminPage from './AdminPage';
 import ShopPage from './ShopPage';
 import TermsAndConditionsModal from './TermsAndConditionsModal';
 import UserGuidePage from './UserGuidePage';
+import ArchiveBiographyPage from './ArchiveBiographyPage';
 
 const queryClient = new QueryClient();
 
@@ -63,6 +64,7 @@ function AppInner() {
               <Route path="contact" element={<ContactPage />} />
               <Route path="shop" element={<ShopPage />} />
               <Route path="about" element={<Biography isArchive={true}/>} />
+              <Route path="biography" element={<ArchiveBiographyPage />} />
               <Route path="user-guide" element={<UserGuidePage />} />
               <Route path="*" element={<Navigate replace to="/" />} />
             </Route>
@@ -149,6 +151,7 @@ function ArchiveLayout() {
 
   const mobileNavItems: MenuProps['items'] = [
     { key: '', label: <NavLink to="/">Home</NavLink> },
+    { key: 'biography', label: <NavLink to="/biography">Biography</NavLink> },
     { key: 'user-guide', label: <NavLink to="/user-guide">User Guide</NavLink> },
     { key: 'gallery', label: <NavLink to="/gallery">Works by Decade</NavLink> },
     { key: 'search', label: <NavLink to="/search">All Works</NavLink> },
@@ -184,6 +187,7 @@ function ArchiveLayout() {
                 className="archive-main-menu"
               >
                 <Menu.Item key="" title="Home"><NavLink to="/">Home</NavLink></Menu.Item>
+                <Menu.Item key="biography" title="Biography"><NavLink to="/biography">Biography</NavLink></Menu.Item>
                 <Menu.Item key="user-guide" title="User Guide"><NavLink to="/user-guide">User Guide</NavLink></Menu.Item>
                 <Menu.Item key="gallery" title="Works by Decade"><NavLink to="/gallery">Works by Decade</NavLink></Menu.Item>
                 <Menu.Item key="search" title="All Works"><NavLink to="/search">All Works</NavLink></Menu.Item>
