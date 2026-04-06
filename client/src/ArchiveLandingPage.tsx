@@ -11,7 +11,7 @@ export default function ArchiveLandingPage() {
           <div className="text-lg font-semibold py-2">The James Gordaneer Catalogue Raisonné</div>
           <div className="flex flex-col space-y-2 pt-2">
             <div>The James Gordaneer Catalogue Raisonné is an ongoing project of the Estate of James Gordaneer, Victoria, BC, Canada, committed to documenting the artistic practice of James Gordaneer (1933–2016).</div>
-            <div className="pt-2 flex gap-3 items-center">
+            <div className="pt-2 flex flex-wrap gap-3 items-center">
               <NavLink to="/gallery">
                 <Button className="border-black text-black bg-white hover:!bg-gray-100 hover:!text-black hover:!border-black">
                   Explore the catalogue
